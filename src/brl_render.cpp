@@ -46,9 +46,12 @@ namespace brl {
 
     void beginRender(Window* window) {
         glViewport(0, 0, window->width, window->height);
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         beginImGuiRender();
+    }
+
+    void clearRender(smath::vector4 color) {
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     }
 
     void endRender() {

@@ -10,11 +10,11 @@ int main() {
         brl::updateWindow(window);
 
         brl::beginRender(window);
+            brl::clearRender();
                 ImGuiIO& io = ImGui::GetIO();
     
                 ImGui::Begin("Stats");
                 ImGui::Text("Delta time: %fms", window->deltaTime*1000.0);
-                ImGui::Text("Render time: %fms", window->perviousRenderTime*1000.0);
                 ImGui::Text("Hello World");
 
                 ImGui::End();

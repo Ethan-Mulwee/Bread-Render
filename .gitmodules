@@ -1,0 +1,13 @@
+[submodule "ext/glew"]
+	path = ext/glew
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "ext/glfw"]
+	path = ext/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "ext/imgui"]
+	path = ext/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "ext/Simple-Math"]
+	path = ext/Simple-Math
+	url = https://github.com/Ethan-Mulwee/Simple-Math.git

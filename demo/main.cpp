@@ -11,13 +11,12 @@ int main() {
 
         brl::beginRender(window);
             brl::clearRender();
-                ImGuiIO& io = ImGui::GetIO();
-    
-                ImGui::Begin("Stats");
-                ImGui::Text("Delta time: %fms", window->deltaTime*1000.0);
-                ImGui::Text("Hello World");
 
-                ImGui::End();
+            ImGui::Begin("Stats");
+            ImGui::Text("Delta time: %fms", window->deltaTime*1000.0);
+            ImGui::Text("Hello World");
+            ImGui::End();
+            
         brl::endRender();
     }
 

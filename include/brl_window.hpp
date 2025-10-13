@@ -22,7 +22,6 @@ namespace brl {
         float time = 0.0f;
         float deltaTime = 0.0f;
         double perviousRenderTime = 0.0;
-        double perviousPhysicsTime = 0.0;
     };
     
     Window* createWindow(int width, int height, const char* name);

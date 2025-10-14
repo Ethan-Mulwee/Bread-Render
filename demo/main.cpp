@@ -1,10 +1,14 @@
 #include "brl_window.hpp"
 #include "brl_render.hpp"
 
+#include "brl_builtin_shaders.hpp"
+
 #include <iostream>
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
+
+    brl::Shader shader = brl::createShader(brl::builtin::ObjectVertexShaderSource, brl::builtin::ObjectFragShaderSource);
 
     while (!glfwWindowShouldClose(window->glfwWindow)) {
         brl::updateWindow(window);

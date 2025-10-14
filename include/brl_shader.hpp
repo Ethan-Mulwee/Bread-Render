@@ -11,7 +11,9 @@ namespace brl {
         unsigned int programId;
     };
 
-    Shader createShader(const std::string &vertShaderPath, const std::string &fragShaderPath);
+    Shader createShaderFromFile(const std::string &vertShaderPath, const std::string &fragShaderPath);
+
+    Shader createShader(const char* vertShaderSource, const char* fragShaderSource);
 }
 
 #endif

@@ -8,7 +8,7 @@
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
 
-    brl::Shader shader = brl::createShader(brl::builtin::ObjectVertexShaderSource, brl::builtin::ObjectFragShaderSource);
+    brl::Shader shader = brl::createShader(brl::builtin::objectVertexShaderSource, brl::builtin::objectFragShaderSource);
 
     while (!glfwWindowShouldClose(window->glfwWindow)) {
         brl::updateWindow(window);

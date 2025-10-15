@@ -62,4 +62,24 @@ namespace brl {
 
         return shader;
     }
+
+    void setShaderUniformMatrix4(const Shader &shader, const smath::matrix4x4 &mat4, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
+        glUniformMatrix4fv(myLoc, 1, GL_TRUE, &mat4.data[0][0]);
+    }
+
+    void setShaderUniformInt(const Shader &shader, const int v, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
+        glUniform1i(myLoc, v);
+    }
+
+    void setShaderUniformFloat3(const Shader &shader, const smath::vector3 &v, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
+        glProgramUniform3fv(shader.programId, myLoc, 1, (float*)&v);
+    }
+
+    void setShaderUniformFloat4(const Shader &shader, const smath::vector4 &v, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
+        glProgramUniform4fv(shader.programId, myLoc, 1, (float*)&v);
+    }
 }

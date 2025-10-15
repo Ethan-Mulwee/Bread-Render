@@ -81,4 +81,8 @@ namespace brl {
             brl::builtin::gridFragShaderSource
         );
     }
+
+    void useShader(const Shader &shader) {
+        glUseProgram(shader.programId);
+    }
 }

@@ -21,7 +21,7 @@ namespace brl {
     };
     
     struct Vertexbuffer {
-        const Mesh* mesh;
+        uint32_t size;
         uint32_t vao, vbo, ebo;
     };
     

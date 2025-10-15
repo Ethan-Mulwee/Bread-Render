@@ -13,7 +13,7 @@ namespace brl {
     Vertexbuffer createVertexbuffer(const Mesh *mesh) {
         Vertexbuffer buffer;
 
-        buffer.mesh = mesh;
+        buffer.size = mesh->indices.size();
 
         glGenBuffers(1, &buffer.vbo);
         glGenBuffers(1, &buffer.ebo);
@@ -41,10 +41,10 @@ namespace brl {
     }
 
     void drawVertexBuffer(const Vertexbuffer &buffer) {
-        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-        glEnable(GL_CULL_FACE);
+        // glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        // glEnable(GL_CULL_FACE);
         bindVertexbuffer(buffer);
-        glDrawElements(GL_TRIANGLES, buffer.mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, nullptr);
         unbindVertexBuffer();
     }
 }

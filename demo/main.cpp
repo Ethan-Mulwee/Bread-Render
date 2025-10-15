@@ -1,15 +1,16 @@
 #include "brl_window.hpp"
 #include "brl_render.hpp"
+#include "brl_viewport.hpp"
 
-// #include "brl_builtin_shaders.hpp"
-// #include "brl_builtin_mesh.hpp"
 
 #include <iostream>
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
+    brl::RenderContext renderContext = brl::createRenderContext(window);
+    brl::ViewportContext viewport = brl::createViewportContext(&renderContext, 1920, 1080);
+    brl::Camera camera = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
-    // brl::Shader shader = brl::createShader(brl::builtin::objectVertexShaderSource, brl::builtin::objectFragShaderSource);
 
     while (!glfwWindowShouldClose(window->glfwWindow)) {
         brl::updateWindow(window);
@@ -22,9 +23,8 @@ int main() {
             ImGui::Text("Hello World");
             ImGui::End();
 
-            // brl::Vertexbuffer buffer = brl::createVertexbuffer(&(brl::builtin::coneMesh));
-
-            // brl::drawVertexBuffer(buffer);
+            brl::beginViewport(viewport, camera);
+            brl::endViewport(viewport, camera);
             
         brl::endRender();
     }

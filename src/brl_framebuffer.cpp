@@ -1,9 +1,9 @@
 #include "brl_framebuffer.hpp"
 
 namespace brl {
-    void bindFramebuffer(const Framebuffer *buffer) {
-        glBindFramebuffer(GL_FRAMEBUFFER, buffer->fBO);
-        glViewport(0,0, buffer->width, buffer->height);
+    void bindFramebuffer(const Framebuffer &buffer) {
+        glBindFramebuffer(GL_FRAMEBUFFER, buffer.fBO);
+        glViewport(0,0, buffer.width, buffer.height);
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }

@@ -15,7 +15,7 @@ namespace brl {
         uint32_t height = 0;
     };
 
-    void bindFramebuffer(const Framebuffer* buffer);
+    void bindFramebuffer(const Framebuffer &buffer);
 
     void unbindFramebuffer();
 

@@ -1,4 +1,6 @@
 #include "brl_render.hpp"
+#include "brl_builtin_mesh.hpp"
+#include "brl_builtin_shaders.hpp"
 
 namespace brl {
     void beginImGuiRender() {
@@ -56,5 +58,27 @@ namespace brl {
 
     void endRender() {
         endImGuiRender();
+    }
+
+    RenderContext createRenderContext(const Window *window) {
+        RenderContext context;
+
+        context.window = window;
+
+        context.cubeBuffer = createVertexbuffer(&brl::builtin::cubeMesh);
+        context.coneBuffer = createVertexbuffer(&brl::builtin::coneMesh);
+        context.cylinderBuffer = createVertexbuffer(&brl::builtin::cylinderMesh);
+        context.sphereBuffer = createVertexbuffer(&brl::builtin::sphereMesh);
+        context.planeBuffer = createVertexbuffer(&brl::builtin::planeMesh);
+
+        context.objectShader = createShader(
+            brl::builtin::objectVertexShaderSource,
+            brl::builtin::objectFragShaderSource
+        );
+
+        context.gridShader = createShader(
+            brl::builtin::objectVertexShaderSource, 
+            brl::builtin::gridFragShaderSource
+        );
     }
 }

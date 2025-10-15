@@ -7,15 +7,18 @@
 #include "brl_shader.hpp"
 
 namespace brl {
-    struct PrimtiveMeshes {
-
-    };
 
     struct RenderContext {
         const Window* window;
-        Framebuffer frameBuffer;
+
         Shader objectShader;
         Shader gridShader;
+
+        Vertexbuffer sphereBuffer;
+        Vertexbuffer cylinderBuffer;
+        Vertexbuffer coneBuffer;
+        Vertexbuffer cubeBuffer;
+        Vertexbuffer planeBuffer;
     };
 
     void beginRender(Window* window);
@@ -23,6 +26,8 @@ namespace brl {
     void endRender();
 
     void bindRenderContext(RenderContext context);
+
+    RenderContext createRenderContext(const Window* window);
 }
 
 #endif

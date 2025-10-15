@@ -1,15 +1,15 @@
 #include "brl_window.hpp"
 #include "brl_render.hpp"
 
-#include "brl_builtin_shaders.hpp"
-#include "brl_builtin_mesh.hpp"
+// #include "brl_builtin_shaders.hpp"
+// #include "brl_builtin_mesh.hpp"
 
 #include <iostream>
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
 
-    brl::Shader shader = brl::createShader(brl::builtin::objectVertexShaderSource, brl::builtin::objectFragShaderSource);
+    // brl::Shader shader = brl::createShader(brl::builtin::objectVertexShaderSource, brl::builtin::objectFragShaderSource);
 
     while (!glfwWindowShouldClose(window->glfwWindow)) {
         brl::updateWindow(window);
@@ -22,9 +22,9 @@ int main() {
             ImGui::Text("Hello World");
             ImGui::End();
 
-            brl::Vertexbuffer buffer = brl::createVertexbuffer(&(brl::builtin::coneMesh));
+            // brl::Vertexbuffer buffer = brl::createVertexbuffer(&(brl::builtin::coneMesh));
 
-            brl::drawVertexBuffer(buffer);
+            // brl::drawVertexBuffer(buffer);
             
         brl::endRender();
     }

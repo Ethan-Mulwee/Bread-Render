@@ -3,7 +3,7 @@
 
 namespace brl {
     namespace builtin {
-        const char* objectVertexShaderSource = 
+        static const char* objectVertexShaderSource = 
         R"(#version 330 core
     
         layout(location = 0) in vec3 aPosition;
@@ -26,7 +26,7 @@ namespace brl {
         gl_Position =  projection * view * model * vec4(aPosition, 1.0f);
         })";
     
-        const char* objectFragShaderSource = 
+        static const char* objectFragShaderSource = 
         R"(#version 330 core
     
         in vec4 Color;
@@ -55,7 +55,7 @@ namespace brl {
             color = vec4(vec3(Color)*light, 1.0f);
         })";
     
-        const char* gridFragShaderSource = 
+        static const char* gridFragShaderSource = 
         R"(#version 330 core
     
         in vec3 WorldPos;

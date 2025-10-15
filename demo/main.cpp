@@ -2,6 +2,7 @@
 #include "brl_render.hpp"
 
 #include "brl_builtin_shaders.hpp"
+#include "brl_builtin_mesh.hpp"
 
 #include <iostream>
 
@@ -20,6 +21,10 @@ int main() {
             ImGui::Text("Delta time: %fms", window->deltaTime*1000.0);
             ImGui::Text("Hello World");
             ImGui::End();
+
+            brl::Vertexbuffer buffer = brl::createVertexbuffer(&(brl::builtin::coneMesh));
+
+            brl::drawVertexBuffer(buffer);
             
         brl::endRender();
     }

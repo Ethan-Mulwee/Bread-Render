@@ -21,7 +21,7 @@ namespace brl {
     };
     
     struct Vertexbuffer {
-        Mesh* mesh;
+        const Mesh* mesh;
         uint32_t vao, vbo, ebo;
     };
     
@@ -29,7 +29,9 @@ namespace brl {
 
     void unbindVertexbuffer();
 
-    Vertexbuffer createVertexbuffer(Mesh* mesh);
+    Vertexbuffer createVertexbuffer(const Mesh* mesh);
+
+    void drawVertexBuffer(const Vertexbuffer &buffer);
 }
 
 #endif

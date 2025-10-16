@@ -32,6 +32,8 @@ int main() {
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);
+
+                ImGui::Text("This is text dispalyed ontop of the viewport!");
             
                 brl::drawCone(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
 

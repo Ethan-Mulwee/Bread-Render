@@ -26,6 +26,18 @@ namespace brl {
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
 
+        ImGui::Begin(viewport.name);
+
+        viewport.size = ImGui::GetContentRegionAvail();
+        viewport.position = ImGui::GetCursorPos();
+        viewport.screenPosition = ImGui::GetCursorScreenPos();
+        viewport.hovered = ImGui::IsWindowHovered();
+        viewport.focused = ImGui::IsWindowFocused();
+        
+        uint64_t textureID = viewport.framebuffer.texId;
+        ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
+        ImGui::SetCursorPos(viewport.position);
+
     }
 
 
@@ -53,16 +65,6 @@ namespace brl {
         drawVertexBuffer(viewport.renderContext->planeBuffer);
 
         unbindFramebuffer();
-
-        ImGui::Begin(viewport.name);
-
-        viewport.size = ImGui::GetContentRegionAvail();
-        viewport.position = ImGui::GetCursorScreenPos();
-        viewport.hovered = ImGui::IsWindowHovered();
-        viewport.focused = ImGui::IsWindowFocused();
-
-        uint64_t textureID = viewport.framebuffer.texId;
-        ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
 
         ImGui::End();
 

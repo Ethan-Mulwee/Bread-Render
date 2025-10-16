@@ -9,6 +9,7 @@ namespace brl {
     struct ViewportContext {
         Framebuffer framebuffer;
         const RenderContext* renderContext;
+        ImVec2 screenPosition;
         ImVec2 position;
         ImVec2 size;
         bool hovered;

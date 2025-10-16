@@ -10,7 +10,9 @@ namespace brl {
         return viewportContext;
     }
 
-    void beginViewport(const ViewportContext &viewport, const Camera &camera) {
+    void beginViewport(ViewportContext &viewport, Camera &camera) {
+
+        camera.aspect = viewport.size.x / viewport.size.y;
 
         glDisable(GL_BLEND);
         glEnable(GL_CULL_FACE);
@@ -57,6 +59,5 @@ namespace brl {
 
         ImGui::End();
 
-        camera.aspect = viewport.size.x / viewport.size.y;
     }
 }

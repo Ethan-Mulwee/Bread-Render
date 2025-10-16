@@ -16,7 +16,7 @@ namespace brl {
 
     ViewportContext createViewportContext(const RenderContext* renderContext, int width, int height, const char* name);
 
-    void beginViewport(const ViewportContext &viewport, const Camera &camera);
+    void beginViewport(ViewportContext &viewport, Camera &camera);
     void endViewport(ViewportContext &viewport, Camera &camera);
 }
 

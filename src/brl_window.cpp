@@ -132,4 +132,8 @@ namespace brl {
     void setVsync(bool boolean) {
         glfwSwapInterval(boolean); // Enable vsync
     }
+
+    bool windowShouldClose(const Window *window) {
+        return glfwWindowShouldClose(window->glfwWindow);
+    }
 }

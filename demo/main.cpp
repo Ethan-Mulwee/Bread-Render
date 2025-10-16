@@ -1,6 +1,4 @@
-#include "brl_window.hpp"
-#include "brl_render.hpp"
-#include "brl_viewport.hpp"
+#include "brl.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -29,7 +27,7 @@ int main() {
     // }
 
 
-    while (!glfwWindowShouldClose(window->glfwWindow)) {
+    while (!brl::windowShouldClose(window)) {
         brl::updateWindow(window);
         if (viewport1.hovered) brl::updateCamera(&camera1, window);
         if (viewport2.hovered) brl::updateCamera(&camera2, window);

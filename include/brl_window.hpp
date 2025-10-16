@@ -30,6 +30,8 @@ namespace brl {
 
     void destroyWindow(Window* window);
 
+    bool windowShouldClose(const Window* window);
+
     void setVsync(bool boolean);
 }
 

@@ -32,12 +32,19 @@ int main() {
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);
+            
                 brl::drawCone(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
+
                 brl::renderModeWireframe();
                 brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});
                 brl::drawCylinder(renderContext, smath::matrix4x4_from_translation(smath::vector3{-2.2f, 0.0f, 0.0f}));
+
                 brl::renderModeSolid();
                 brl::drawVector(renderContext, {0.0f, 0.0f, 2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f);
+
+                brl::renderModeTransparent();
+                brl::drawVector(renderContext, {0.0f, 0.0f, -2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
+
             brl::endViewport(viewport2, camera2);
             
         brl::endRender();

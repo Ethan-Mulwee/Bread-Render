@@ -63,11 +63,20 @@ namespace brl {
     void renderModeSolid() {
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
         glEnable(GL_CULL_FACE);   
+        glDisable(GL_BLEND);
     }
 
     void renderModeWireframe() {
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         glDisable(GL_CULL_FACE);
+        glDisable(GL_BLEND);
+    }
+
+    void renderModeTransparent() {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     RenderContext createRenderContext(const Window *window) {
@@ -146,7 +155,7 @@ namespace brl {
         transform cylinderTransform {
             .translation = position,
             .rotation = orientation,
-            .scale = {radius, vector.length()*0.5f, radius}
+            .scale = {radius, vector.length()*0.55f, radius}
         };
 
         transform coneTransform {
@@ -155,7 +164,7 @@ namespace brl {
             .scale = {radius * 2.0f, radius * 2.0f, radius * 2.0f}
         };
         
-        drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation);
-        drawCone(context, matrix4x4_from_transform(coneTransform)*translation);
+        drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
+        drawCone(context, matrix4x4_from_transform(coneTransform)*translation, color);
     }
 }

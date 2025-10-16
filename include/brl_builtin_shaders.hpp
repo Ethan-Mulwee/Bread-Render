@@ -52,7 +52,7 @@ namespace brl {
             light += light2;
     
     
-            color = vec4(vec3(Color)*light, 1.0f);
+            color = vec4(vec3(Color)*light, Color.a);
         })";
     
         static const char* gridFragShaderSource = 

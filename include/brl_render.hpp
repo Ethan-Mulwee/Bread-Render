@@ -29,6 +29,7 @@ namespace brl {
 
     void renderModeSolid();
     void renderModeWireframe();
+    void renderModeTransparent();
 
     void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});

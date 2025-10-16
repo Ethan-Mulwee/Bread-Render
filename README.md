@@ -47,11 +47,16 @@ The following will create the static library under `build/libbrl.a` and a demo e
 ```
 
 # Using as a Submodule with CMake
-To skip building the demo executable set `BRL_ONLY_LIB` to true
+To skip building the demo executable set `BRL_ONLY_LIB` to true (note this doesn't actually work at the moment I'll fix that later)
 
-`git submodule add https://github.com/Ethan-Mulwee/Bread-Render.git ext/brl`
+Adding as a submodule
+```bash
+git submodule add https://github.com/Ethan-Mulwee/Bread-Render.git ext/brl
+cd ext/brl/
+git submodule init && git submodule update
+```
 
-Example `CmakeLists.txt`
+Example `CMakeLists.txt`
 ```cmake
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -66,4 +71,9 @@ add_executable(brl-test main.cpp)
 target_include_directories(brl-test PUBLIC ext/brl/include)
 target_link_directories(brl-test PRIVATE ext/brl)
 target_link_libraries(brl-test brl)
+```
+Then build the project how you would any other cmake project
+```bash
+cmake -S . -B build/
+cmake --build build/
 ```

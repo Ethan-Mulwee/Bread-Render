@@ -128,4 +128,8 @@ namespace brl {
         delete window;
         glfwTerminate();
     }
+
+    void setVsync(bool boolean) {
+        glfwSwapInterval(boolean); // Enable vsync
+    }
 }

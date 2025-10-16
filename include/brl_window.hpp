@@ -29,6 +29,8 @@ namespace brl {
     void updateWindow(Window* window);
 
     void destroyWindow(Window* window);
+
+    void setVsync(bool boolean);
 }
 
 #endif

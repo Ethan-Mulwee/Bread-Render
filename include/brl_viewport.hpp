@@ -11,12 +11,13 @@ namespace brl {
         const RenderContext* renderContext;
         ImVec2 position;
         ImVec2 size;
+        const char* name;
     };
 
-    ViewportContext createViewportContext(const RenderContext* renderContext, int width, int height);
+    ViewportContext createViewportContext(const RenderContext* renderContext, int width, int height, const char* name);
 
     void beginViewport(const ViewportContext &viewport, const Camera &camera);
-    void endViewport(const ViewportContext &viewport, const Camera &camera);
+    void endViewport(ViewportContext &viewport, Camera &camera);
 }
 
 #endif

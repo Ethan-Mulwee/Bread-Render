@@ -1,10 +1,11 @@
 #include "brl_viewport.hpp"
 
 namespace brl {
-    ViewportContext createViewportContext(const RenderContext *renderContext, int width, int height) {
+    ViewportContext createViewportContext(const RenderContext *renderContext, int width, int height, const char* name) {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
         viewportContext.framebuffer = createFramebuffer(width, height);
+        viewportContext.name = name;
 
         return viewportContext;
     }
@@ -23,7 +24,7 @@ namespace brl {
 
     }
 
-    void endViewport(const ViewportContext &viewport, const Camera &camera) {
+    void endViewport(ViewportContext &viewport, Camera &camera) {
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -46,5 +47,16 @@ namespace brl {
 
         unbindFramebuffer();
 
+        ImGui::Begin(viewport.name);
+
+        viewport.size = ImGui::GetContentRegionAvail();
+        viewport.position = ImGui::GetCursorScreenPos();
+
+        uint64_t textureID = viewport.framebuffer.texId;
+        ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
+
+        ImGui::End();
+
+        camera.aspect = viewport.size.x / viewport.size.y;
     }
 }

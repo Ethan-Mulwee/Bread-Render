@@ -14,6 +14,7 @@ int main() {
 
     while (!glfwWindowShouldClose(window->glfwWindow)) {
         brl::updateWindow(window);
+        brl::updateCamera(&camera, window);
 
         brl::beginRender(window);
             brl::clearRender();
@@ -24,7 +25,7 @@ int main() {
             ImGui::End();
 
             brl::beginViewport(viewport, camera);
-                brl::drawCone(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                // brl::drawCone(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
             brl::endViewport(viewport, camera);
             
         brl::endRender();

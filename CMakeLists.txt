@@ -24,6 +24,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set( glew-cmake_BUILD_SHARED FALSE )
 set( ONLY_LIBS TRUE )
+# set( BRL_ONLY_LIB TRUE )
 
 add_subdirectory(ext/glew)
 
@@ -33,11 +34,11 @@ set( GLFW_INSTALL OFF CACHE BOOL  "GLFW lib only" )
 add_subdirectory(ext/glfw)
 
 
-add_executable(Bread-Render-Demo ${DEMO_SRC_FILES} ${IMGUI_SOURCES} ${RENDER_SRC_FILES})
+add_library(brl STATIC ${IMGUI_SOURCES} ${RENDER_SRC_FILES})
 
 # target_compile_options(App PRIVATE -Wall)
 
-target_include_directories(Bread-Render-Demo 
+target_include_directories(brl 
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include 
   ${CMAKE_CURRENT_SOURCE_DIR}/demo 
   PUBLIC ext/glfw/include
@@ -47,9 +48,20 @@ target_include_directories(Bread-Render-Demo
   PUBLIC ext/Simple-Math/smath
 )
 
-target_link_directories(Bread-Render-Demo
+target_link_directories(brl
   PRIVATE ext/glfw/src
   PRIVATE ext/glew/lib
 )
 
-target_link_libraries(Bread-Render-Demo glfw libglew_static)
+target_link_libraries(brl glfw libglew_static)
+
+# brl-demo
+if (NOT BRL_ONLY_LIB)
+  add_executable(brl-demo ${DEMO_SRC_FILES})
+
+  target_include_directories(brl-demo
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include 
+  )
+
+  target_link_libraries(brl-demo brl)
+endif()

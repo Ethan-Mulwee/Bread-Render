@@ -33,3 +33,17 @@ int main() {
     }
 }
 ```
+
+Vsync is enabled by default it can be disabled with `brl::setVsync(false);` after creating a window.
+
+# Cloning & Building
+
+The following will create the static library under `build/libbrl.a` and a demo executable `build/brl-demo`
+```bash
+    git clone --recursive https://github.com/Ethan-Mulwee/Bread-Render.git && cd Bread-Render/
+    cmake -S . -B build/
+    cmake --build build/
+```
+
+# Using as a Submodule
+To skip building the demo executable set `BRL_ONLY_LIB` to true

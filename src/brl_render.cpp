@@ -60,6 +60,16 @@ namespace brl {
         endImGuiRender();
     }
 
+    void renderModeSolid() {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        glEnable(GL_CULL_FACE);   
+    }
+
+    void renderModeWireframe() {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        glDisable(GL_CULL_FACE);
+    }
+
     RenderContext createRenderContext(const Window *window) {
         RenderContext context;
 
@@ -98,5 +108,54 @@ namespace brl {
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color, "color");
         drawVertexBuffer(context.coneBuffer);
+    }
+
+    void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        setShaderUniformMatrix4(context.objectShader, transform, "model");
+        setShaderUniformFloat4(context.objectShader, color, "color");
+        drawVertexBuffer(context.cylinderBuffer);
+    }
+
+    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        setShaderUniformMatrix4(context.objectShader, transform, "model");
+        setShaderUniformFloat4(context.objectShader, color, "color");
+        drawVertexBuffer(context.sphereBuffer);
+    }
+
+    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
+        smath::matrix4x4 transform = {
+            radius, 0.0f, 0.0f, position.x,
+            0.0f, radius, 0.0f, position.y,
+            0.0f, 0.0f, radius, position.z,
+            0.0f, 0.0f,   0.0f,       1.0f,
+        };
+        setShaderUniformMatrix4(context.objectShader, transform, "model");
+        setShaderUniformFloat4(context.objectShader, color, "color");
+        drawVertexBuffer(context.sphereBuffer);
+    }
+
+    void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color) {
+
+        using namespace smath;
+
+        vector3 direction = normalized(vector);
+        quaternion orientation = quaternion_from_matrix3x3(matrix3x3_from_jhat(direction));
+
+        matrix4x4 translation = matrix4x4_from_translation({0.0f, 1.0f, 0.0f});
+
+        transform cylinderTransform {
+            .translation = position,
+            .rotation = orientation,
+            .scale = {radius, vector.length()*0.5f, radius}
+        };
+
+        transform coneTransform {
+            .translation = position + vector,
+            .rotation = orientation,
+            .scale = {radius * 2.0f, radius * 2.0f, radius * 2.0f}
+        };
+        
+        drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation);
+        drawCone(context, matrix4x4_from_transform(coneTransform)*translation);
     }
 }

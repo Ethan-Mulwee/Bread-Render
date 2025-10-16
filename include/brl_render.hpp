@@ -21,19 +21,21 @@ namespace brl {
         Vertexbuffer planeBuffer;
     };
 
+    RenderContext createRenderContext(const Window* window);
+
     void beginRender(Window* window);
     void clearRender(smath::vector4 color = {0.2f, 0.2f, 0.2f, 0.2f});
     void endRender();
 
-    void bindRenderContext(RenderContext context);
+    void renderModeSolid();
+    void renderModeWireframe();
 
-    RenderContext createRenderContext(const Window* window);
-
-    void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color);
-    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color);
-void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color);
-    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color);
-    void drawVector();
+    void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
 
 }

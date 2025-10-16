@@ -1,4 +1,5 @@
 #include "brl_camera.hpp"
+#include "brl_viewport.hpp"
 
 namespace brl {
     void updateCamera(Camera *camera, const Window *window) {
@@ -16,7 +17,7 @@ namespace brl {
             smath::quaternion cameraOrientation = calculateCameraOrientation(*camera);
 
             movement = smath::quaternion_transform_vector(cameraOrientation, movement);
-            movement *= 0.00075f;
+            movement *= 0.00125f;
 
             camera->focus -= movement*camera->distance;
         }   

@@ -41,7 +41,7 @@ namespace brl {
             vec3 normal = normalize(normalMatrix * Normal);
     
     
-            float light = dot(normal, normalize(vec3(1.0,1.0,1.0)));
+            float light = dot(normal, normalize(vec3(1.0,2.0,-0.4)));
             light = clamp(light, 0.0, 1.0);
             light += 0.1;
     

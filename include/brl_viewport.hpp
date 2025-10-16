@@ -11,6 +11,8 @@ namespace brl {
         const RenderContext* renderContext;
         ImVec2 position;
         ImVec2 size;
+        bool hovered;
+        bool focused;
         const char* name;
     };
 

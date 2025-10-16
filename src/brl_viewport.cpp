@@ -5,6 +5,8 @@ namespace brl {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
         viewportContext.framebuffer = createFramebuffer(width, height);
+        viewportContext.hovered = false;
+        viewportContext.focused = false;
         viewportContext.name = name;
 
         return viewportContext;
@@ -26,7 +28,10 @@ namespace brl {
 
     }
 
+
     void endViewport(ViewportContext &viewport, Camera &camera) {
+        
+        renderModeSolid();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -53,6 +58,8 @@ namespace brl {
 
         viewport.size = ImGui::GetContentRegionAvail();
         viewport.position = ImGui::GetCursorScreenPos();
+        viewport.hovered = ImGui::IsWindowHovered();
+        viewport.focused = ImGui::IsWindowFocused();
 
         uint64_t textureID = viewport.framebuffer.texId;
         ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});

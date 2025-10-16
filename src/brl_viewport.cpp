@@ -43,7 +43,7 @@ namespace brl {
             0.0f, 0.0f, 0.0f,             1.0f
         };
         setShaderUniformMatrix4(viewport.renderContext->gridShader, gridTransform, "model");
-        drawVertexBuffer(viewport.renderContext->coneBuffer);
+        drawVertexBuffer(viewport.renderContext->planeBuffer);
 
         unbindFramebuffer();
 

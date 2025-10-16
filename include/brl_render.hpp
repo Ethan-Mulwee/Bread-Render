@@ -28,6 +28,11 @@ namespace brl {
     void bindRenderContext(RenderContext context);
 
     RenderContext createRenderContext(const Window* window);
+
+    void drawCube(const RenderContext &context);
+    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color);
+    void drawCylinder(const RenderContext &context);
+    void drawSphere(const RenderContext &context);
 }
 
 #endif

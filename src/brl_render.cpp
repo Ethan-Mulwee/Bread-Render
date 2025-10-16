@@ -80,9 +80,17 @@ namespace brl {
             brl::builtin::objectVertexShaderSource, 
             brl::builtin::gridFragShaderSource
         );
+
+        return context;
     }
 
     void useShader(const Shader &shader) {
         glUseProgram(shader.programId);
+    }
+
+    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        setShaderUniformMatrix4(context.objectShader, transform, "model");
+        setShaderUniformFloat4(context.objectShader, color, "color");
+        drawVertexBuffer(context.coneBuffer);
     }
 }

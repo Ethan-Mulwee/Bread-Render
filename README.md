@@ -13,6 +13,7 @@ int main() {
     brl::Camera camera = brl::createCamera({0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
     while (!brl::windowShouldClose(window)) {
+        brl::updateWindow(window);
         if (viewport.hovered) brl::updateCamera(&camera, window);
 
         brl::beginRender(window);
@@ -45,5 +46,24 @@ The following will create the static library under `build/libbrl.a` and a demo e
     cmake --build build/
 ```
 
-# Using as a Submodule
+# Using as a Submodule with CMake
 To skip building the demo executable set `BRL_ONLY_LIB` to true
+
+`git submodule add https://github.com/Ethan-Mulwee/Bread-Render.git ext/brl`
+
+Example `CmakeLists.txt`
+```cmake
+cmake_minimum_required(VERSION 3.10)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+project(brl-test)
+
+add_subdirectory(ext/brl)
+set(BRL_LIB_ONLY TRUE)
+
+add_executable(brl-test main.cpp)
+
+target_include_directories(brl-test PUBLIC ext/brl/include)
+target_link_directories(brl-test PRIVATE ext/brl)
+target_link_libraries(brl-test brl)
+```

@@ -24,6 +24,11 @@ namespace brl {
         uint32_t size;
         uint32_t vao, vbo, ebo;
     };
+
+    struct InstancedVertexBuffer {
+        uint32_t size;
+        uint32_t vao, vbo, ebo, ibo;
+    };
     
     void bindVertexbuffer(const Vertexbuffer &buffer);
 

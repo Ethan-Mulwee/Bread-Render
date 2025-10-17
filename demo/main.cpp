@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "brl_builtin_shaders.hpp"
+
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
     // brl::setVsync(false);
@@ -12,21 +14,24 @@ int main() {
     brl::Camera camera1 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
     brl::Camera camera2 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
-    // const int cubeAmount = 100000;
-    // smath::matrix4x4* cubeTransforms = new smath::matrix4x4[cubeAmount];
-    // for (int i = 0; i < cubeAmount; i++) {
-    //     int positionIntX = rand() % 100000;
-    //     int positionIntY = rand() % 100000;
-    //     int positionIntZ = rand() % 100000;
+    const int cubeAmount = 100;
+    smath::matrix4x4* cubeTransforms = new smath::matrix4x4[cubeAmount];
+    for (int i = 0; i < cubeAmount; i++) {
+        int positionIntX = rand() % 100000;
+        int positionIntY = rand() % 100000;
+        int positionIntZ = rand() % 100000;
 
-    //     float positionX = positionIntX * 0.0001f;
-    //     float positionY = positionIntY * 0.0001f;
-    //     float positionZ = positionIntZ * 0.0001f;
+        float positionX = positionIntX * 0.0001f;
+        float positionY = positionIntY * 0.0001f;
+        float positionZ = positionIntZ * 0.0001f;
 
-    //     cubeTransforms[i] = smath::matrix4x4_from_translation({positionX, positionY, positionZ}) * smath::matrix4x4_from_scale(0.1f);
-    // }
+        cubeTransforms[i] = smath::matrix4x4_from_translation({positionX, positionY, positionZ}) * smath::matrix4x4_from_scale(0.1f);
+    }
 
-    brl::Mesh utahTeapotMesh = brl::importObj("../demo/OBJs/Utah-Teapot.obj");
+    brl::MeshData utahTeapotMeshData = brl::parseObj("../demo/OBJs/Utah-Teapot.obj");
+    brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
+    brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&utahTeapotMeshData);
+    brl::Shader instanceShader = brl::createShader(brl::builtin::instancedObjectVertexShaderSource, brl::builtin::instancedObjectFragShaderSource);
 
 
     while (!brl::windowShouldClose(window)) {
@@ -44,8 +49,15 @@ int main() {
 
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+
+                brl::useShader(instanceShader);
+                brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeTransforms, cubeAmount);
+                brl::bindInstancedVertexBuffer(instancedVertexBuffer);
+                glDrawElementsInstanced(GL_TRIANGLES, instancedVertexBuffer.size, GL_UNSIGNED_INT, 0, cubeAmount);
+                // brl::unbindVertexbuffer();
+
                 // for (int i = 0; i < cubeAmount; i++) {
-                //     brl::drawCube(renderContext, cubeTransforms[i]);
+                //     // brl::drawInstancedCube(renderContext, cubeTransforms[i]);
                 // }
             brl::endViewport(viewport1, camera1);
 

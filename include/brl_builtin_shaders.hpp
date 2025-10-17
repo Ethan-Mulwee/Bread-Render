@@ -40,13 +40,43 @@ namespace brl {
         out vec3 WorldPos;
         out vec3 Normal;
         out vec4 Color;
+        out mat4 ModelTransform;
     
         void main() {
         Color = color;
-        WorldPos = vec3(model * vec4(aPosition, 1.0));
+        ModelTransform = instanceMatrix;
+        WorldPos = vec3(ModelTransform * vec4(aPosition, 1.0));
         Normal = aNormal;
     
-        gl_Position =  projection * view * model * vec4(aPosition, 1.0f);
+        gl_Position =  projection * view * instanceMatrix * vec4(aPosition, 1.0f);
+        })";
+
+        static const char* instancedObjectFragShaderSource = 
+        R"(#version 330 core
+    
+        in vec4 Color;
+        in vec3 Normal;
+        in vec3 WorldPos;
+        in mat4 ModelTransform;
+        layout(location = 0) out vec4 color;
+    
+        void main() {
+            mat3 normalMatrix = transpose(inverse(mat3(ModelTransform)));
+            vec3 normal = normalize(normalMatrix * Normal);
+    
+    
+            float light = dot(normal, normalize(vec3(1.0,2.0,-0.4)));
+            light = clamp(light, 0.0, 1.0);
+            light += 0.1;
+    
+            float light2 = dot(normal, normalize(vec3(-1.3,-0.2,-1.0)));
+            light2 = clamp(light2, 0.0, 1.0);
+            light2 *= 0.2;
+    
+            light += light2;
+    
+    
+            color = vec4(vec3(Color)*light, Color.a);
         })";
     
         static const char* objectFragShaderSource = 

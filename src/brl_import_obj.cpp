@@ -7,7 +7,7 @@
 namespace brl {
 
     // Code adapted from https://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading/
-    Mesh importObj(const char* path) {
+    MeshData parseObj(const char* path) {
         std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
         std::vector<smath::vector3> temp_vertices;
         std::vector<smath::vector2> temp_uvs;
@@ -18,7 +18,7 @@ namespace brl {
         FILE* file = fopen(path, "r");
         if (file == NULL) {
             std::cout << "Error opening file \n";
-            return Mesh{};
+            return MeshData{};
         }
 
         while(true) {
@@ -50,7 +50,7 @@ namespace brl {
                 );
                 if (matches != 9) {
                     std::cout << "Parsing error \n";
-                    return Mesh{};
+                    return MeshData{};
                 }
 
                 vertexIndices.push_back(vertexIndex[0]);
@@ -78,8 +78,11 @@ namespace brl {
             mesh.indices.push_back(i);
         }
 
-        Vertexbuffer buffer = createVertexbuffer(&mesh);
+        return mesh;
+    }
 
-        return Mesh{buffer};
+    Mesh importObj(const char *path) {
+        MeshData data = parseObj(path);
+        return Mesh{createVertexbuffer(&data)};
     }
 }

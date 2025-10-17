@@ -2,17 +2,16 @@
 #define BRL_RENDER
 
 #include "brl_window.hpp"
-#include "brl_framebuffer.hpp"
 #include "brl_vertexbuffer.hpp"
 #include "brl_shader.hpp"
 
 namespace brl {
-
     struct RenderContext {
         const Window* window;
 
         Shader objectShader;
         Shader gridShader;
+        Shader instanceShader;
 
         Vertexbuffer sphereBuffer;
         Vertexbuffer cylinderBuffer;
@@ -39,6 +38,7 @@ namespace brl {
     void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
     void drawModel(const RenderContext &context, const Model &model);
+
 }
 
 #endif

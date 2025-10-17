@@ -3,6 +3,7 @@
 #include "brl_builtin_shaders.hpp"
 
 namespace brl {
+
     void beginImGuiRender() {
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -179,4 +180,5 @@ namespace brl {
         setShaderUniformFloat4(context.objectShader, model.color, "color");
         drawVertexBuffer(model.mesh.buffer);
     }
+    
 }

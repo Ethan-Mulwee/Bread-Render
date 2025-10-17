@@ -27,12 +27,14 @@ namespace brl {
 
     struct InstancedVertexBuffer {
         uint32_t size;
-        uint32_t vao, vbo, ebo, ibo;
+        uint32_t vao, vbo, ebo, instancebo;
     };
     
     struct Mesh {
         Vertexbuffer buffer;
     };
+
+    Mesh createMesh(MeshData* meshData);
 
     struct Model {
         Mesh mesh;
@@ -45,6 +47,10 @@ namespace brl {
     void unbindVertexbuffer();
 
     Vertexbuffer createVertexbuffer(const MeshData* mesh);
+
+    InstancedVertexBuffer createInstancedVertexBuffer(const MeshData* mesh);
+    void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const smath::matrix4x4* transforms, const uint32_t amount);
+    void bindInstancedVertexBuffer(const InstancedVertexBuffer &buffer);
 
     void drawVertexBuffer(const Vertexbuffer &buffer);
 }

@@ -15,7 +15,7 @@ namespace brl {
         smath::vector3 normal; 
     };
     
-    struct Mesh {
+    struct MeshData {
         std::vector<Vertex> vertices;
         std::vector<uint32_t> indices;
     };
@@ -30,11 +30,21 @@ namespace brl {
         uint32_t vao, vbo, ebo, ibo;
     };
     
+    struct Mesh {
+        Vertexbuffer buffer;
+    };
+
+    struct Model {
+        Mesh mesh;
+        smath::matrix4x4 transform;
+        smath::vector4 color;
+    };
+    
     void bindVertexbuffer(const Vertexbuffer &buffer);
 
     void unbindVertexbuffer();
 
-    Vertexbuffer createVertexbuffer(const Mesh* mesh);
+    Vertexbuffer createVertexbuffer(const MeshData* mesh);
 
     void drawVertexBuffer(const Vertexbuffer &buffer);
 }

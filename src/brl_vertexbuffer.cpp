@@ -10,7 +10,7 @@ namespace brl {
         glBindVertexArray(0);
     }
 
-    Vertexbuffer createVertexbuffer(const Mesh *mesh) {
+    Vertexbuffer createVertexbuffer(const MeshData *mesh) {
         Vertexbuffer buffer;
 
         buffer.size = mesh->indices.size();

@@ -167,4 +167,16 @@ namespace brl {
         drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
         drawCone(context, matrix4x4_from_transform(coneTransform)*translation, color);
     }
+
+    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        setShaderUniformMatrix4(context.objectShader, transform, "model");
+        setShaderUniformFloat4(context.objectShader, color, "color");
+        drawVertexBuffer(mesh.buffer);
+    }
+
+    void drawModel(const RenderContext &context, const Model &model) {
+        setShaderUniformMatrix4(context.objectShader, model.transform, "model");
+        setShaderUniformFloat4(context.objectShader, model.color, "color");
+        drawVertexBuffer(model.mesh.buffer);
+    }
 }

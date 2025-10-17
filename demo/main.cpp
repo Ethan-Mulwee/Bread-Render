@@ -26,6 +26,8 @@ int main() {
     //     cubeTransforms[i] = smath::matrix4x4_from_translation({positionX, positionY, positionZ}) * smath::matrix4x4_from_scale(0.1f);
     // }
 
+    brl::Mesh utahTeapotMesh = brl::importObj("../demo/OBJs/Utah-Teapot.obj");
+
 
     while (!brl::windowShouldClose(window)) {
         brl::updateWindow(window);
@@ -51,7 +53,7 @@ int main() {
 
                 ImGui::Text("This is text dispalyed ontop of the viewport!");
             
-                brl::drawCone(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
+                brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
 
                 brl::renderModeWireframe();
                 brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});

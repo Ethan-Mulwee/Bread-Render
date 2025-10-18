@@ -34,7 +34,25 @@ int main() {
         float colorG = colorIntG * (1.0f/255.0f);
         float colorB = colorIntB * (1.0f/255.0f);
 
-        cubeTransforms[i] = smath::matrix4x4_from_translation({positionX, positionY, positionZ}) * smath::matrix4x4_from_scale(0.1f);
+        int rotationIntX = rand() % 100000;
+        int rotationIntY = rand() % 100000;
+        int rotationIntZ = rand() % 100000;
+        int rotationIntW = rand() % 100000;
+
+        float rotationX = rotationIntX * 0.0001f;
+        float rotationY = rotationIntY * 0.0001f;
+        float rotationZ = rotationIntZ * 0.0001f;
+        float rotationW = rotationIntW * 0.0001f;
+
+        smath::quaternion rotation{rotationX,rotationY,rotationZ,rotationW};
+        rotation.normalize();
+
+
+        cubeTransforms[i] = smath::matrix4x4_from_transform({
+            .translation = {positionX, positionY, positionZ},
+            .rotation = rotation,
+            .scale = {0.015f, 0.015f, 0.015f}
+        });
         cubeInstanceData[i].transform = smath::transpose(cubeTransforms[i]);
         cubeInstanceData[i].color = smath::vector4{colorR, colorG, colorB, 1.0f};
         // cubeTransposedTransforms[i] = smath::matrix4x4_from_identity();

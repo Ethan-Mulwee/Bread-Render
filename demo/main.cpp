@@ -64,6 +64,8 @@ int main() {
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
     brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
 
+    brl::resizeInstanceDataBuffer(&renderContext.cubeInstanceBuffer, 500000);
+
 
 
     while (!brl::windowShouldClose(window)) {
@@ -88,10 +90,12 @@ int main() {
                 
                 // int drawnAmount = rand() % cubeAmount;
                 int drawnAmount = cubeAmount;
-                for (int i = 0; i < cubeAmount; i++) {
-                    brl::addToInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData[i]);
-                }
+                // for (int i = 0; i < cubeAmount; i++) {
+                //     brl::addToInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData[i]);
+                // }
+                brl::setInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData, cubeAmount);
 
+                // brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeInstanceData, drawnAmount);
                 brl::setInstancedVertexBufferData(instancedVertexBuffer, renderContext.cubeInstanceBuffer.data, renderContext.cubeInstanceBuffer.used);
 
                 brl::bindInstancedVertexBuffer(instancedVertexBuffer);

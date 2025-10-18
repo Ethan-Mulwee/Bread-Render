@@ -144,4 +144,10 @@ namespace brl {
     void clearInstanceDataBuffer(InstanceDataBuffer *buffer) {
         buffer->used = 0;
     }
+
+    void setInstanceDataBuffer(InstanceDataBuffer *buffer, InstanceData* data, uint32_t size) {
+        buffer->data = data;
+        buffer->size = size;
+        buffer->used = size;
+    }
 }

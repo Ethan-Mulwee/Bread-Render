@@ -45,6 +45,8 @@ namespace brl {
     void resizeInstanceDataBuffer(InstanceDataBuffer* buffer, const uint32_t size);
     void addToInstanceDataBuffer(InstanceDataBuffer* buffer, const InstanceData &data);
     void clearInstanceDataBuffer(InstanceDataBuffer* buffer);
+    // set InstanceDataBuffer as some provided array to avoid overhead of copying
+    void setInstanceDataBuffer(InstanceDataBuffer *buffer, InstanceData* data, uint32_t size);
 
     struct Mesh {
         Vertexbuffer buffer;

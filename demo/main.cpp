@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "brl_builtin_shaders.hpp"
+#include "brl_builtin_mesh.hpp"
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
@@ -14,7 +15,7 @@ int main() {
     brl::Camera camera1 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
     brl::Camera camera2 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
-    const int cubeAmount = 100;
+    const int cubeAmount = 200000;
     smath::matrix4x4* cubeTransforms = new smath::matrix4x4[cubeAmount];
     smath::matrix4x4* cubeTransposedTransforms = new smath::matrix4x4[cubeAmount];
     for (int i = 0; i < cubeAmount; i++) {
@@ -26,14 +27,15 @@ int main() {
         float positionY = positionIntY * 0.0001f;
         float positionZ = positionIntZ * 0.0001f;
 
-        cubeTransforms[i] = smath::matrix4x4_from_translation({positionX, positionY, positionZ}) * smath::matrix4x4_from_scale(0.01f);
+        cubeTransforms[i] = smath::matrix4x4_from_translation({positionX, positionY, positionZ}) * smath::matrix4x4_from_scale(0.1f);
         cubeTransposedTransforms[i] = smath::transpose(cubeTransforms[i]);
         // cubeTransposedTransforms[i] = smath::matrix4x4_from_identity();
     }
 
     brl::MeshData utahTeapotMeshData = brl::parseObj("../demo/OBJs/Utah-Teapot.obj");
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
-    brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&utahTeapotMeshData);
+    brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
+    brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
     brl::Shader instanceShader = brl::createShader(brl::builtin::instancedObjectVertexShaderSource, brl::builtin::instancedObjectFragShaderSource);
 
     brl::bindInstancedVertexBuffer(instancedVertexBuffer);

@@ -95,7 +95,7 @@ namespace brl {
 
     void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const smath::matrix4x4 *transforms, const uint32_t amount) {
         glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(smath::matrix4x4), &transforms[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(smath::matrix4x4), &transforms[0], GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 

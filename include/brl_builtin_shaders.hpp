@@ -32,10 +32,10 @@ namespace brl {
         layout(location = 0) in vec3 aPosition;
         layout(location = 1) in vec3 aNormal;
         layout(location = 2) in mat4 aInstanceMatrix;
+        layout(location = 6) in vec4 aColor;
     
         uniform mat4 view;
         uniform mat4 projection;
-        uniform vec4 color;
     
         out vec3 WorldPos;
         out vec3 Normal;
@@ -43,7 +43,7 @@ namespace brl {
         out mat4 ModelTransform;
     
         void main() {
-        Color = color;
+        Color = aColor;
         ModelTransform = aInstanceMatrix;
         WorldPos = vec3(aInstanceMatrix * vec4(aPosition, 1.0));
         Normal = aNormal;
@@ -75,7 +75,7 @@ namespace brl {
             light += light2;
     
     
-            color = vec4(vec3(/* Color */ 1.0)*light, Color.a);
+            color = vec4(vec3(Color)*light, Color.a);
         })";
     
         static const char* objectFragShaderSource = 

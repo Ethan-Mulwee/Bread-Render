@@ -75,7 +75,7 @@ namespace brl {
             light += light2;
     
     
-            color = vec4(vec3(Color)*light, Color.a);
+            color = vec4(vec3(/* Color */ 1.0)*light, Color.a);
         })";
     
         static const char* objectFragShaderSource = 

@@ -8,14 +8,14 @@
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
-    // brl::setVsync(false);
+    brl::setVsync(false);
     brl::RenderContext renderContext = brl::createRenderContext(window);
     brl::ViewportContext viewport1 = brl::createViewportContext(&renderContext, 1920, 1080, "viewport1");
     brl::ViewportContext viewport2 = brl::createViewportContext(&renderContext, 1920, 1080, "viewport2");
     brl::Camera camera1 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
     brl::Camera camera2 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
-    const int cubeAmount = 200000;
+    const int cubeAmount = 500000;
     smath::matrix4x4* cubeTransforms = new smath::matrix4x4[cubeAmount];
     smath::matrix4x4* cubeTransposedTransforms = new smath::matrix4x4[cubeAmount];
     for (int i = 0; i < cubeAmount; i++) {
@@ -68,27 +68,27 @@ int main() {
                 glDrawElementsInstanced(GL_TRIANGLES, instancedVertexBuffer.size, GL_UNSIGNED_INT, 0, cubeAmount);
 
                 // for (int i = 0; i < cubeAmount; i++) {
-                    // brl::drawInstancedCube(renderContext, cubeTransforms[i]);
+                //     brl::drawCube(renderContext, cubeTransforms[i]);
                 // }
             brl::endViewport(viewport1, camera1);
 
-            brl::beginViewport(viewport2, camera2);
+            // brl::beginViewport(viewport2, camera2);
 
-                ImGui::Text("This is text dispalyed ontop of the viewport!");
+            //     ImGui::Text("This is text dispalyed ontop of the viewport!");
             
-                brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
+            //     brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
 
-                brl::renderModeWireframe();
-                brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});
-                brl::drawCylinder(renderContext, smath::matrix4x4_from_translation(smath::vector3{-2.2f, 0.0f, 0.0f}));
+            //     brl::renderModeWireframe();
+            //     brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});
+            //     brl::drawCylinder(renderContext, smath::matrix4x4_from_translation(smath::vector3{-2.2f, 0.0f, 0.0f}));
 
-                brl::renderModeSolid();
-                brl::drawVector(renderContext, {0.0f, 0.0f, 2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f);
+            //     brl::renderModeSolid();
+            //     brl::drawVector(renderContext, {0.0f, 0.0f, 2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f);
 
-                brl::renderModeTransparent();
-                brl::drawVector(renderContext, {0.0f, 0.0f, -2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
+            //     brl::renderModeTransparent();
+            //     brl::drawVector(renderContext, {0.0f, 0.0f, -2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
 
-            brl::endViewport(viewport2, camera2);
+            // brl::endViewport(viewport2, camera2);
             
         brl::endRender();
     }

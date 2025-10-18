@@ -38,8 +38,6 @@ int main() {
     brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
     brl::Shader instanceShader = brl::createShader(brl::builtin::instancedObjectVertexShaderSource, brl::builtin::instancedObjectFragShaderSource);
 
-    brl::bindInstancedVertexBuffer(instancedVertexBuffer);
-    brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeTransposedTransforms, cubeAmount);
 
 
     while (!brl::windowShouldClose(window)) {
@@ -62,7 +60,6 @@ int main() {
                 setShaderUniformMatrix4(instanceShader, calculateCameraView(camera1), "view");
                 setShaderUniformMatrix4(instanceShader, calculateCameraProjection(camera1), "projection");
                 
-                brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeTransposedTransforms, cubeAmount);
                 brl::bindInstancedVertexBuffer(instancedVertexBuffer);
                 brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeTransposedTransforms, cubeAmount);
                 glDrawElementsInstanced(GL_TRIANGLES, instancedVertexBuffer.size, GL_UNSIGNED_INT, 0, cubeAmount);

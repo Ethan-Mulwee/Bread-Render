@@ -69,15 +69,17 @@ namespace brl {
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
         glEnableVertexAttribArray(1);
 
+        glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
+
         // Adapted from https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/4.advanced_opengl/10.3.asteroids_instanced/asteroids_instanced.cpp
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)0);
         glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)(sizeof(smath::matrix4x4)));
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)(sizeof(smath::vector4)));
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)(2 * sizeof(smath::matrix4x4)));
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)(2 * sizeof(smath::vector4)));
         glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)(3 * sizeof(smath::matrix4x4)));
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(smath::matrix4x4), (void*)(3 * sizeof(smath::vector4)));
 
         glVertexAttribDivisor(2, 1);
         glVertexAttribDivisor(3, 1);
@@ -93,7 +95,7 @@ namespace brl {
 
     void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const smath::matrix4x4 *transforms, const uint32_t amount) {
         glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(smath::matrix4x4), transforms, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(smath::matrix4x4), &transforms[0], GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 

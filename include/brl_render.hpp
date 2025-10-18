@@ -7,6 +7,7 @@
 
 namespace brl {
     struct RenderContext {
+        
         const Window* window;
 
         Shader objectShader;
@@ -18,6 +19,9 @@ namespace brl {
         Vertexbuffer coneBuffer;
         Vertexbuffer cubeBuffer;
         Vertexbuffer planeBuffer;
+
+        InstanceDataBuffer cubeInstanceBuffer;
+        
     };
 
     RenderContext createRenderContext(const Window* window);

@@ -101,6 +101,13 @@ namespace brl {
             brl::builtin::gridFragShaderSource
         );
 
+        context.instanceShader = createShader(
+            brl::builtin::instancedObjectVertexShaderSource,
+            brl::builtin::instancedObjectFragShaderSource
+        );
+
+        context.cubeInstanceBuffer = createInstanceDataBuffer(10000);
+
         return context;
     }
 

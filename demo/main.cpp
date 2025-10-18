@@ -63,7 +63,6 @@ int main() {
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
     brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
-    brl::Shader instanceShader = brl::createShader(brl::builtin::instancedObjectVertexShaderSource, brl::builtin::instancedObjectFragShaderSource);
 
 
 
@@ -83,18 +82,22 @@ int main() {
             brl::beginViewport(viewport1, camera1);
                 // brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
-                brl::useShader(instanceShader);
-                setShaderUniformMatrix4(instanceShader, calculateCameraView(camera1), "view");
-                setShaderUniformMatrix4(instanceShader, calculateCameraProjection(camera1), "projection");
+                brl::useShader(renderContext.instanceShader);
+                setShaderUniformMatrix4(renderContext.instanceShader, calculateCameraView(camera1), "view");
+                setShaderUniformMatrix4(renderContext.instanceShader, calculateCameraProjection(camera1), "projection");
                 
                 // int drawnAmount = rand() % cubeAmount;
                 int drawnAmount = cubeAmount;
+                for (int i = 0; i < cubeAmount; i++) {
+                    brl::addToInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData[i]);
+                }
+
+                brl::setInstancedVertexBufferData(instancedVertexBuffer, renderContext.cubeInstanceBuffer.data, renderContext.cubeInstanceBuffer.used);
 
                 brl::bindInstancedVertexBuffer(instancedVertexBuffer);
-                brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeInstanceData, drawnAmount);
                 glDrawElementsInstanced(GL_TRIANGLES, instancedVertexBuffer.size, GL_UNSIGNED_INT, 0, drawnAmount);
 
-                
+                brl::clearInstanceDataBuffer(&renderContext.cubeInstanceBuffer);
 
                 // for (int i = 0; i < cubeAmount; i++) {
                 //     brl::drawCube(renderContext, cubeTransforms[i]);

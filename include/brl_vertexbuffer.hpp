@@ -34,7 +34,18 @@ namespace brl {
         smath::matrix4x4 transform;
         smath::vector4 color;
     };
-    
+
+    struct InstanceDataBuffer {
+        InstanceData* data;
+        uint32_t size;
+        uint32_t used;
+    };
+
+    InstanceDataBuffer createInstanceDataBuffer(const uint32_t size);
+    void resizeInstanceDataBuffer(InstanceDataBuffer* buffer, const uint32_t size);
+    void addToInstanceDataBuffer(InstanceDataBuffer* buffer, const InstanceData &data);
+    void clearInstanceDataBuffer(InstanceDataBuffer* buffer);
+
     struct Mesh {
         Vertexbuffer buffer;
     };

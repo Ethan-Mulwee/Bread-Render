@@ -115,4 +115,33 @@ namespace brl {
     Mesh createMesh(MeshData* meshData) {
         return Mesh{createVertexbuffer(meshData)};
     }
+
+    InstanceDataBuffer createInstanceDataBuffer(const uint32_t size) {
+        InstanceDataBuffer dataBuffer;
+        dataBuffer.data = new InstanceData[size];
+        dataBuffer.size = size;
+        dataBuffer.used = 0;
+
+        return dataBuffer;
+    }
+
+    void resizeInstanceDataBuffer(InstanceDataBuffer *buffer, const uint32_t size) {
+        buffer->data = (InstanceData*)realloc(buffer->data, size*sizeof(InstanceData));
+        buffer->size = size;
+
+        if (buffer->used > size)
+            buffer->used = size;
+    }
+
+    void addToInstanceDataBuffer(InstanceDataBuffer *buffer, const InstanceData &data) {
+        if (buffer->used >= buffer->size)
+            resizeInstanceDataBuffer(buffer, buffer->size*2);
+
+        buffer->data[buffer->used] = data;
+        buffer->used += 1;
+    }
+
+    void clearInstanceDataBuffer(InstanceDataBuffer *buffer) {
+        buffer->used = 0;
+    }
 }

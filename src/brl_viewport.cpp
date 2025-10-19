@@ -22,6 +22,11 @@ namespace brl {
 
         bindFramebuffer(viewport.framebuffer);
 
+        // Set instance uniforms
+        brl::useShader(viewport.renderContext->instanceShader);
+        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
+        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
+
         useShader(viewport.renderContext->objectShader);
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
@@ -50,13 +55,13 @@ namespace brl {
         glDisable(GL_CULL_FACE);
 
         // instance rendering
-        brl::useShader(viewport.renderContext->instanceShader);
-        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
-        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
+        // brl::useShader(viewport.renderContext->instanceShader);
+        // setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
+        // setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
 
-        brl::setInstancedVertexBufferData(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer);
-        brl::drawInstancedVertexBuffer(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer.used);
-        brl::clearInstanceDataBuffer(&viewport.renderContext->cubeInstanceBuffer);
+        // brl::setInstancedVertexBufferData(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer);
+        // brl::drawInstancedVertexBuffer(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer.used);
+        // brl::clearInstanceDataBuffer(&viewport.renderContext->cubeInstanceBuffer);
         // instance rendering
 
         useShader(viewport.renderContext->gridShader);

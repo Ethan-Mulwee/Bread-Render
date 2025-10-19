@@ -126,8 +126,16 @@ namespace brl {
         brl::addToInstanceDataBuffer(&context.cubeInstanceBuffer, {transform, color});
     }
 
-    void drawCubesInstanced(RenderContext &context, InstanceData *data, const uint32_t amount) {
-        brl::addArrayToInstanceDatabuffer(&context.cubeInstanceBuffer, data, amount);
+    // void drawCubesInstanced(RenderContext &context, InstanceData *data, const uint32_t amount) {
+    //     brl::addArrayToInstanceDatabuffer(&context.cubeInstanceBuffer, data, amount);
+    // }
+
+    void drawCubesInstanced(RenderContext &context, const InstanceData* data, const uint32_t amount) {
+        brl::useShader(context.instanceShader);
+
+        glBindBuffer(GL_ARRAY_BUFFER, context.cubeInstancedVertexBuffer.instancebo);
+        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), data, GL_DYNAMIC_DRAW);
+        brl::drawInstancedVertexBuffer(context.cubeInstancedVertexBuffer, amount);
     }
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {

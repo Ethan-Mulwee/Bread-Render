@@ -106,6 +106,7 @@ namespace brl {
             brl::builtin::instancedObjectFragShaderSource
         );
 
+        context.cubeInstancedVertexBuffer = createInstancedVertexBuffer(&brl::builtin::cubeMesh);
         context.cubeInstanceBuffer = createInstanceDataBuffer(10000);
 
         return context;
@@ -119,6 +120,14 @@ namespace brl {
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color, "color");
         drawVertexBuffer(context.cubeBuffer);
+    }
+
+    void drawCubeInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        brl::addToInstanceDataBuffer(&context.cubeInstanceBuffer, {transform, color});
+    }
+
+    void drawCubesInstanced(RenderContext &context, InstanceData *data, const uint32_t amount) {
+        brl::addArrayToInstanceDatabuffer(&context.cubeInstanceBuffer, data, amount);
     }
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {

@@ -1,9 +1,7 @@
-#include "brl.hpp"
+#include "brl.hpp" // IWYU pragma: keep
 
 #include <cstdlib>
 #include <iostream>
-
-#include "brl_builtin_shaders.hpp"
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
@@ -16,6 +14,7 @@ int main() {
 
     int cubeAmount = 500000;
     smath::matrix4x4* cubeTransforms = new smath::matrix4x4[cubeAmount];
+    smath::vector4* cubeColors = new smath::vector4[cubeAmount];
     brl::InstanceData* cubeInstanceData = new brl::InstanceData[cubeAmount];
     for (int i = 0; i < cubeAmount; i++) {
         int positionIntX = rand() % 100000;
@@ -48,23 +47,24 @@ int main() {
         rotation.normalize();
 
 
-        cubeTransforms[i] = smath::matrix4x4_from_transform({
+        cubeTransforms[i] = smath::transpose(smath::matrix4x4_from_transform({
             .translation = {positionX, positionY, positionZ},
             .rotation = rotation,
             .scale = {0.015f, 0.015f, 0.015f}
-        });
-        cubeInstanceData[i].transform = smath::transpose(cubeTransforms[i]);
+        }));
+        cubeColors[i] = smath::vector4{colorR, colorG, colorB, 1.0f};
+        cubeInstanceData[i].transform = cubeTransforms[i];
         cubeInstanceData[i].color = smath::vector4{colorR, colorG, colorB, 1.0f};
-        // cubeTransposedTransforms[i] = smath::matrix4x4_from_identity();
     }
 
 
     brl::MeshData utahTeapotMeshData = brl::parseObj("../demo/OBJs/Utah-Teapot.obj");
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
-    brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
+    // brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
 
     brl::resizeInstanceDataBuffer(&renderContext.cubeInstanceBuffer, 500000);
+    // brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeInstanceData, cubeAmount);
 
 
 
@@ -83,29 +83,15 @@ int main() {
 
             brl::beginViewport(viewport1, camera1);
                 // brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-
-                brl::useShader(renderContext.instanceShader);
-                setShaderUniformMatrix4(renderContext.instanceShader, calculateCameraView(camera1), "view");
-                setShaderUniformMatrix4(renderContext.instanceShader, calculateCameraProjection(camera1), "projection");
                 
                 // int drawnAmount = rand() % cubeAmount;
-                int drawnAmount = cubeAmount;
+                
+                    
                 // for (int i = 0; i < cubeAmount; i++) {
-                //     brl::addToInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData[i]);
+                //     brl::drawCubeInstanced(renderContext, cubeTransforms[i], cubeColors[i]);
                 // }
-                brl::setInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData, cubeAmount);
-
-                // brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeInstanceData, drawnAmount);
-                brl::setInstancedVertexBufferData(instancedVertexBuffer, renderContext.cubeInstanceBuffer.data, renderContext.cubeInstanceBuffer.used);
-
-                brl::bindInstancedVertexBuffer(instancedVertexBuffer);
-                glDrawElementsInstanced(GL_TRIANGLES, instancedVertexBuffer.size, GL_UNSIGNED_INT, 0, drawnAmount);
-
-                brl::clearInstanceDataBuffer(&renderContext.cubeInstanceBuffer);
-
-                // for (int i = 0; i < cubeAmount; i++) {
-                //     brl::drawCube(renderContext, cubeTransforms[i]);
-                // }
+                // brl::setInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData, cubeAmount);
+                brl::drawCubesInstanced(renderContext, cubeInstanceData, cubeAmount);
             brl::endViewport(viewport1, camera1);
 
             // brl::beginViewport(viewport2, camera2);

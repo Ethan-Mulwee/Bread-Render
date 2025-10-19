@@ -1,4 +1,6 @@
 #include "brl_vertexbuffer.hpp"
+#include <cstring>
+#include <iostream>
 
 namespace brl {
     void bindVertexbuffer(const Vertexbuffer &buffer) {
@@ -98,17 +100,27 @@ namespace brl {
         return buffer;
     }
 
-    void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const InstanceData *instanceData, const uint32_t amount) {
-        glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), &instanceData[0], GL_DYNAMIC_DRAW);
+    // void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const InstanceData *instanceData, const uint32_t amount) {
+    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
+    //     glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), &instanceData[0], GL_DYNAMIC_DRAW);
+    //     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // }
+
+    void setInstancedVertexBufferData(const InstancedVertexBuffer &vertexBuffer, const InstanceDataBuffer &dataBuffer) {
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.instancebo);
+        glBufferData(GL_ARRAY_BUFFER, dataBuffer.used * sizeof(InstanceData), dataBuffer.data, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     void drawVertexBuffer(const Vertexbuffer &buffer) {
-        // glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-        // glEnable(GL_CULL_FACE);
         bindVertexbuffer(buffer);
         glDrawElements(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, nullptr);
+        unbindVertexBuffer();
+    }
+
+    void drawInstancedVertexBuffer(const InstancedVertexBuffer &buffer, const uint32_t amount) {
+        bindInstancedVertexBuffer(buffer);
+        glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, amount);
         unbindVertexBuffer();
     }
 
@@ -139,6 +151,14 @@ namespace brl {
 
         buffer->data[buffer->used] = data;
         buffer->used += 1;
+    }
+
+    void addArrayToInstanceDatabuffer(InstanceDataBuffer *buffer, const InstanceData *data, const uint32_t size) {
+        if ((buffer->used + size) > buffer->size) {
+            resizeInstanceDataBuffer(buffer, buffer->used + size);
+        }
+        memcpy(&buffer->data[buffer->used], data, size*sizeof(InstanceData));
+        buffer->used += size;
     }
 
     void clearInstanceDataBuffer(InstanceDataBuffer *buffer) {

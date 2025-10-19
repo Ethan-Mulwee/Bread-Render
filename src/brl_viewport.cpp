@@ -1,7 +1,7 @@
 #include "brl_viewport.hpp"
 
 namespace brl {
-    ViewportContext createViewportContext(const RenderContext *renderContext, int width, int height, const char* name) {
+    ViewportContext createViewportContext(RenderContext *renderContext, int width, int height, const char* name) {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
         viewportContext.framebuffer = createFramebuffer(width, height);
@@ -48,6 +48,16 @@ namespace brl {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_CULL_FACE);
+
+        // instance rendering
+        brl::useShader(viewport.renderContext->instanceShader);
+        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
+        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
+
+        brl::setInstancedVertexBufferData(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer);
+        brl::drawInstancedVertexBuffer(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer.used);
+        brl::clearInstanceDataBuffer(&viewport.renderContext->cubeInstanceBuffer);
+        // instance rendering
 
         useShader(viewport.renderContext->gridShader);
         setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraView(camera), "view");

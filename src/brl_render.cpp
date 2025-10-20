@@ -126,10 +126,6 @@ namespace brl {
         brl::addToInstanceDataBuffer(&context.cubeInstanceBuffer, {transform, color});
     }
 
-    // void drawCubesInstanced(RenderContext &context, InstanceData *data, const uint32_t amount) {
-    //     brl::addArrayToInstanceDatabuffer(&context.cubeInstanceBuffer, data, amount);
-    // }
-
     void drawCubesInstanced(RenderContext &context, const InstanceData* data, const uint32_t amount) {
         brl::useShader(context.instanceShader);
 

@@ -54,15 +54,14 @@ namespace brl {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_CULL_FACE);
 
-        // instance rendering
-        // brl::useShader(viewport.renderContext->instanceShader);
-        // setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
-        // setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
-
-        // brl::setInstancedVertexBufferData(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer);
-        // brl::drawInstancedVertexBuffer(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer.used);
-        // brl::clearInstanceDataBuffer(&viewport.renderContext->cubeInstanceBuffer);
-        // instance rendering
+        // Do buffered instance rendering
+        brl::useShader(viewport.renderContext->instanceShader);
+        
+        if (viewport.renderContext->cubeInstanceBuffer.used) {
+            brl::setInstancedVertexBufferData(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer);
+            brl::drawInstancedVertexBuffer(viewport.renderContext->cubeInstancedVertexBuffer, viewport.renderContext->cubeInstanceBuffer.used);
+            brl::clearInstanceDataBuffer(&viewport.renderContext->cubeInstanceBuffer);
+        }
 
         useShader(viewport.renderContext->gridShader);
         setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraView(camera), "view");

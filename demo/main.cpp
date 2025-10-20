@@ -61,11 +61,6 @@ int main() {
     brl::MeshData utahTeapotMeshData = brl::parseObj("../demo/OBJs/Utah-Teapot.obj");
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
-    // brl::InstancedVertexBuffer instancedVertexBuffer = brl::createInstancedVertexBuffer(&cubeMeshData);
-
-    brl::resizeInstanceDataBuffer(&renderContext.cubeInstanceBuffer, 500000);
-    // brl::setInstancedVertexBufferData(instancedVertexBuffer, cubeInstanceData, cubeAmount);
-
 
 
     while (!brl::windowShouldClose(window)) {
@@ -82,16 +77,13 @@ int main() {
             ImGui::End();
 
             brl::beginViewport(viewport1, camera1);
-                // brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                
-                // int drawnAmount = rand() % cubeAmount;
-                
+                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                     
-                // for (int i = 0; i < cubeAmount; i++) {
-                //     brl::drawCubeInstanced(renderContext, cubeTransforms[i], cubeColors[i]);
-                // }
-                // brl::setInstanceDataBuffer(&renderContext.cubeInstanceBuffer, cubeInstanceData, cubeAmount);
-                brl::drawCubesInstanced(renderContext, cubeInstanceData, cubeAmount);
+                for (int i = 0; i < cubeAmount; i++) {
+                    brl::drawCubeInstanced(renderContext, cubeTransforms[i], cubeColors[i]);
+                }
+
+                // brl::drawCubesInstanced(renderContext, cubeInstanceData, cubeAmount);
             brl::endViewport(viewport1, camera1);
 
             // brl::beginViewport(viewport2, camera2);

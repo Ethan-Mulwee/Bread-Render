@@ -71,10 +71,10 @@ namespace brl {
         smath::vector3 cameraPosition = calculateCameraPosition(camera);
         const float size = 250.0f;
         smath::matrix4x4 gridTransform = {
-            size, 0.0f, 0.0f, -cameraPosition.x,
-            0.0f, size, 0.0f,              0.0f,
-            0.0f, 0.0f, size, -cameraPosition.z,
-            0.0f, 0.0f, 0.0f,              1.0f
+            size, 0.0f, 0.0f,                           0.0f,
+            0.0f, size, 0.0f,                           0.0f,
+            0.0f, 0.0f, size,                           0.0f,
+            -cameraPosition.x, 0.0f, -cameraPosition.z, 1.0f
         };
         setShaderUniformMatrix4(viewport.renderContext->gridShader, gridTransform, "model");
         drawVertexBuffer(viewport.renderContext->planeBuffer);

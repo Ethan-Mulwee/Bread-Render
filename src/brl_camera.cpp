@@ -69,9 +69,9 @@ namespace brl {
 
         position = matrix3x3_transform_vector3(transpose(rotationMatrix), position);
 
-        transformationMatrix[0][3] = position.x;
-        transformationMatrix[1][3] = position.y;
-        transformationMatrix[2][3] = position.z;
+        transformationMatrix[3][0] = position.x;
+        transformationMatrix[3][1] = position.y;
+        transformationMatrix[3][2] = position.z;
 
         return transformationMatrix;
     }

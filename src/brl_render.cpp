@@ -172,7 +172,7 @@ namespace brl {
 
         using namespace smath;
 
-        vector3 direction = normalized(vector);
+        vector3 direction = normalize(vector);
         quaternion orientation = quaternion_from_matrix3x3(matrix3x3_from_jhat(direction));
 
         matrix4x4 translation = matrix4x4_from_translation({0.0f, 1.0f, 0.0f});

@@ -47,11 +47,11 @@ int main() {
         rotation.normalize();
 
 
-        cubeTransforms[i] = smath::transpose(smath::matrix4x4_from_transform({
+        cubeTransforms[i] = smath::matrix4x4_from_transform({
             .translation = {positionX, positionY, positionZ},
             .rotation = rotation,
             .scale = {0.015f, 0.015f, 0.015f}
-        }));
+        });
         cubeColors[i] = smath::vector4{colorR, colorG, colorB, 1.0f};
         cubeInstanceData[i].transform = cubeTransforms[i];
         cubeInstanceData[i].color = smath::vector4{colorR, colorG, colorB, 1.0f};

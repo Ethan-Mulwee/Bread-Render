@@ -153,12 +153,11 @@ namespace brl {
     }
 
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
-        smath::matrix4x4 transform = {
-            radius, 0.0f, 0.0f, position.x,
-            0.0f, radius, 0.0f, position.y,
-            0.0f, 0.0f, radius, position.z,
-            0.0f, 0.0f,   0.0f,       1.0f,
-        };
+        smath::vector4 i = {radius, 0.0f, 0.0f, 0.0f};
+        smath::vector4 j = {0.0f, radius, 0.0f, 0.0f};
+        smath::vector4 k = {0.0f, 0.0f, radius, 0.0f};
+        smath::vector4 l = {position.x, position.y, position.z, 1.0f};
+        smath::matrix4x4 transform = {i, j, k, l};
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color, "color");
         drawVertexBuffer(context.sphereBuffer);

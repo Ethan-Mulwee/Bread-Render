@@ -107,7 +107,7 @@ namespace brl {
         );
 
         context.cubeInstancedVertexBuffer = createInstancedVertexBuffer(&brl::builtin::cubeMesh);
-        context.cubeInstanceBuffer = createInstanceDataBuffer(10000);
+        context.cubeInstanceBuffer = createInstanceDataBuffer(100);
 
         return context;
     }

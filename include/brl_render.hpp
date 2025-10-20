@@ -45,6 +45,7 @@ namespace brl {
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
+    void drawMeshInstances(const RenderContext &context, const InstanceData* data, const uint32_t amount);
     void drawModel(const RenderContext &context, const Model &model);
 
 

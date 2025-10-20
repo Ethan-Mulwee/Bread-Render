@@ -41,6 +41,7 @@ namespace brl {
         uint32_t used;
     };
 
+    // TODO: clean this up
     InstanceDataBuffer createInstanceDataBuffer(const uint32_t size);
     void resizeInstanceDataBuffer(InstanceDataBuffer* buffer, const uint32_t size);
     void addToInstanceDataBuffer(InstanceDataBuffer* buffer, const InstanceData &data);
@@ -68,7 +69,6 @@ namespace brl {
     Vertexbuffer createVertexbuffer(const MeshData* mesh);
 
     InstancedVertexBuffer createInstancedVertexBuffer(const MeshData* mesh);
-    // void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const InstanceData* instanceData, const uint32_t amount);
     void setInstancedVertexBufferData(const InstancedVertexBuffer &vertexBuffer, const InstanceDataBuffer &dataBuffer);
     void bindInstancedVertexBuffer(const InstancedVertexBuffer &buffer);
 

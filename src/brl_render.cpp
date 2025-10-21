@@ -106,7 +106,6 @@ namespace brl {
             brl::builtin::instancedObjectFragShaderSource
         );
 
-        context.cubeInstancedVertexBuffer = createInstancedVertexBuffer(&brl::builtin::cubeMesh);
         context.cubeInstanceBuffer = createInstanceDataBuffer(100);
 
         return context;
@@ -126,12 +125,9 @@ namespace brl {
         brl::addToInstanceDataBuffer(&context.cubeInstanceBuffer, {transform, color});
     }
 
-    void drawCubesInstanced(RenderContext &context, const InstanceData* data, const uint32_t amount) {
+    void drawCubeInstances(RenderContext &context, const InstanceData* data, const uint32_t count) {
         brl::useShader(context.instanceShader);
-
-        glBindBuffer(GL_ARRAY_BUFFER, context.cubeInstancedVertexBuffer.instancebo);
-        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), data, GL_DYNAMIC_DRAW);
-        brl::drawInstancedVertexBuffer(context.cubeInstancedVertexBuffer, amount);
+        brl::drawVertexbufferInstanced(context.cubeBuffer, data, count);
     }
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {

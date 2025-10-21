@@ -25,11 +25,6 @@ namespace brl {
         uint32_t vao, vbo, ebo;
     };
 
-    struct InstancedVertexBuffer {
-        uint32_t size;
-        uint32_t vao, vbo, ebo, instancebo;
-    };
-
     struct InstanceData {
         smath::matrix4x4 transform;
         smath::vector4 color;
@@ -68,12 +63,12 @@ namespace brl {
 
     Vertexbuffer createVertexbuffer(const MeshData* mesh);
 
-    InstancedVertexBuffer createInstancedVertexBuffer(const MeshData* mesh);
-    void setInstancedVertexBufferData(const InstancedVertexBuffer &vertexBuffer, const InstanceDataBuffer &dataBuffer);
-    void bindInstancedVertexBuffer(const InstancedVertexBuffer &buffer);
+    // void setInstancedVertexBufferData(const InstancedVertexBuffer &vertexBuffer, const InstanceDataBuffer &dataBuffer);
+    // void bindInstancedVertexBuffer(const InstancedVertexBuffer &buffer);
 
     void drawVertexBuffer(const Vertexbuffer &buffer);
-    void drawInstancedVertexBuffer(const InstancedVertexBuffer &buffer, const uint32_t amount);
+    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const InstanceData* data, const uint32_t count);
+    // void drawInstancedVertexBuffer(const InstancedVertexBuffer &buffer, const uint32_t amount);
 }
 
 #endif

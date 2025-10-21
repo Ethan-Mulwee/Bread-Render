@@ -20,7 +20,6 @@ namespace brl {
         Vertexbuffer cubeBuffer;
         Vertexbuffer planeBuffer;
 
-        InstancedVertexBuffer cubeInstancedVertexBuffer;
         InstanceDataBuffer cubeInstanceBuffer;
         
     };
@@ -38,7 +37,7 @@ namespace brl {
     void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     // High preformance batch instance draw
-    void drawCubesInstanced(RenderContext &context, const InstanceData* data, const uint32_t amount);
+    void drawCubeInstances(RenderContext &context, const InstanceData* data, const uint32_t amount);
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});

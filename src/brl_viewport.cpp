@@ -1,4 +1,6 @@
 #include "brl_viewport.hpp"
+#include "brl_framebuffer.hpp"
+#include "imgui.h"
 
 namespace brl {
     ViewportContext createViewportContext(RenderContext *renderContext, int width, int height, const char* name) {
@@ -20,8 +22,6 @@ namespace brl {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
 
-        bindFramebuffer(viewport.framebuffer);
-
         // Set instance uniforms
         brl::useShader(viewport.renderContext->instanceShader);
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
@@ -38,6 +38,10 @@ namespace brl {
         viewport.screenPosition = ImGui::GetCursorScreenPos();
         viewport.hovered = ImGui::IsWindowHovered();
         viewport.focused = ImGui::IsWindowFocused();
+
+        brl::resizeFramebuffer(&viewport.framebuffer, viewport.size.x, viewport.size.y);
+
+        bindFramebuffer(viewport.framebuffer);
         
         uint64_t textureID = viewport.framebuffer.texId;
         ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});

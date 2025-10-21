@@ -20,6 +20,8 @@ namespace brl {
     void unbindFramebuffer();
 
     Framebuffer createFramebuffer(int32_t width, int32_t height);
+
+    void resizeFramebuffer(Framebuffer* buffer, const int32_t width, const int32_t height);
 }
 
 #endif

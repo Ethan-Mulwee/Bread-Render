@@ -1,4 +1,5 @@
 #include "brl_framebuffer.hpp"
+#include "brl_window.hpp"
 
 namespace brl {
     void bindFramebuffer(const Framebuffer &buffer) {
@@ -48,5 +49,13 @@ namespace brl {
         unbindFramebuffer();
 
         return buffer;
+    }
+
+    void resizeFramebuffer(Framebuffer *buffer, const int32_t width, const int32_t height) {
+        buffer->width = width;
+        buffer->height = height;
+        glBindTexture(GL_TEXTURE_2D, buffer->texId);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer->width, buffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

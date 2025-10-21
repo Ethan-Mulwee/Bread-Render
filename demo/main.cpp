@@ -1,4 +1,5 @@
 #include "brl.hpp" // IWYU pragma: keep
+#include "brl_framebuffer.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -7,8 +8,8 @@ int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
     brl::setVsync(false);
     brl::RenderContext renderContext = brl::createRenderContext(window);
-    brl::ViewportContext viewport1 = brl::createViewportContext(&renderContext, 1920, 1080, "viewport1");
-    brl::ViewportContext viewport2 = brl::createViewportContext(&renderContext, 1920, 1080, "viewport2");
+    brl::ViewportContext viewport1 = brl::createViewportContext(&renderContext, 1280, 720, "viewport1");
+    brl::ViewportContext viewport2 = brl::createViewportContext(&renderContext, 1820, 720, "viewport2");
     brl::Camera camera1 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
     brl::Camera camera2 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
@@ -17,6 +18,25 @@ int main() {
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
 
+    brl::InstanceData* data = new brl::InstanceData[1000];
+    for (int i = 0; i < 1000; i++) {
+        int positionIntX = rand() % 100000;
+        int positionIntY = rand() % 100000;
+        int positionIntZ = rand() % 100000;
+
+        float positionX = positionIntX * 0.0001f;
+        float positionY = positionIntY * 0.0001f;
+        float positionZ = positionIntZ * 0.0001f;
+
+        smath::matrix4x4 transform = {
+            .i = {0.015f, 0.0f, 0.0f, 0.0f},
+            .j = {0.0f, 0.015f, 0.0f, 0.0f},
+            .k = {0.0f, 0.0f, 0.015f, 0.0f},
+            .l = {positionX, positionY, positionZ, 1.0f},
+        };
+        // brl::drawCubeInstanced(renderContext, transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+        data[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
+    }
 
     while (!brl::windowShouldClose(window)) {
         brl::updateWindow(window);
@@ -34,33 +54,14 @@ int main() {
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
-                brl::InstanceData* data = new brl::InstanceData[10000];
-                for (int i = 0; i < 10000; i++) {
-                    int positionIntX = rand() % 100000;
-                    int positionIntY = rand() % 100000;
-                    int positionIntZ = rand() % 100000;
-
-                    float positionX = positionIntX * 0.0001f;
-                    float positionY = positionIntY * 0.0001f;
-                    float positionZ = positionIntZ * 0.0001f;
-
-                    smath::matrix4x4 transform = {
-                        .i = {0.015f, 0.0f, 0.0f, 0.0f},
-                        .j = {0.0f, 0.015f, 0.0f, 0.0f},
-                        .k = {0.0f, 0.0f, 0.015f, 0.0f},
-                        .l = {positionX, positionY, positionZ, 1.0f},
-                    };
-                    // brl::drawCubeInstanced(renderContext, transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                    data[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
-                }
-
-                brl::drawMeshInstances(renderContext, utahTeapotMesh, data, 10000);
+                // brl::drawMeshInstances(renderContext, utahTeapotMesh, data, 1000);
                 // brl::drawCubeInstances(renderContext, data, 10000);
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);
 
                 ImGui::Text("This is text dispalyed ontop of the viewport!");
+                ImGui::Text("size: %f, %f", viewport2.size.x, viewport2.size.y);
             
                 brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
 

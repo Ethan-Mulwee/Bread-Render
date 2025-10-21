@@ -194,6 +194,47 @@ namespace brl {
         drawVertexBuffer(mesh.buffer);
     }
 
+    void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t amount) {
+        useShader(context.instanceShader);
+
+        uint32_t instanceVBO;
+        glGenBuffers(1, &instanceVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+        glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), data, GL_DYNAMIC_DRAW);
+
+        glBindVertexArray(mesh.buffer.vao);
+
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
+
+        glVertexAttribDivisor(2, 1);
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+        glVertexAttribDivisor(6, 1);
+
+        // glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+
+        bindVertexbuffer(mesh.buffer);
+        glDrawElementsInstanced(GL_TRIANGLES, mesh.buffer.size, GL_UNSIGNED_INT, 0, amount);
+        unbindVertexbuffer();
+
+        // last step
+        glDeleteBuffers(1, &instanceVBO);
+        useShader(context.objectShader);
+
+    }
+
     void drawModel(const RenderContext &context, const Model &model) {
         setShaderUniformMatrix4(context.objectShader, model.transform, "model");
         setShaderUniformFloat4(context.objectShader, model.color, "color");

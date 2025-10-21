@@ -34,6 +34,7 @@ int main() {
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
+                brl::InstanceData* data = new brl::InstanceData[10000];
                 for (int i = 0; i < 10000; i++) {
                     int positionIntX = rand() % 100000;
                     int positionIntY = rand() % 100000;
@@ -49,8 +50,10 @@ int main() {
                         .k = {0.0f, 0.0f, 0.015f, 0.0f},
                         .l = {positionX, positionY, positionZ, 1.0f},
                     };
-                    brl::drawCubeInstanced(renderContext, transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                    // brl::drawCubeInstanced(renderContext, transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                    data[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
                 }
+                brl::drawMeshInstances(renderContext, utahTeapotMesh, data, 10000);
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);

@@ -13,7 +13,7 @@ namespace brl {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
     }
 
-    void unbindVertexBuffer() {
+    void unbindVertexbuffer() {
         glBindVertexArray(0);
     }
 
@@ -115,13 +115,13 @@ namespace brl {
     void drawVertexBuffer(const Vertexbuffer &buffer) {
         bindVertexbuffer(buffer);
         glDrawElements(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, nullptr);
-        unbindVertexBuffer();
+        unbindVertexbuffer();
     }
 
     void drawInstancedVertexBuffer(const InstancedVertexBuffer &buffer, const uint32_t amount) {
         bindInstancedVertexBuffer(buffer);
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, amount);
-        unbindVertexBuffer();
+        unbindVertexbuffer();
     }
 
     Mesh createMesh(MeshData* meshData) {

@@ -4,13 +4,14 @@
 #include "imgui.h"
 
 namespace brl {
-    ViewportContext createViewportContext(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
+    ViewportContext createViewportContext(RenderContext *renderContext, const char* name, const ViewportSettings &settings) {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
+        viewportContext.settings = settings;
 
-        viewportContext.framebuffer = createFramebuffer(1080, 1080, MSAA);
-        if (MSAA) viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
-        viewportContext.MSAA = MSAA;
+        viewportContext.renderFramebuffer = createFramebuffer(1080, 1080, settings.MSAA);
+        if (settings.ShadowMap) viewportContext.shadowFramebuffer = createFramebuffer(1080, 1080, false);
+        if (settings.MSAA) viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
 
         viewportContext.hovered = false;
         viewportContext.focused = false;
@@ -45,18 +46,18 @@ namespace brl {
         viewport.focused = ImGui::IsWindowFocused();
 
         uint64_t textureID;
-        brl::resizeFramebuffer(&viewport.framebuffer, viewport.size.x, viewport.size.y);
-        if (viewport.MSAA) {
+        brl::resizeFramebuffer(&viewport.renderFramebuffer, viewport.size.x, viewport.size.y);
+        if (viewport.settings.MSAA) {
             brl::resizeFramebuffer(&viewport.outputFramebuffer, viewport.size.x, viewport.size.y);
             textureID = viewport.outputFramebuffer.texId;
         } else {
-            textureID = viewport.framebuffer.texId;
+            textureID = viewport.renderFramebuffer.texId;
         }
 
         ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
         ImGui::SetCursorPos(viewport.position);
 
-        bindFramebuffer(viewport.framebuffer);
+        bindFramebuffer(viewport.renderFramebuffer);
 
     }
 
@@ -84,8 +85,9 @@ namespace brl {
         setShaderUniformMatrix4(viewport.renderContext->gridShader, gridTransform, "model");
         drawVertexBuffer(viewport.renderContext->planeBuffer);
 
-        if (viewport.MSAA)
-            brl::blitFramebuffer(viewport.framebuffer.fBO, viewport.outputFramebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);
+        // There is no need to resolve the framebuffer without MSAA this saves preformance on low end devices
+        if (viewport.settings.MSAA)
+            brl::blitFramebuffer(viewport.renderFramebuffer.fBO, viewport.outputFramebuffer.fBO, viewport.renderFramebuffer.width, viewport.renderFramebuffer.height);
         unbindFramebuffer();
 
 

@@ -13,7 +13,7 @@ namespace brl {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    Framebuffer createFramebuffer(int32_t width, int32_t height, const uint32_t MSAA) {
+    Framebuffer createFramebuffer(const int32_t width, const int32_t height, const uint32_t MSAA) {
         Framebuffer buffer;
 
         buffer.width = width;
@@ -64,6 +64,29 @@ namespace brl {
         glDrawBuffers(buffer.texId, buffers);
         
         unbindFramebuffer();
+
+        return buffer;
+    }
+
+    Framebuffer createShadowFramebuffer(const int32_t width, const int32_t height) {
+        Framebuffer buffer;
+
+        buffer.width = width;
+        buffer.height = height;
+
+        glGenFramebuffers(1, &buffer.fBO);
+        glBindFramebuffer(GL_FRAMEBUFFER, buffer.fBO);
+        glCreateTextures(GL_TEXTURE_2D, 1, &buffer.depthId);
+        glBindTexture(GL_TEXTURE_2D, buffer.depthId);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, buffer.depthId, 0);
+
+        glDrawBuffer(GL_NONE);
 
         return buffer;
     }

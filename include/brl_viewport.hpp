@@ -6,11 +6,18 @@
 #include "brl_camera.hpp"
 
 namespace brl {
-    struct ViewportContext {
 
-        Framebuffer framebuffer;
+    struct ViewportSettings {
+        bool ShadowMap = false;
+        uint32_t MSAA = 4;
+    };
+
+    struct ViewportContext {
+        ViewportSettings settings;
+
+        Framebuffer renderFramebuffer;
+        Framebuffer shadowFramebuffer;
         Framebuffer outputFramebuffer;
-        uint32_t MSAA = 0;
 
         RenderContext* renderContext;
         ImVec2 screenPosition;
@@ -21,7 +28,7 @@ namespace brl {
         const char* name;
     };
 
-    ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const uint32_t MSAA = 4);
+    ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const ViewportSettings &settings = ViewportSettings());
 
     void beginViewport(ViewportContext &viewport, Camera &camera);
     void endViewport(ViewportContext &viewport, Camera &camera);

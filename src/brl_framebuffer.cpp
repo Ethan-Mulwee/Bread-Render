@@ -88,7 +88,7 @@ namespace brl {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer->width, buffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
         glBindTexture(textureType, buffer->depthId);
         if (buffer->multiSampled)
-            glTexImage2DMultisample(textureType, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
+            glTexImage2DMultisample(textureType, 4, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
         else
             glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
         glBindTexture(textureType, 0);
@@ -97,6 +97,6 @@ namespace brl {
     void blitFramebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height) {
         glBindFramebuffer(GL_READ_FRAMEBUFFER, source);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, destination);
-        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT , GL_NEAREST);
     }
 }

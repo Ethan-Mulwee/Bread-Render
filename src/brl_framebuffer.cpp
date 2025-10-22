@@ -22,12 +22,11 @@ namespace brl {
         unsigned short textureType;
         if (MSAA) {
             textureType = GL_TEXTURE_2D_MULTISAMPLE;
-            buffer.MSAA = true;
         }
         else {
             textureType = GL_TEXTURE_2D;
-            buffer.MSAA = false;
         }
+        buffer.MSAA = MSAA;
 
         glGenFramebuffers(1, &buffer.fBO);
         glBindFramebuffer(GL_FRAMEBUFFER, buffer.fBO);
@@ -88,6 +87,7 @@ namespace brl {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer->width, buffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
         glBindTexture(textureType, buffer->depthId);
         if (buffer->MSAA)
+
             glTexImage2DMultisample(textureType, buffer->MSAA, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
         else
             glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);

@@ -34,8 +34,11 @@ namespace brl {
         glCreateTextures(textureType, 1, &buffer.texId);
         glBindTexture(textureType, buffer.texId);
 
-        // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer.width, buffer.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-        glTexImage2DMultisample(textureType, 4, GL_RGB, buffer.width, buffer.height, GL_TRUE);
+        if (multiSample) {
+            glTexImage2DMultisample(textureType, 4, GL_RGB, buffer.width, buffer.height, GL_TRUE);
+        } else {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer.width, buffer.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        }
         glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -45,8 +48,11 @@ namespace brl {
 
         glCreateTextures(textureType, 1, &buffer.depthId);
         glBindTexture(textureType, buffer.depthId);
-        // glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
-        glTexImage2DMultisample(textureType, 0, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, GL_TRUE);
+        if (multiSample) {
+            glTexImage2DMultisample(textureType, 4, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, GL_TRUE);
+        } else {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
+        }
         glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -76,11 +82,15 @@ namespace brl {
         }
 
         glBindTexture(textureType, buffer->texId);
-        // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer->width, buffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-        glTexImage2DMultisample(textureType, 4, GL_RGB, buffer->width, buffer->height, GL_TRUE);
+        if (buffer->multiSampled)
+            glTexImage2DMultisample(textureType, 4, GL_RGB, buffer->width, buffer->height, GL_TRUE);
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer->width, buffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
         glBindTexture(textureType, buffer->depthId);
-        // glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
-        glTexImage2DMultisample(textureType, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
+        if (buffer->multiSampled)
+            glTexImage2DMultisample(textureType, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
         glBindTexture(textureType, 0);
     }
 

@@ -8,6 +8,7 @@ namespace brl {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
         viewportContext.framebuffer = createFramebuffer(1080, 1080, true);
+        viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
         viewportContext.hovered = false;
         viewportContext.focused = false;
         viewportContext.name = name;

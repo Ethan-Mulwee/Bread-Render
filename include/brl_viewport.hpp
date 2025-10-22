@@ -8,6 +8,7 @@
 namespace brl {
     struct ViewportContext {
         Framebuffer framebuffer;
+        Framebuffer outputFramebuffer;
         RenderContext* renderContext;
         ImVec2 screenPosition;
         ImVec2 position;

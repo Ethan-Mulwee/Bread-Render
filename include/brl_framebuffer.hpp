@@ -13,13 +13,14 @@ namespace brl {
         uint32_t depthId = 0;
         uint32_t width = 0;
         uint32_t height = 0;
+        bool multiSampled;
     };
 
     void bindFramebuffer(const Framebuffer &buffer);
 
     void unbindFramebuffer();
 
-    Framebuffer createFramebuffer(int32_t width, int32_t height);
+    Framebuffer createFramebuffer(int32_t width, int32_t height, const bool multiSample);
 
     void resizeFramebuffer(Framebuffer* buffer, const int32_t width, const int32_t height);
 

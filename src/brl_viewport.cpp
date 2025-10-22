@@ -7,7 +7,7 @@ namespace brl {
     ViewportContext createViewportContext(RenderContext *renderContext, const char* name) {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
-        viewportContext.framebuffer = createFramebuffer(1080, 1080);
+        viewportContext.framebuffer = createFramebuffer(1080, 1080, true);
         viewportContext.hovered = false;
         viewportContext.focused = false;
         viewportContext.name = name;

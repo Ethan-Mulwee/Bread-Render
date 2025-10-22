@@ -7,8 +7,11 @@
 
 namespace brl {
     struct ViewportContext {
+
         Framebuffer framebuffer;
         Framebuffer outputFramebuffer;
+        uint32_t MSAA = 0;
+
         RenderContext* renderContext;
         ImVec2 screenPosition;
         ImVec2 position;
@@ -18,7 +21,7 @@ namespace brl {
         const char* name;
     };
 
-    ViewportContext createViewportContext(RenderContext* renderContext, const char* name);
+    ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const uint32_t MSAA = 4);
 
     void beginViewport(ViewportContext &viewport, Camera &camera);
     void endViewport(ViewportContext &viewport, Camera &camera);

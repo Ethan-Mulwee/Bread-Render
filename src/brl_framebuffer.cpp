@@ -13,20 +13,20 @@ namespace brl {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    Framebuffer createFramebuffer(int32_t width, int32_t height, const bool multiSample) {
+    Framebuffer createFramebuffer(int32_t width, int32_t height, const uint32_t MSAA) {
         Framebuffer buffer;
 
         buffer.width = width;
         buffer.height = height;
 
         unsigned short textureType;
-        if (multiSample) {
+        if (MSAA) {
             textureType = GL_TEXTURE_2D_MULTISAMPLE;
-            buffer.multiSampled = true;
+            buffer.MSAA = true;
         }
         else {
             textureType = GL_TEXTURE_2D;
-            buffer.multiSampled = false;
+            buffer.MSAA = false;
         }
 
         glGenFramebuffers(1, &buffer.fBO);
@@ -34,10 +34,10 @@ namespace brl {
         glCreateTextures(textureType, 1, &buffer.texId);
         glBindTexture(textureType, buffer.texId);
 
-        if (multiSample) {
+        if (MSAA) {
             glTexImage2DMultisample(textureType, 4, GL_RGB, buffer.width, buffer.height, GL_TRUE);
         } else {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer.width, buffer.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+            glTexImage2D(GL_TEXTURE_2D, MSAA, GL_RGB, buffer.width, buffer.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
         }
         glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -48,8 +48,8 @@ namespace brl {
 
         glCreateTextures(textureType, 1, &buffer.depthId);
         glBindTexture(textureType, buffer.depthId);
-        if (multiSample) {
-            glTexImage2DMultisample(textureType, 4, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, GL_TRUE);
+        if (MSAA) {
+            glTexImage2DMultisample(textureType, MSAA, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, GL_TRUE);
         } else {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer.width, buffer.height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
         }
@@ -74,7 +74,7 @@ namespace brl {
         buffer->height = height;
 
         unsigned short textureType;
-        if (buffer->multiSampled) {
+        if (buffer->MSAA) {
             textureType = GL_TEXTURE_2D_MULTISAMPLE;
         }
         else {
@@ -82,13 +82,13 @@ namespace brl {
         }
 
         glBindTexture(textureType, buffer->texId);
-        if (buffer->multiSampled)
-            glTexImage2DMultisample(textureType, 4, GL_RGB, buffer->width, buffer->height, GL_TRUE);
+        if (buffer->MSAA)
+            glTexImage2DMultisample(textureType, buffer->MSAA, GL_RGB, buffer->width, buffer->height, GL_TRUE);
         else
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, buffer->width, buffer->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
         glBindTexture(textureType, buffer->depthId);
-        if (buffer->multiSampled)
-            glTexImage2DMultisample(textureType, 4, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
+        if (buffer->MSAA)
+            glTexImage2DMultisample(textureType, buffer->MSAA, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, GL_TRUE);
         else
             glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, buffer->width, buffer->height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
         glBindTexture(textureType, 0);
@@ -97,6 +97,6 @@ namespace brl {
     void blitFramebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height) {
         glBindFramebuffer(GL_READ_FRAMEBUFFER, source);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, destination);
-        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT , GL_NEAREST);
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
     }
 }

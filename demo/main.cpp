@@ -6,8 +6,8 @@ int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
     brl::setVsync(false);
     brl::RenderContext renderContext = brl::createRenderContext(window);
-    brl::ViewportContext viewport1 = brl::createViewportContext(&renderContext, "viewport1");
-    brl::ViewportContext viewport2 = brl::createViewportContext(&renderContext, "viewport2");
+    brl::ViewportContext viewport1 = brl::createViewportContext(&renderContext, "viewport1", 4);
+    brl::ViewportContext viewport2 = brl::createViewportContext(&renderContext, "viewport2", 4);
     brl::Camera camera1 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
     brl::Camera camera2 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 

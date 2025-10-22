@@ -4,11 +4,14 @@
 #include "imgui.h"
 
 namespace brl {
-    ViewportContext createViewportContext(RenderContext *renderContext, const char* name) {
+    ViewportContext createViewportContext(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
-        viewportContext.framebuffer = createFramebuffer(1080, 1080, true);
-        viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
+
+        viewportContext.framebuffer = createFramebuffer(1080, 1080, MSAA);
+        if (MSAA) viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
+        viewportContext.MSAA = MSAA;
+
         viewportContext.hovered = false;
         viewportContext.focused = false;
         viewportContext.name = name;
@@ -41,10 +44,15 @@ namespace brl {
         viewport.hovered = ImGui::IsWindowHovered();
         viewport.focused = ImGui::IsWindowFocused();
 
+        uint64_t textureID;
         brl::resizeFramebuffer(&viewport.framebuffer, viewport.size.x, viewport.size.y);
-        brl::resizeFramebuffer(&viewport.outputFramebuffer, viewport.size.x, viewport.size.y);
+        if (viewport.MSAA) {
+            brl::resizeFramebuffer(&viewport.outputFramebuffer, viewport.size.x, viewport.size.y);
+            textureID = viewport.outputFramebuffer.texId;
+        } else {
+            textureID = viewport.framebuffer.texId;
+        }
 
-        uint64_t textureID = viewport.outputFramebuffer.texId;
         ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
         ImGui::SetCursorPos(viewport.position);
 
@@ -76,7 +84,8 @@ namespace brl {
         setShaderUniformMatrix4(viewport.renderContext->gridShader, gridTransform, "model");
         drawVertexBuffer(viewport.renderContext->planeBuffer);
 
-        brl::blitFramebuffer(viewport.framebuffer.fBO, viewport.outputFramebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);
+        if (viewport.MSAA)
+            brl::blitFramebuffer(viewport.framebuffer.fBO, viewport.outputFramebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);
         unbindFramebuffer();
 
 

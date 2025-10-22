@@ -9,7 +9,7 @@ Basic demo
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
     brl::RenderContext renderContext = brl::createRenderContext(window);
-    brl::ViewportContext viewport = brl::createViewportContext(&renderContext, 1920, 1080, "viewport");
+    brl::ViewportContext viewport = brl::createViewportContext(&renderContext, "viewport");
     brl::Camera camera = brl::createCamera({0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
 
     while (!brl::windowShouldClose(window)) {

@@ -1,5 +1,5 @@
-#include "brl.hpp" // IWYU pragma: keep
-#include "brl_window.hpp"
+#include "brl.hpp"
+#include "brl_render.hpp"
 
 #include <cstdlib>
 
@@ -52,7 +52,10 @@ int main() {
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
-                brl::drawCubeInstances(renderContext, data, 1000);
+                // brl::drawCubeInstances(renderContext, data, 1000);
+                for (int i = 0; i < 1000; i++) {
+                    brl::drawCubeInstanced(renderContext, data[i].transform);
+                }
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);

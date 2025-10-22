@@ -1,6 +1,5 @@
 #include "brl_vertexbuffer.hpp"
 #include <cstring>
-#include <iostream>
 
 namespace brl {
     void bindVertexbuffer(const Vertexbuffer &buffer) {

@@ -37,7 +37,7 @@ namespace brl {
     void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     // High preformance batch instance draw
-    void drawCubeInstances(RenderContext &context, const InstanceData* data, const uint32_t count);
+    void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawConeInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});

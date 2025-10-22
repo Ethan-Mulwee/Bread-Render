@@ -127,7 +127,7 @@ namespace brl {
         brl::addToInstanceDataBuffer(&context.cubeInstanceBuffer, {transform, color});
     }
 
-    void drawCubeInstances(RenderContext &context, const InstanceData* data, const uint32_t count) {
+    void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
         brl::useShader(context.instanceShader);
         brl::drawVertexbufferInstanced(context.cubeBuffer, data, count);
     }

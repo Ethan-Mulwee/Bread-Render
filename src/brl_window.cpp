@@ -52,6 +52,8 @@ namespace brl {
 
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
+
+        glEnable(GL_MULTISAMPLE); 
     }
 
 

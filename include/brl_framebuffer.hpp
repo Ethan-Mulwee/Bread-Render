@@ -22,6 +22,8 @@ namespace brl {
     Framebuffer createFramebuffer(int32_t width, int32_t height);
 
     void resizeFramebuffer(Framebuffer* buffer, const int32_t width, const int32_t height);
+
+    void blitFramebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height);
 }
 
 #endif

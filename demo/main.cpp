@@ -51,9 +51,8 @@ int main() {
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
-                // brl::drawMeshInstances(renderContext, utahTeapotMesh, data, 10000);
                 for (int i = 0; i < 50000; i++) {
-                    brl::drawPlaneInstanced(renderContext, data[i].transform);
+                    brl::drawCubeInstanced(renderContext, data[i].transform);
                 }
             brl::endViewport(viewport1, camera1);
 

@@ -63,11 +63,8 @@ namespace brl {
 
         // Do buffered instance rendering
         brl::useShader(viewport.renderContext->instanceShader);
+        brl::renderInstanceBuffers(viewport.renderContext);
         
-        if (viewport.renderContext->cubeInstanceBuffer.used) {
-            brl::drawCubeInstances(*viewport.renderContext, viewport.renderContext->cubeInstanceBuffer.data, viewport.renderContext->cubeInstanceBuffer.used);
-            brl::clearInstanceDataBuffer(&viewport.renderContext->cubeInstanceBuffer);
-        }
 
         useShader(viewport.renderContext->gridShader);
         setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraView(camera), "view");

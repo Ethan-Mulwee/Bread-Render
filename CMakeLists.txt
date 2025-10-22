@@ -33,6 +33,9 @@ set( GLFW_INSTALL OFF CACHE BOOL  "GLFW lib only" )
 
 add_subdirectory(ext/glfw)
 
+# add_compile_options(-fsanitize=address)
+# add_link_options(-fsanitize=address)
+
 
 add_library(brl STATIC ${IMGUI_SOURCES} ${RENDER_SRC_FILES})
 

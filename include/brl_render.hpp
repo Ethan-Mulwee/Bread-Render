@@ -19,16 +19,11 @@ namespace brl {
         Vertexbuffer coneBuffer;
         Vertexbuffer cubeBuffer;
         Vertexbuffer planeBuffer;
-
-        InstanceDataBuffer sphereInstanceBuffer;
-        InstanceDataBuffer cylinderInstanceBuffer;
-        InstanceDataBuffer coneInstanceBuffer;
-        InstanceDataBuffer cubeInstanceBuffer;
-        InstanceDataBuffer planeInstanceBuffer;
         
     };
 
     RenderContext createRenderContext(const Window* window);
+    void destroyRenderContext(RenderContext* context);
 
     void beginRender(Window* window);
     void clearRender(smath::vector4 color = {0.2f, 0.2f, 0.2f, 0.2f});
@@ -38,31 +33,23 @@ namespace brl {
     void renderModeWireframe();
     void renderModeTransparent();
 
-    void renderInstanceBuffers(RenderContext* context);
-
     void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawCubeInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawConeInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawConeInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawCylinderInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCylinderInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
     void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawSphereInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
     void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawPlaneInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawPlaneInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
     void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawVectorInstanced(RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
     void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
     void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData* data, const uint32_t amount);

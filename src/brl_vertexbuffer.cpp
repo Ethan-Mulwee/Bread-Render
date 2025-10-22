@@ -1,5 +1,6 @@
 #include "brl_vertexbuffer.hpp"
 #include <cstring>
+#include <iostream>
 
 namespace brl {
     void bindVertexbuffer(const Vertexbuffer &buffer) {
@@ -144,48 +145,5 @@ namespace brl {
 
     Mesh createMesh(MeshData* meshData) {
         return Mesh{createVertexbuffer(meshData)};
-    }
-
-    InstanceDataBuffer createInstanceDataBuffer(const uint32_t size) {
-        InstanceDataBuffer dataBuffer;
-        dataBuffer.data = new InstanceData[size];
-        dataBuffer.size = size;
-        dataBuffer.used = 0;
-
-        return dataBuffer;
-    }
-
-    void resizeInstanceDataBuffer(InstanceDataBuffer *buffer, const uint32_t size) {
-        buffer->data = (InstanceData*)realloc(buffer->data, size*sizeof(InstanceData));
-        buffer->size = size;
-
-        if (buffer->used > size)
-            buffer->used = size;
-    }
-
-    void addToInstanceDataBuffer(InstanceDataBuffer *buffer, const InstanceData &data) {
-        // buffer->data[buffer->used] = data;
-        // buffer->used += 1;
-
-        // if (buffer->used >= buffer->size)
-        //     resizeInstanceDataBuffer(buffer, buffer->size*2);
-    }
-
-    void addArrayToInstanceDatabuffer(InstanceDataBuffer *buffer, const InstanceData *data, const uint32_t size) {
-        if ((buffer->used + size) > buffer->size) {
-            resizeInstanceDataBuffer(buffer, buffer->used + size);
-        }
-        memcpy(&buffer->data[buffer->used], data, size*sizeof(InstanceData));
-        buffer->used += size;
-    }
-
-    void clearInstanceDataBuffer(InstanceDataBuffer *buffer) {
-        buffer->used = 0;
-    }
-
-    void setInstanceDataBuffer(InstanceDataBuffer *buffer, InstanceData* data, uint32_t size) {
-        buffer->data = data;
-        buffer->size = size;
-        buffer->used = size;
     }
 }

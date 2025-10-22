@@ -1,5 +1,4 @@
 #include "brl.hpp"
-#include "brl_render.hpp"
 
 #include <cstdlib>
 
@@ -16,8 +15,8 @@ int main() {
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
 
-    brl::InstanceData* data = new brl::InstanceData[50000];
-    for (int i = 0; i < 50000; i++) {
+    brl::InstanceData* instanceData = new brl::InstanceData[100000];
+    for (int i = 0; i < 100000; i++) {
         int positionIntX = rand() % 100000;
         int positionIntY = rand() % 100000;
         int positionIntZ = rand() % 100000;
@@ -32,7 +31,7 @@ int main() {
             .k = {0.0f, 0.0f, 0.015f, 0.0f},
             .l = {positionX, positionY, positionZ, 1.0f},
         };
-        data[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
+        instanceData[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
     }
 
     while (!brl::windowShouldClose(window)) {
@@ -50,10 +49,6 @@ int main() {
 
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-
-                for (int i = 0; i < 50000; i++) {
-                    brl::drawCubeInstanced(renderContext, data[i].transform);
-                }
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);
@@ -78,5 +73,7 @@ int main() {
         brl::endRender();
     }
 
+    delete [] instanceData;
+    brl::destroyRenderContext(&renderContext);
     brl::destroyWindow(window);
 }

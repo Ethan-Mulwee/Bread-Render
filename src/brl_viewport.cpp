@@ -61,11 +61,6 @@ namespace brl {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_CULL_FACE);
 
-        // Do buffered instance rendering
-        brl::useShader(viewport.renderContext->instanceShader);
-        brl::renderInstanceBuffers(viewport.renderContext);
-        
-
         useShader(viewport.renderContext->gridShader);
         setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraProjection(camera), "projection");

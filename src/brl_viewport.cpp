@@ -42,11 +42,10 @@ namespace brl {
         viewport.focused = ImGui::IsWindowFocused();
 
         brl::resizeFramebuffer(&viewport.framebuffer, viewport.size.x, viewport.size.y);
+        brl::resizeFramebuffer(&viewport.outputFramebuffer, viewport.size.x, viewport.size.y);
 
         bindFramebuffer(viewport.framebuffer);
-        
-        uint64_t textureID = viewport.framebuffer.texId;
-        ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
+
         ImGui::SetCursorPos(viewport.position);
 
     }
@@ -83,7 +82,13 @@ namespace brl {
         setShaderUniformMatrix4(viewport.renderContext->gridShader, gridTransform, "model");
         drawVertexBuffer(viewport.renderContext->planeBuffer);
 
+        brl::blitFramebuffer(viewport.framebuffer.fBO, viewport.outputFramebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);
         unbindFramebuffer();
+
+        ImGui::SetCursorPos(viewport.position);
+        uint64_t textureID = viewport.outputFramebuffer.texId;
+        ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
+
 
         ImGui::End();
 

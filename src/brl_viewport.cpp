@@ -4,10 +4,10 @@
 #include "imgui.h"
 
 namespace brl {
-    ViewportContext createViewportContext(RenderContext *renderContext, int width, int height, const char* name) {
+    ViewportContext createViewportContext(RenderContext *renderContext, const char* name) {
         ViewportContext viewportContext;
         viewportContext.renderContext = renderContext;
-        viewportContext.framebuffer = createFramebuffer(width, height);
+        viewportContext.framebuffer = createFramebuffer(1080, 1080);
         viewportContext.hovered = false;
         viewportContext.focused = false;
         viewportContext.name = name;

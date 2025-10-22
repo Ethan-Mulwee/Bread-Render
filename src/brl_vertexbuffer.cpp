@@ -164,11 +164,11 @@ namespace brl {
     }
 
     void addToInstanceDataBuffer(InstanceDataBuffer *buffer, const InstanceData &data) {
-        if (buffer->used >= buffer->size)
-            resizeInstanceDataBuffer(buffer, buffer->size*2);
+        // buffer->data[buffer->used] = data;
+        // buffer->used += 1;
 
-        buffer->data[buffer->used] = data;
-        buffer->used += 1;
+        // if (buffer->used >= buffer->size)
+        //     resizeInstanceDataBuffer(buffer, buffer->size*2);
     }
 
     void addArrayToInstanceDatabuffer(InstanceDataBuffer *buffer, const InstanceData *data, const uint32_t size) {

@@ -108,7 +108,7 @@ namespace brl {
             brl::builtin::instancedObjectFragShaderSource
         );
 
-        context.cubeInstanceBuffer = createInstanceDataBuffer(10);
+        context.cubeInstanceBuffer = createInstanceDataBuffer(100000);
         context.coneInstanceBuffer = createInstanceDataBuffer(10);
         context.cylinderInstanceBuffer = createInstanceDataBuffer(10);
         context.sphereInstanceBuffer = createInstanceDataBuffer(10);

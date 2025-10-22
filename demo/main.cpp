@@ -1,8 +1,7 @@
 #include "brl.hpp" // IWYU pragma: keep
-#include "brl_framebuffer.hpp"
+#include "brl_window.hpp"
 
 #include <cstdlib>
-#include <iostream>
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
@@ -12,7 +11,6 @@ int main() {
     brl::ViewportContext viewport2 = brl::createViewportContext(&renderContext, 1820, 720, "viewport2");
     brl::Camera camera1 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
     brl::Camera camera2 = brl::createCamera(smath::vector3{0.0f,0.0f,0.0f}, 5.0f, 45.0f, 0.1f, 100.0f, -M_PI/4.0f, M_PI/4.0f);
-
 
     brl::MeshData utahTeapotMeshData = brl::parseObj("../demo/OBJs/Utah-Teapot.obj");
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
@@ -54,8 +52,7 @@ int main() {
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
-                // brl::drawMeshInstances(renderContext, utahTeapotMesh, data, 1000);
-                // brl::drawCubeInstances(renderContext, data, 10000);
+                brl::drawCubeInstances(renderContext, data, 1000);
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);

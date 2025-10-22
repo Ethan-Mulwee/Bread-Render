@@ -37,10 +37,13 @@ namespace brl {
     void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstanced(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     // High preformance batch instance draw
-    void drawCubeInstances(RenderContext &context, const InstanceData* data, const uint32_t amount);
+    void drawCubeInstances(RenderContext &context, const InstanceData* data, const uint32_t count);
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawConeInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCylinderInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
     void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);

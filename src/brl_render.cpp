@@ -1,6 +1,8 @@
 #include "brl_render.hpp"
 #include "brl_builtin_mesh.hpp"
 #include "brl_builtin_shaders.hpp"
+#include "brl_shader.hpp"
+#include "brl_vertexbuffer.hpp"
 
 namespace brl {
 
@@ -136,16 +138,31 @@ namespace brl {
         drawVertexBuffer(context.coneBuffer);
     }
 
+    void drawConeInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::useShader(context.instanceShader);
+        brl::drawVertexbufferInstanced(context.coneBuffer, data, count);
+    }
+
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color, "color");
         drawVertexBuffer(context.cylinderBuffer);
     }
 
+    void drawCylinderInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::useShader(context.instanceShader);
+        brl::drawVertexbufferInstanced(context.cylinderBuffer, data, count);
+    }
+
     void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color, "color");
         drawVertexBuffer(context.sphereBuffer);
+    }
+
+    void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::useShader(context.instanceShader);
+        brl::drawVertexbufferInstanced(context.sphereBuffer, data, count); 
     }
 
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {

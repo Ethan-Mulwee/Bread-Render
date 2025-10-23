@@ -55,9 +55,9 @@ int main() {
 
             brl::beginViewport(viewport1, camera1);
                 smath::matrix4x4 planeTransform = {
-                    smath::vector4{8.0f, 0.0f, 0.0f, 0.0f},
-                    smath::vector4{0.0f, 8.0f, 0.0f, 0.0f},
-                    smath::vector4{0.0f, 0.0f, 8.0f, 0.0f},
+                    smath::vector4{5.0f, 0.0f, 0.0f, 0.0f},
+                    smath::vector4{0.0f, 0.1f, 0.0f, 0.0f},
+                    smath::vector4{0.0f, 0.0f, 5.0f, 0.0f},
                     smath::vector4{0.0f, -1.0f, 0.0f, 1.0f},
                 };
 
@@ -75,7 +75,7 @@ int main() {
                 brl::setShaderUniformMatrix4(renderContext.shadowShader, depthMVP, "depthMVP");
                 brl::drawSphere(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}); 
                 brl::setShaderUniformMatrix4(renderContext.shadowShader, depthProjectionMatrix * depthViewMatrix * planeTransform, "depthMVP");
-                brl::drawPlane(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawCube(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 brl::bindFramebuffer(viewport1.renderFramebuffer);
                 brl::useShader(renderContext.objectShader);
                 glCullFace(GL_BACK);
@@ -89,11 +89,14 @@ int main() {
                 };
 
                 glActiveTexture(GL_TEXTURE0);
+                
                 glBindTexture(GL_TEXTURE_2D, viewport1.shadowFramebuffer.depthId);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
                 brl::setShaderUniformMatrix4(renderContext.objectShader, biasMatrix*depthMVP, "depthBiasMVP");
                 brl::drawSphere(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 brl::setShaderUniformMatrix4(renderContext.objectShader, biasMatrix * depthProjectionMatrix * depthViewMatrix * planeTransform, "depthBiasMVP");
-                brl::drawPlane(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawCube(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 glBindTexture(GL_TEXTURE_2D, 0);
 
 

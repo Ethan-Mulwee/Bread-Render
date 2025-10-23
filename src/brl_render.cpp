@@ -108,6 +108,11 @@ namespace brl {
             brl::builtin::instancedObjectFragShaderSource
         );
 
+        context.shadowShader = createShader(
+            brl::builtin::shadowVertShader, 
+            brl::builtin::shadowFragShader
+        );
+
         return context;
     }
 

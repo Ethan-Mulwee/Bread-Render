@@ -13,6 +13,7 @@ namespace brl {
         Shader objectShader;
         Shader gridShader;
         Shader instanceShader;
+        Shader shadowShader;
 
         Vertexbuffer sphereBuffer;
         Vertexbuffer cylinderBuffer;

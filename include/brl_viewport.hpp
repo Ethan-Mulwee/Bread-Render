@@ -13,6 +13,7 @@ namespace brl {
     };
 
     struct ViewportContext {
+        const char* name;
         ViewportSettings settings;
 
         Framebuffer renderFramebuffer;
@@ -20,12 +21,13 @@ namespace brl {
         Framebuffer outputFramebuffer;
 
         RenderContext* renderContext;
+
+        // this data is dynamically updated by viewport functions
         ImVec2 screenPosition;
         ImVec2 position;
         ImVec2 size;
         bool hovered;
         bool focused;
-        const char* name;
     };
 
     ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const ViewportSettings &settings = ViewportSettings());

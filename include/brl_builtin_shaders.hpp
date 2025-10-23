@@ -13,17 +13,20 @@ namespace brl {
         uniform mat4 view;
         uniform mat4 projection;
         uniform vec4 color;
+        uniform mat4 depthBiasMVP;
     
         out vec3 WorldPos;
         out vec3 Normal;
         out vec4 Color;
+        out vec4 ShadowCoord;
     
         void main() {
-        Color = color;
-        WorldPos = vec3(model * vec4(aPosition, 1.0));
-        Normal = aNormal;
-    
-        gl_Position =  projection * view * model * vec4(aPosition, 1.0f);
+            Color = color;
+            WorldPos = vec3(model * vec4(aPosition, 1.0));
+            Normal = aNormal;
+        
+            gl_Position =  projection * view * model * vec4(aPosition, 1.0f);
+            ShadowCoord = depthBiasMVP * vec4(aPosition, 1.0f);
         })";
 
         static const char* objectFragShaderSource = 
@@ -32,15 +35,21 @@ namespace brl {
         in vec4 Color;
         in vec3 Normal;
         in vec3 WorldPos;
+        in vec4 ShadowCoord;
         layout(location = 0) out vec4 color;
     
         uniform mat4 model;
+        uniform sampler2D shadowMap;
     
         void main() {
             mat3 normalMatrix = transpose(inverse(mat3(model)));
             vec3 normal = normalize(normalMatrix * Normal);
     
-    
+            float visibility = 1.0;
+            if ( texture( shadowMap, ShadowCoord.xy ).z  <  ShadowCoord.z){
+                visibility = 0.5;
+            }
+
             float light = dot(normal, normalize(vec3(1.0,2.0,-0.4)));
             light = clamp(light, 0.0, 1.0);
             light += 0.1;
@@ -52,7 +61,7 @@ namespace brl {
             light += light2;
     
     
-            color = vec4(vec3(Color)*light, Color.a);
+            color = vec4(vec3(Color)*light*visibility, Color.a);
         })";
 
         static const char* instancedObjectVertexShaderSource = 

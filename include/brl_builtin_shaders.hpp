@@ -45,8 +45,13 @@ namespace brl {
             mat3 normalMatrix = transpose(inverse(mat3(model)));
             vec3 normal = normalize(normalMatrix * Normal);
     
+
+
+            float cosTheta = clamp( dot( normal,normalize(vec3(1.0,2.0,-0.4)) ), 0,1 );
+            float bias = 0.001*tan(acos(cosTheta)); // cosTheta is dot( n,l ), clamped between 0 and 1
+            bias = clamp(bias, 0,0.01);
             float visibility = 1.0;
-            if ( texture( shadowMap, ShadowCoord.xy ).z  <  ShadowCoord.z){
+            if ( texture( shadowMap, ShadowCoord.xy ).z  <  ShadowCoord.z-bias){
                 visibility = 0.5;
             }
 

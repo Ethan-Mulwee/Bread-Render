@@ -61,22 +61,25 @@ int main() {
                     smath::vector4{0.0f, -1.0f, 0.0f, 1.0f},
                 };
 
-                smath::vector3 lightInvDir{0.5f, 2.0f, 2.0f};
+                smath::vector3 lightInvDir = normalize(smath::vector3{1.0,2.0,-0.4});
 
                 smath::matrix4x4 depthProjectionMatrix = smath::matrix4x4_from_orthographic(-10, 10, -10, 10, -10, 20);
                 smath::matrix4x4 depthViewMatrix = smath::matrix4x4_from_look(lightInvDir, {0,0,0}, {0,1,0});
                 smath::matrix4x4 depthModelMatrix = smath::matrix4x4_from_identity();
                 smath::matrix4x4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
 
+                glCullFace(GL_FRONT);
                 brl::bindFramebuffer(viewport1.shadowFramebuffer);
                 brl::clearFramebuffer();
                 brl::useShader(renderContext.shadowShader);
                 brl::setShaderUniformMatrix4(renderContext.shadowShader, depthMVP, "depthMVP");
-                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}); 
+                brl::drawSphere(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}); 
                 brl::setShaderUniformMatrix4(renderContext.shadowShader, depthProjectionMatrix * depthViewMatrix * planeTransform, "depthMVP");
                 brl::drawPlane(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 brl::bindFramebuffer(viewport1.renderFramebuffer);
                 brl::useShader(renderContext.objectShader);
+                glCullFace(GL_BACK);
+
 
                 smath::matrix4x4 biasMatrix{
                     0.5, 0.0, 0.0, 0.0,
@@ -88,7 +91,7 @@ int main() {
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, viewport1.shadowFramebuffer.depthId);
                 brl::setShaderUniformMatrix4(renderContext.objectShader, biasMatrix*depthMVP, "depthBiasMVP");
-                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawSphere(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 brl::setShaderUniformMatrix4(renderContext.objectShader, biasMatrix * depthProjectionMatrix * depthViewMatrix * planeTransform, "depthBiasMVP");
                 brl::drawPlane(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 glBindTexture(GL_TEXTURE_2D, 0);

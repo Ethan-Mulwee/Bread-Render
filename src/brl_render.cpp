@@ -197,7 +197,7 @@ namespace brl {
     void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+        drawVertexBuffer(context.planeBuffer);
     }
 
     void drawPlaneInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {

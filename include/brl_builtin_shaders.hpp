@@ -158,9 +158,12 @@ namespace brl {
 
         // Values that stay constant for the whole mesh.
         uniform mat4 depthMVP;
+        // uniform mat4 model;
+        // uniform mat4 view;
+        // uniform mat4 projection;
 
         void main(){
-        gl_Position =  depthMVP * vec4(vertexPosition_modelspace,1);
+        gl_Position =  /* projection * view * model */ depthMVP * vec4(vertexPosition_modelspace,1.0f);
         })";
 
         static const char* shadowFragShader =

@@ -55,6 +55,14 @@ int main() {
 
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawCube(renderContext, smath::matrix4x4_from_translation({3.0f,0,0}), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                smath::matrix4x4 planeTransform = {
+                    smath::vector4{8.0f, 0.0f, 0.0f, 0.0f},
+                    smath::vector4{0.0f, 8.0f, 0.0f, 0.0f},
+                    smath::vector4{0.0f, 0.0f, 8.0f, 0.0f},
+                    smath::vector4{0.0f, -1.0f, 0.0f, 1.0f},
+                };
+                brl::drawPlane(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
 
                 smath::vector3 lightInvDir{0.5f, 2.0f, 2.0f};
 
@@ -67,7 +75,9 @@ int main() {
                 brl::clearFramebuffer();
                 brl::useShader(renderContext.shadowShader);
                 brl::setShaderUniformMatrix4(renderContext.shadowShader, depthMVP, "depthMVP");
-                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}); 
+                brl::setShaderUniformMatrix4(renderContext.shadowShader, depthProjectionMatrix * depthViewMatrix * planeTransform, "depthMVP");
+                brl::drawPlane(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 brl::bindFramebuffer(viewport1.renderFramebuffer);
 
 

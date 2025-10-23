@@ -58,6 +58,7 @@ namespace brl {
         ImGui::SetCursorPos(viewport.position);
 
         bindFramebuffer(viewport.renderFramebuffer);
+        clearFramebuffer();
 
     }
 

@@ -20,6 +20,8 @@ namespace brl {
 
     void unbindFramebuffer();
 
+    void clearFramebuffer();
+
     Framebuffer createFramebuffer(const int32_t width, const int32_t height, const uint32_t MSAA);
 
     Framebuffer createShadowFramebuffer(const int32_t width, const int32_t height);

@@ -5,12 +5,15 @@ namespace brl {
     void bindFramebuffer(const Framebuffer &buffer) {
         glBindFramebuffer(GL_FRAMEBUFFER, buffer.fBO);
         glViewport(0,0, buffer.width, buffer.height);
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void unbindFramebuffer() {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    void clearFramebuffer() {
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     Framebuffer createFramebuffer(const int32_t width, const int32_t height, const uint32_t MSAA) {

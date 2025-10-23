@@ -48,8 +48,30 @@ int main() {
             ImGui::Text("Hello World");
             ImGui::End();
 
+            ImGui::Begin("Shadow-Map");
+            ImVec2 imageSize = ImGui::GetContentRegionAvail();
+            ImGui::Image((ImTextureRef)(viewport1.shadowFramebuffer.depthId), imageSize, ImVec2{0, 1}, ImVec2{1, 0});
+            ImGui::End();
+
             brl::beginViewport(viewport1, camera1);
                 brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+
+                smath::vector3 lightInvDir{0.5f, 2.0f, 2.0f};
+
+                smath::matrix4x4 depthProjectionMatrix = smath::matrix4x4_from_orthographic(-10, 10, -10, 10, -10, 20);
+                smath::matrix4x4 depthViewMatrix = smath::matrix4x4_from_look(lightInvDir, {0,0,0}, {0,1,0});
+                smath::matrix4x4 depthModelMatrix = smath::matrix4x4_from_identity();
+                smath::matrix4x4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
+
+                brl::bindFramebuffer(viewport1.shadowFramebuffer);
+                brl::clearFramebuffer();
+                brl::useShader(renderContext.shadowShader);
+                brl::setShaderUniformMatrix4(renderContext.shadowShader, depthMVP, "depthMVP");
+                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::bindFramebuffer(viewport1.renderFramebuffer);
+
+
+                brl::useShader(renderContext.objectShader);
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);

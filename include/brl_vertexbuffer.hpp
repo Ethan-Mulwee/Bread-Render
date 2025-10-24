@@ -29,18 +29,6 @@ namespace brl {
         smath::matrix4x4 transform;
         smath::vector4 color;
     };
-
-    struct Mesh {
-        Vertexbuffer buffer;
-    };
-
-    Mesh createMesh(MeshData* meshData);
-
-    struct Model {
-        Mesh mesh;
-        smath::matrix4x4 transform;
-        smath::vector4 color;
-    };
     
     void bindVertexbuffer(const Vertexbuffer &buffer);
 

@@ -35,6 +35,35 @@ int main() {
         instanceData[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
     }
 
+    smath::matrix4x4 planeTransform = {
+        smath::vector4{5.0f, 0.0f, 0.0f, 0.0f},
+        smath::vector4{0.0f, 0.1f, 0.0f, 0.0f},
+        smath::vector4{0.0f, 0.0f, 5.0f, 0.0f},
+        smath::vector4{0.0f, -1.0f, 0.0f, 1.0f},
+    };
+
+    // Create scene data
+    brl::SceneData scene;
+
+    brl::Model sphereModel {
+        .mesh = {renderContext.sphereBuffer},
+        .transform = smath::matrix4x4_from_identity()
+    };
+
+    brl::Model planeModel {
+        .mesh = {renderContext.cubeBuffer},
+        .transform = planeTransform
+    };
+
+    brl::Model teapotModel {
+        .mesh = utahTeapotMesh,
+        .transform = smath::matrix4x4_from_translation({2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f)
+    };
+
+    scene.models.push_back(sphereModel);
+    scene.models.push_back(planeModel);
+    scene.models.push_back(teapotModel);
+
     while (!brl::windowShouldClose(window)) {
         brl::updateWindow(window);
         if (viewport1.hovered) brl::updateCamera(&camera1, window);
@@ -54,19 +83,14 @@ int main() {
             ImGui::End();
 
             brl::beginViewport(viewport1, camera1);
-                smath::matrix4x4 planeTransform = {
-                    smath::vector4{5.0f, 0.0f, 0.0f, 0.0f},
-                    smath::vector4{0.0f, 0.1f, 0.0f, 0.0f},
-                    smath::vector4{0.0f, 0.0f, 5.0f, 0.0f},
-                    smath::vector4{0.0f, -1.0f, 0.0f, 1.0f},
-                };
 
-                brl::drawSphere(viewport1, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
-                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 2.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
-                brl::drawCube(viewport1, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                // TODO: fix shadow bug
-                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({-2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawScene(viewport1, scene);
+                // brl::drawSphere(viewport1, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                // brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                // brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 2.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                // brl::drawCube(viewport1, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                // // TODO: fix shadow bug
+                // brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({-2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
 
             brl::endViewport(viewport1, camera1);
 

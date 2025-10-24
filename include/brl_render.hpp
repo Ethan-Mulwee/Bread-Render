@@ -2,7 +2,7 @@
 #define BRL_RENDER
 
 #include "brl_window.hpp"
-#include "brl_vertexbuffer.hpp"
+#include "brl_scene.hpp"
 #include "brl_shader.hpp"
 
 namespace brl {
@@ -58,6 +58,8 @@ namespace brl {
     void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData* data, const uint32_t amount);
     
     void drawModel(const RenderContext &context, const Model &model);
+
+    void drawScene(const ViewportContext &context, const SceneData &data);
 
 
 }

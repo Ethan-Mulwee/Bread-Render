@@ -142,8 +142,5 @@ namespace brl {
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
         unbindVertexbuffer();
     }
-
-    Mesh createMesh(MeshData* meshData) {
-        return Mesh{createVertexbuffer(meshData)};
-    }
+    
 }

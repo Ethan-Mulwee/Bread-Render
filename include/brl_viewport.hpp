@@ -8,7 +8,11 @@
 namespace brl {
 
     struct ViewportSettings {
-        bool ShadowMap = false;
+        bool shadowMap = true;
+        uint32_t shadowMapResoltuion = 1000;
+        bool shadowPCF = true;
+        bool shadowPossion = true;
+        uint32_t PossionSamples = 8; 
         uint32_t MSAA = 4;
     };
 

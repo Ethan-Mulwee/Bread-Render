@@ -10,7 +10,7 @@ namespace brl {
         viewportContext.settings = settings;
 
         viewportContext.renderFramebuffer = createFramebuffer(1080, 1080, settings.MSAA);
-        if (settings.ShadowMap) viewportContext.shadowFramebuffer = createFramebuffer(1080, 1080, false);
+        if (settings.shadowMap) viewportContext.shadowFramebuffer = createFramebuffer(2096, 2096, false);
         if (settings.MSAA) viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
 
         viewportContext.hovered = false;

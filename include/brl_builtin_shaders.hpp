@@ -72,17 +72,15 @@ namespace brl {
     
 
             float cosTheta = clamp( dot( normal,normalize(vec3(1.0,2.0,-0.4)) ), 0,1 );
-            float bias = 0.001*tan(acos(cosTheta)); // cosTheta is dot( n,l ), clamped between 0 and 1
+            float bias = 0.00005*tan(acos(cosTheta)); // cosTheta is dot( n,l ), clamped between 0 and 1
             bias = clamp(bias, 0,0.01);
             // float bias = 0.005;
             float visibility = 1.0;
-            for (int i = 0; i < 4; i++) {
-                // if ( texture( shadowMap, vec3(ShadowCoord.xy + poissonDisk[i]/700.0, 0.0) )  <  ShadowCoord.z-bias ){
-                //     visibility-=0.2*(texture( shadowMap, vec3(ShadowCoord.xy + poissonDisk[i]/700.0, 0.0)));
-                // }
+            for (int i = 0; i < 16; i++) {
                 int index = i;
+                // int index = int(16.0*random(gl_FragCoord.xyy, i))%16;
                 // int index = int(16.0*random(floor(WorldPos.xyz*1000.0), i))%16;
-                visibility -= 0.2*(1.0-texture( shadowMap, vec3(ShadowCoord.xy + poissonDisk[index]/700.0,  (ShadowCoord.z-bias)) ));
+                visibility -= 0.05*(1.0-texture( shadowMap, vec3(ShadowCoord.xy + poissonDisk[index]/700.0,  (ShadowCoord.z-bias)) ));
             }
 
             float light = dot(normal, normalize(vec3(1.0,2.0,-0.4)));

@@ -32,6 +32,7 @@ namespace brl {
         ImVec2 size;
         bool hovered;
         bool focused;
+        smath::matrix4x4 VPmatrix;
     };
 
     ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const ViewportSettings &settings = ViewportSettings());

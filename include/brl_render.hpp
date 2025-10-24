@@ -6,6 +6,8 @@
 #include "brl_shader.hpp"
 
 namespace brl {
+    struct ViewportContext;
+
     struct RenderContext {
         
         const Window* window;
@@ -34,7 +36,7 @@ namespace brl {
     void renderModeWireframe();
     void renderModeTransparent();
 
-    void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCube(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
@@ -43,7 +45,7 @@ namespace brl {
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCylinderInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
-    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphere(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
@@ -52,7 +54,7 @@ namespace brl {
 
     void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
-    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
+    void drawMesh(const ViewportContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
     void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData* data, const uint32_t amount);
     
     void drawModel(const RenderContext &context, const Model &model);

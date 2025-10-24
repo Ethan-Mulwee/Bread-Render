@@ -32,10 +32,17 @@ namespace brl {
         brl::useShader(viewport.renderContext->instanceShader);
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
+        
+        brl::useShader(viewport.renderContext->shadowShader);
+        setShaderUniformMatrix4(viewport.renderContext->shadowShader, smath::matrix4x4_from_look(normalize(smath::vector3{1.0,2.0,-0.4}), {0,0,0}, {0,1,0}), "view");
+        setShaderUniformMatrix4(viewport.renderContext->shadowShader, smath::matrix4x4_from_orthographic(-10, 10, -10, 10, -10, 20), "projection");
+        viewport.VPmatrix = smath::matrix4x4_from_orthographic(-10, 10, -10, 10, -10, 20) * smath::matrix4x4_from_look(normalize(smath::vector3{1.0,2.0,-0.4}), {0,0,0}, {0,1,0});
 
         useShader(viewport.renderContext->objectShader);
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
+
+
 
         ImGui::Begin(viewport.name);
 
@@ -56,6 +63,9 @@ namespace brl {
 
         ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
         ImGui::SetCursorPos(viewport.position);
+
+        brl::bindFramebuffer(viewport.shadowFramebuffer);
+        brl::clearFramebuffer();
 
         bindFramebuffer(viewport.renderFramebuffer);
         clearFramebuffer();

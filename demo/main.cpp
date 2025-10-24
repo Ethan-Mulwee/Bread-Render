@@ -61,44 +61,12 @@ int main() {
                     smath::vector4{0.0f, -1.0f, 0.0f, 1.0f},
                 };
 
-                smath::vector3 lightInvDir = normalize(smath::vector3{1.0,2.0,-0.4});
-
-                smath::matrix4x4 depthProjectionMatrix = smath::matrix4x4_from_orthographic(-10, 10, -10, 10, -10, 20);
-                smath::matrix4x4 depthViewMatrix = smath::matrix4x4_from_look(lightInvDir, {0,0,0}, {0,1,0});
-                smath::matrix4x4 depthModelMatrix = smath::matrix4x4_from_identity();
-                smath::matrix4x4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
-
-                glCullFace(GL_FRONT);
-                brl::bindFramebuffer(viewport1.shadowFramebuffer);
-                brl::clearFramebuffer();
-                brl::useShader(renderContext.shadowShader);
-                brl::setShaderUniformMatrix4(renderContext.shadowShader, depthMVP, "depthMVP");
-                brl::drawSphere(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}); 
-                brl::setShaderUniformMatrix4(renderContext.shadowShader, depthProjectionMatrix * depthViewMatrix * planeTransform, "depthMVP");
-                brl::drawCube(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                brl::bindFramebuffer(viewport1.renderFramebuffer);
-                brl::useShader(renderContext.objectShader);
-                glCullFace(GL_BACK);
-
-
-                smath::matrix4x4 biasMatrix{
-                    0.5, 0.0, 0.0, 0.0,
-                    0.0, 0.5, 0.0, 0.0,
-                    0.0, 0.0, 0.5, 0.0,
-                    0.5, 0.5, 0.5, 1.0
-                };
-
-                glActiveTexture(GL_TEXTURE0);
-                
-                glBindTexture(GL_TEXTURE_2D, viewport1.shadowFramebuffer.depthId);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-                brl::setShaderUniformMatrix4(renderContext.objectShader, biasMatrix*depthMVP, "depthBiasMVP");
-                brl::drawSphere(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                brl::setShaderUniformMatrix4(renderContext.objectShader, biasMatrix * depthProjectionMatrix * depthViewMatrix * planeTransform, "depthBiasMVP");
-                brl::drawCube(renderContext, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
-                glBindTexture(GL_TEXTURE_2D, 0);
-
+                brl::drawSphere(viewport1, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 2.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                brl::drawCube(viewport1, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                // TODO: fix shadow bug
+                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({-2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
 
             brl::endViewport(viewport1, camera1);
 
@@ -107,7 +75,7 @@ int main() {
                 ImGui::Text("This is text dispalyed ontop of the viewport!");
                 ImGui::Text("size: %f, %f", viewport2.size.x, viewport2.size.y);
             
-                brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
+                brl::drawMesh(viewport2, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
 
                 brl::renderModeWireframe();
                 brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});

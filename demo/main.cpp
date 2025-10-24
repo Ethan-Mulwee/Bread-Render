@@ -90,7 +90,8 @@ int main() {
                 // brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({2.0f, -1.0f, 2.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
                 // brl::drawCube(viewport1, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 // // TODO: fix shadow bug
-                // brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({-2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+
+                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({-2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
 
             brl::endViewport(viewport1, camera1);
 

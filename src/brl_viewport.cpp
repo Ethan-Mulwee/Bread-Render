@@ -13,6 +13,8 @@ namespace brl {
         if (settings.shadowMap) viewportContext.shadowFramebuffer = createFramebuffer(2096, 2096, false);
         if (settings.MSAA) viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
 
+        viewportContext.renderCommandBuffer = createRenderCommandBuffer(512);
+
         viewportContext.hovered = false;
         viewportContext.focused = false;
         viewportContext.name = name;
@@ -77,6 +79,45 @@ namespace brl {
         
         renderModeSolid();
 
+        /* -------------------------- Draw Render Commands -------------------------- */
+
+        // Shadow Pass
+        glCullFace(GL_FRONT);
+        useShader(viewport.renderContext->shadowShader);
+        bindFramebuffer(viewport.shadowFramebuffer);
+
+        glBindTexture(GL_TEXTURE_2D, viewport.shadowFramebuffer.depthId);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+        glActiveTexture(GL_TEXTURE0);
+
+        for (int i = 0; i < viewport.renderCommandBuffer.used; i++) {
+            const Model& model = viewport.renderCommandBuffer.buffer[i].model;
+            setShaderUniformMatrix4(viewport.renderContext->shadowShader, model.transform, "model");
+            drawVertexBuffer(model.mesh.buffer);
+        }
+
+        // Render Pass
+        glCullFace(GL_BACK);
+        useShader(viewport.renderContext->objectShader);
+        smath::matrix4x4 biasMatrix{
+            0.5, 0.0, 0.0, 0.0,
+            0.0, 0.5, 0.0, 0.0,
+            0.0, 0.0, 0.5, 0.0,
+            0.5, 0.5, 0.5, 1.0
+        };
+        bindFramebuffer(viewport.renderFramebuffer);
+        
+        for (int i = 0; i < viewport.renderCommandBuffer.used; i++) {
+            const Model& model = viewport.renderCommandBuffer.buffer[i].model;
+            smath::matrix4x4 depthMVP = viewport.VPmatrix * model.transform;
+            setShaderUniformFloat4(viewport.renderContext->objectShader, model.color, "color");
+            setShaderUniformMatrix4(viewport.renderContext->objectShader, model.transform, "model");
+            brl::setShaderUniformMatrix4(viewport.renderContext->objectShader, biasMatrix*depthMVP, "depthBiasMVP");
+            drawVertexBuffer(model.mesh.buffer);
+        }
+
+        // Draw Grid
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_CULL_FACE);

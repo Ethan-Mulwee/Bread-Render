@@ -128,7 +128,7 @@ namespace brl {
     /* ---------------------------------- Cube ---------------------------------- */
 
     void drawCube(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        drawMesh(context, {context.renderContext->cubeBuffer}, transform, color);
+        // drawMesh(context, {context.renderContext->cubeBuffer}, transform, color);
     }
 
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
@@ -169,7 +169,7 @@ namespace brl {
 
 
     void drawSphere(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        drawMesh(context, {context.renderContext->sphereBuffer}, transform, color);
+        // drawMesh(context, {context.renderContext->sphereBuffer}, transform, color);
     }
 
     void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
@@ -232,33 +232,8 @@ namespace brl {
 
     /* ---------------------------------- Mesh ---------------------------------- */
 
-    void drawMesh(const ViewportContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        glCullFace(GL_FRONT);
-        useShader(context.renderContext->shadowShader);
-        setShaderUniformMatrix4(context.renderContext->shadowShader, transform, "model");
-        bindFramebuffer(context.shadowFramebuffer);
-
-        glBindTexture(GL_TEXTURE_2D, context.shadowFramebuffer.depthId);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-        glActiveTexture(GL_TEXTURE0);
-        
-        drawVertexBuffer(mesh.buffer);
-        
-        glCullFace(GL_BACK);
-        useShader(context.renderContext->objectShader);
-        smath::matrix4x4 biasMatrix{
-            0.5, 0.0, 0.0, 0.0,
-            0.0, 0.5, 0.0, 0.0,
-            0.0, 0.0, 0.5, 0.0,
-            0.5, 0.5, 0.5, 1.0
-        };
-        smath::matrix4x4 depthMVP = context.VPmatrix * transform;
-        brl::setShaderUniformMatrix4(context.renderContext->objectShader, biasMatrix*depthMVP, "depthBiasMVP");
-        setShaderUniformMatrix4(context.renderContext->objectShader, transform, "model");
-        setShaderUniformFloat4(context.renderContext->objectShader, color, "color");
-        bindFramebuffer(context.renderFramebuffer);
-        drawVertexBuffer(mesh.buffer);
+    void drawMesh(ViewportContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        addRenderCommand(&context.renderCommandBuffer, {Model{mesh, transform, color}});
     }
 
     void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {

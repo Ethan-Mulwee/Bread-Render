@@ -3,10 +3,11 @@
 
 #include <cstdint>
 #include "smath.hpp"
+#include "brl_scene.hpp"
 
 namespace brl {
     struct RenderCommand {
-        smath::matrix4x4 transform;
+        Model model;
     };
     
     struct RenderCommandBuffer {

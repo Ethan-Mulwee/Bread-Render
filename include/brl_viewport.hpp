@@ -2,6 +2,7 @@
 #define BRL_VIEWPORT
 
 #include "brl_render.hpp"
+#include "brl_render_command.hpp"
 #include "brl_framebuffer.hpp"
 #include "brl_camera.hpp"
 
@@ -25,6 +26,7 @@ namespace brl {
         Framebuffer outputFramebuffer;
 
         RenderContext* renderContext;
+        RenderCommandBuffer renderCommandBuffer;
 
         // this data is dynamically updated by viewport functions
         ImVec2 screenPosition;

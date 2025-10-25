@@ -6,20 +6,22 @@
 #include "brl_scene.hpp"
 
 namespace brl {
-    struct RenderCommand {
-        Model model;
-    };
     
     struct RenderCommandBuffer {
-        uint32_t capacity = 0;
-        uint32_t used = 0;
-        RenderCommand* buffer;
+        Model* modelBuffer;
+        uint32_t modelBufferCapacity = 0;
+        uint32_t modelBufferUsed = 0;
+
+        SceneData** sceneDataBuffer;
+        uint32_t sceneBufferCapacity = 0;
+        uint32_t sceneBufferUsed = 0;
     };
 
-    void addRenderCommand(RenderCommandBuffer* buffer, const RenderCommand &command);
+    void renderBufferAddModel(RenderCommandBuffer* buffer, const Model &model);
+    void renderBufferAddScene(RenderCommandBuffer* buffer, SceneData* scene);
     void resetRenderCommandBuffer(RenderCommandBuffer* buffer);
 
-    RenderCommandBuffer createRenderCommandBuffer(uint32_t capactiy);
+    RenderCommandBuffer createRenderCommandBuffer(uint32_t modelCapactiy, uint32_t sceneCapacity = 1);
 }
 
 #endif

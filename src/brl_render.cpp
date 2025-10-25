@@ -233,7 +233,7 @@ namespace brl {
     /* ---------------------------------- Mesh ---------------------------------- */
 
     void drawMesh(ViewportContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        addRenderCommand(&context.renderCommandBuffer, {Model{mesh, transform, color}});
+        renderBufferAddModel(&context.renderCommandBuffer, {Model{mesh, transform, color}});
     }
 
     void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {
@@ -249,42 +249,8 @@ namespace brl {
         drawVertexBuffer(model.mesh.buffer);
     }
 
-    void drawScene(const ViewportContext &context, const SceneData &data) {
-        // Shadow Pass
-        glCullFace(GL_FRONT);
-        useShader(context.renderContext->shadowShader);
-        bindFramebuffer(context.shadowFramebuffer);
-        
-        glBindTexture(GL_TEXTURE_2D, context.shadowFramebuffer.depthId);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-        glActiveTexture(GL_TEXTURE0);
-
-        for (int i = 0; i < data.models.size(); i++) {
-            const Model& model = data.models[i];
-            setShaderUniformMatrix4(context.renderContext->shadowShader, model.transform, "model");
-            drawVertexBuffer(model.mesh.buffer);
-        }
-
-        // Render Pass
-        glCullFace(GL_BACK);
-        useShader(context.renderContext->objectShader);
-        smath::matrix4x4 biasMatrix{
-            0.5, 0.0, 0.0, 0.0,
-            0.0, 0.5, 0.0, 0.0,
-            0.0, 0.0, 0.5, 0.0,
-            0.5, 0.5, 0.5, 1.0
-        };
-        bindFramebuffer(context.renderFramebuffer);
-        
-        for (int i = 0; i < data.models.size(); i++) {
-            const Model& model = data.models[i];
-            smath::matrix4x4 depthMVP = context.VPmatrix * model.transform;
-            setShaderUniformFloat4(context.renderContext->objectShader, model.color, "color");
-            setShaderUniformMatrix4(context.renderContext->objectShader, model.transform, "model");
-            brl::setShaderUniformMatrix4(context.renderContext->objectShader, biasMatrix*depthMVP, "depthBiasMVP");
-            drawVertexBuffer(model.mesh.buffer);
-        }
+    void drawScene(ViewportContext &context, SceneData &data) {
+        renderBufferAddScene(&context.renderCommandBuffer, &data);
     }
     
 }

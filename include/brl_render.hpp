@@ -59,7 +59,7 @@ namespace brl {
     
     void drawModel(const RenderContext &context, const Model &model);
 
-    void drawScene(const ViewportContext &context, const SceneData &data);
+    void drawScene(ViewportContext &context, SceneData &data);
 
 
 }

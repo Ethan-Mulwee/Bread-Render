@@ -91,10 +91,19 @@ namespace brl {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
         glActiveTexture(GL_TEXTURE0);
 
-        for (int i = 0; i < viewport.renderCommandBuffer.used; i++) {
-            const Model& model = viewport.renderCommandBuffer.buffer[i].model;
+        for (int i = 0; i < viewport.renderCommandBuffer.modelBufferUsed; i++) {
+            const Model& model = viewport.renderCommandBuffer.modelBuffer[i];
             setShaderUniformMatrix4(viewport.renderContext->shadowShader, model.transform, "model");
             drawVertexBuffer(model.mesh.buffer);
+        }
+
+        for (int i = 0; i < viewport.renderCommandBuffer.sceneBufferUsed; i++) {
+            const SceneData* scene = viewport.renderCommandBuffer.sceneDataBuffer[i];
+            for (int j = 0; j < scene->models.size(); j++) {
+                const Model& model = scene->models[j];
+                setShaderUniformMatrix4(viewport.renderContext->shadowShader, model.transform, "model");
+                drawVertexBuffer(model.mesh.buffer);
+            }
         }
 
         // Render Pass
@@ -108,13 +117,25 @@ namespace brl {
         };
         bindFramebuffer(viewport.renderFramebuffer);
         
-        for (int i = 0; i < viewport.renderCommandBuffer.used; i++) {
-            const Model& model = viewport.renderCommandBuffer.buffer[i].model;
+        for (int i = 0; i < viewport.renderCommandBuffer.modelBufferUsed; i++) {
+            const Model& model = viewport.renderCommandBuffer.modelBuffer[i];
             smath::matrix4x4 depthMVP = viewport.VPmatrix * model.transform;
             setShaderUniformFloat4(viewport.renderContext->objectShader, model.color, "color");
             setShaderUniformMatrix4(viewport.renderContext->objectShader, model.transform, "model");
             brl::setShaderUniformMatrix4(viewport.renderContext->objectShader, biasMatrix*depthMVP, "depthBiasMVP");
             drawVertexBuffer(model.mesh.buffer);
+        }
+
+        for (int i = 0; i < viewport.renderCommandBuffer.sceneBufferUsed; i++) {
+            const SceneData* scene = viewport.renderCommandBuffer.sceneDataBuffer[i];
+            for (int j = 0; j < scene->models.size(); j++) {
+                const Model& model = scene->models[j];
+                smath::matrix4x4 depthMVP = viewport.VPmatrix * model.transform;
+                setShaderUniformFloat4(viewport.renderContext->objectShader, model.color, "color");
+                setShaderUniformMatrix4(viewport.renderContext->objectShader, model.transform, "model");
+                brl::setShaderUniformMatrix4(viewport.renderContext->objectShader, biasMatrix*depthMVP, "depthBiasMVP");
+                drawVertexBuffer(model.mesh.buffer);
+            }
         }
 
         // Draw Grid

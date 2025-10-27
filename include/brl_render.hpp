@@ -36,7 +36,7 @@ namespace brl {
     void renderModeWireframe();
     void renderModeTransparent();
 
-    void drawCube(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCube(ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
@@ -45,8 +45,8 @@ namespace brl {
     void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCylinderInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
-    void drawSphere(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphere(ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphere(ViewportContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
     void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});

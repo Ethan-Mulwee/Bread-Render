@@ -79,7 +79,7 @@ int main() {
 
             ImGui::Begin("Shadow-Map");
             ImVec2 imageSize = ImGui::GetContentRegionAvail();
-            ImGui::Image((ImTextureRef)(viewport1.shadowFramebuffer.depthId), imageSize, ImVec2{0, 1}, ImVec2{1, 0});
+            ImGui::Image((ImTextureRef)(viewport2.shadowFramebuffer.depthId), imageSize, ImVec2{0, 1}, ImVec2{1, 0});
             ImGui::End();
 
             brl::beginViewport(viewport1, camera1);
@@ -91,7 +91,9 @@ int main() {
                 // brl::drawCube(viewport1, planeTransform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 // // TODO: fix shadow bug
 
-                brl::drawMesh(viewport1, utahTeapotMesh, smath::matrix4x4_from_translation({-2.0f, -1.0f, 0.0f})*smath::matrix4x4_from_scale(0.4f), smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                for (int i = 0; i < 100000; i++) {
+                    brl::drawCube(viewport1, instanceData[i].transform, smath::vector4{0.0f, 1.0f, 1.0f, 1.0f});
+                }
 
             brl::endViewport(viewport1, camera1);
 
@@ -102,8 +104,8 @@ int main() {
             
                 brl::drawMesh(viewport2, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
 
-                brl::renderModeWireframe();
-                brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});
+                // brl::renderModeWireframe();
+                brl::drawSphere(viewport2, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});
                 brl::drawCylinder(renderContext, smath::matrix4x4_from_translation(smath::vector3{-2.2f, 0.0f, 0.0f}));
 
                 brl::renderModeSolid();

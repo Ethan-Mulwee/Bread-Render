@@ -23,9 +23,15 @@ namespace brl {
         // buffer->used += 1;
     // }
 
+    void resizeRenderBuffer(RenderCommandBuffer* buffer, const uint32_t size) {
+        buffer->modelBuffer = (Model*)realloc(buffer->modelBuffer, size * sizeof(Model));
+        buffer->modelBufferCapacity = size;
+    }
+
     void renderBufferAddModel(RenderCommandBuffer* buffer, const Model &model) {
-        if (buffer->modelBufferUsed >= buffer->modelBufferCapacity)
-            return;
+        if (buffer->modelBufferUsed >= buffer->modelBufferCapacity) {
+            resizeRenderBuffer(buffer, buffer->modelBufferCapacity*2);
+        }
 
         buffer->modelBuffer[buffer->modelBufferUsed] = model;
         buffer->modelBufferUsed += 1;

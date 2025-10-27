@@ -127,8 +127,9 @@ namespace brl {
 
     /* ---------------------------------- Cube ---------------------------------- */
 
-    void drawCube(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+    void drawCube(ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
         // drawMesh(context, {context.renderContext->cubeBuffer}, transform, color);
+        renderBufferAddModel(&context.renderCommandBuffer, Model{Mesh{context.renderContext->cubeBuffer}, transform, color});
     }
 
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
@@ -168,8 +169,9 @@ namespace brl {
     /* --------------------------------- Sphere --------------------------------- */
 
 
-    void drawSphere(const ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+    void drawSphere(ViewportContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
         // drawMesh(context, {context.renderContext->sphereBuffer}, transform, color);
+        renderBufferAddModel(&context.renderCommandBuffer, {context.renderContext->sphereBuffer, transform, color});
     }
 
     void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
@@ -178,15 +180,13 @@ namespace brl {
         brl::useShader(context.objectShader);
     }
 
-    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
+    void drawSphere(ViewportContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
         smath::vector4 i = {radius, 0.0f, 0.0f, 0.0f};
         smath::vector4 j = {0.0f, radius, 0.0f, 0.0f};
         smath::vector4 k = {0.0f, 0.0f, radius, 0.0f};
         smath::vector4 l = {position.x, position.y, position.z, 1.0f};
         smath::matrix4x4 transform = {i, j, k, l};
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+        renderBufferAddModel(&context.renderCommandBuffer, {context.renderContext->sphereBuffer, transform, color});
     }
 
     /* ---------------------------------- Plane --------------------------------- */

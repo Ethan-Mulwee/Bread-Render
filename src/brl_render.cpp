@@ -130,11 +130,11 @@ namespace brl {
         context.batcher.add(context.cubeBuffer, transform, color);
     }
 
-    void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.cubeBuffer, data, count);
-        brl::useShader(context.objectShader);
-    }
+    // void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
+    //     brl::useShader(context.instanceShader);
+    //     brl::drawVertexbufferInstanced(context.cubeBuffer, data, count);
+    //     brl::useShader(context.objectShader);
+    // }
 
     /* ---------------------------------- Cone ---------------------------------- */
 
@@ -144,11 +144,11 @@ namespace brl {
         drawVertexBuffer(context.coneBuffer);
     }
 
-    void drawConeInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.coneBuffer, data, count);
-        brl::useShader(context.objectShader);
-    }
+    // void drawConeInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+    //     brl::useShader(context.instanceShader);
+    //     brl::drawVertexbufferInstanced(context.coneBuffer, data, count);
+    //     brl::useShader(context.objectShader);
+    // }
 
     /* -------------------------------- Cylinder -------------------------------- */
 
@@ -158,11 +158,11 @@ namespace brl {
         drawVertexBuffer(context.cylinderBuffer);
     }
 
-    void drawCylinderInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.cylinderBuffer, data, count);
-        brl::useShader(context.objectShader);
-    }
+    // void drawCylinderInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+    //     brl::useShader(context.instanceShader);
+    //     brl::drawVertexbufferInstanced(context.cylinderBuffer, data, count);
+    //     brl::useShader(context.objectShader);
+    // }
 
     /* --------------------------------- Sphere --------------------------------- */
 
@@ -173,11 +173,11 @@ namespace brl {
         drawVertexBuffer(context.sphereBuffer);
     }
 
-    void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.sphereBuffer, data, count); 
-        brl::useShader(context.objectShader);
-    }
+    // void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+    //     brl::useShader(context.instanceShader);
+    //     brl::drawVertexbufferInstanced(context.sphereBuffer, data, count); 
+    //     brl::useShader(context.objectShader);
+    // }
 
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
         smath::vector4 i = {radius, 0.0f, 0.0f, 0.0f};
@@ -198,11 +198,11 @@ namespace brl {
         drawVertexBuffer(context.sphereBuffer);
     }
 
-    void drawPlaneInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.planeBuffer, data, count); 
-        brl::useShader(context.objectShader);
-    }
+    // void drawPlaneInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+    //     brl::useShader(context.instanceShader);
+    //     brl::drawVertexbufferInstanced(context.planeBuffer, data, count); 
+    //     brl::useShader(context.objectShader);
+    // }
 
     /* --------------------------------- Vector --------------------------------- */
 
@@ -239,12 +239,11 @@ namespace brl {
         drawVertexBuffer(mesh.buffer);
     }
 
-    void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {
-        useShader(context.instanceShader);
-        drawVertexbufferInstanced(mesh.buffer, data, count);
-        useShader(context.objectShader);
-
-    }
+    // void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {
+    //     useShader(context.instanceShader);
+    //     drawVertexbufferInstanced(mesh.buffer, data, count);
+    //     useShader(context.objectShader);
+    // }
 
     void drawModel(const RenderContext &context, const Model &model) {
         setShaderUniformMatrix4(context.objectShader, model.transform, "model");

@@ -7,11 +7,6 @@
 
 namespace brl {
 
-    struct BatchElement {   
-        smath::matrix4x4 transform;
-        smath::vector4 color;
-    };
-
     struct Batch {
         BatchElement* elements = nullptr;
         Vertexbuffer vertexBuffer;

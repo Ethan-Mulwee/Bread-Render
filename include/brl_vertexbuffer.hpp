@@ -25,11 +25,6 @@ namespace brl {
         uint32_t vao, vbo, ebo;
     };
 
-    struct InstanceData {
-        smath::matrix4x4 transform;
-        smath::vector4 color;
-    };
-
     struct Mesh {
         Vertexbuffer buffer;
     };
@@ -38,6 +33,11 @@ namespace brl {
 
     struct Model {
         Mesh mesh;
+        smath::matrix4x4 transform;
+        smath::vector4 color;
+    };
+
+    struct BatchElement {   
         smath::matrix4x4 transform;
         smath::vector4 color;
     };
@@ -50,7 +50,8 @@ namespace brl {
 
     void drawVertexBuffer(const Vertexbuffer &buffer);
     
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const InstanceData* data, const uint32_t count);
+    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const BatchElement* data, const uint32_t count);
+
 }
 
 #endif

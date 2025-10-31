@@ -16,8 +16,8 @@ int main() {
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
 
-    brl::InstanceData* instanceData = new brl::InstanceData[100000];
-    for (int i = 0; i < 100000; i++) {
+    brl::BatchElement* instanceData = new brl::BatchElement[500000];
+    for (int i = 0; i < 500000; i++) {
         int positionIntX = rand() % 100000;
         int positionIntY = rand() % 100000;
         int positionIntZ = rand() % 100000;
@@ -53,7 +53,7 @@ int main() {
             ImGui::End();
 
             brl::beginViewport(viewport1, camera1);
-                for (int i = 0; i < 100000; i++)
+                for (int i = 0; i < 500000; i++)
                     brl::drawCube(renderContext, instanceData[i].transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
             brl::endViewport(viewport1, camera1);
 

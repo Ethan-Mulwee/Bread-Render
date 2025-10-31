@@ -73,12 +73,14 @@ namespace brl {
         // draw the cubes in the batcher
         for (int i = 0; i < batcher.dynamic_used+1; i++) {
             Batch& batch = batcher.dynamic_batches[i];
-            for (int j = 0; j < batch.used; j++) {
-                BatchElement element = batch.elements[j];
-                setShaderUniformMatrix4(context->objectShader, element.transform, "model");
-                setShaderUniformFloat4(context->objectShader, element.color, "color");
-                drawVertexBuffer(batch.vertexBuffer);
-            }
+            // for (int j = 0; j < batch.used; j++) {
+            //     BatchElement element = batch.elements[j];
+            //     setShaderUniformMatrix4(context->objectShader, element.transform, "model");
+            //     setShaderUniformFloat4(context->objectShader, element.color, "color");
+            // }
+            brl::useShader(context->instanceShader);
+            brl::drawVertexbufferInstanced(batch.vertexBuffer, batch.elements, batch.used);
+            brl::useShader(context->objectShader);
         }
         viewport.renderContext->batcher.clear();
 

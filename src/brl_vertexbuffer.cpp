@@ -112,22 +112,22 @@ namespace brl {
         unbindVertexbuffer();
     }
 
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
+    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const BatchElement *data, const uint32_t count) {
         uint32_t instanceVBO;
         glGenBuffers(1, &instanceVBO);
         glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-        glBufferData(GL_ARRAY_BUFFER, count * sizeof(InstanceData), data, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, count * sizeof(BatchElement), data, GL_DYNAMIC_DRAW);
 
         glBindVertexArray(buffer.vao);
 
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)offsetof(BatchElement, transform));
         glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)(offsetof(BatchElement, transform) + sizeof(smath::vector4)));
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)(offsetof(BatchElement, transform) + 2 * sizeof(smath::vector4)));
         glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)(offsetof(BatchElement, transform) + 3 * sizeof(smath::vector4)));
 
         glVertexAttribDivisor(2, 1);
         glVertexAttribDivisor(3, 1);
@@ -135,7 +135,7 @@ namespace brl {
         glVertexAttribDivisor(5, 1);
 
         glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)offsetof(BatchElement, color));
         glVertexAttribDivisor(6, 1);
 
         bindVertexbuffer(buffer);

@@ -4,7 +4,7 @@
 #include "brl_window.hpp"
 #include "brl_vertexbuffer.hpp"
 #include "brl_shader.hpp"
-#include "brl_draw_buffer.hpp"
+#include "brl_batching.hpp"
 
 namespace brl {
     struct RenderContext {
@@ -21,7 +21,7 @@ namespace brl {
         Vertexbuffer cubeBuffer;
         Vertexbuffer planeBuffer;
         
-
+        Batcher batcher;
     };
 
     RenderContext createRenderContext(const Window* window);
@@ -35,7 +35,7 @@ namespace brl {
     void renderModeWireframe();
     void renderModeTransparent();
 
-    void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCube(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});

@@ -3,6 +3,8 @@
 #include "brl_render.hpp"
 #include "imgui.h"
 
+#include <iostream>
+
 namespace brl {
     ViewportContext createViewportContext(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
         ViewportContext viewportContext;
@@ -64,6 +66,21 @@ namespace brl {
     void endViewport(ViewportContext &viewport, Camera &camera) {
         
         renderModeSolid();
+
+        RenderContext* context = viewport.renderContext;
+        Batcher& batcher = viewport.renderContext->batcher;
+
+        // draw the cubes in the batcher
+        for (int i = 0; i < batcher.dynamic_used+1; i++) {
+            Batch& batch = batcher.dynamic_batches[i];
+            for (int j = 0; j < batch.used; j++) {
+                BatchElement element = batch.elements[j];
+                setShaderUniformMatrix4(context->objectShader, element.transform, "model");
+                setShaderUniformFloat4(context->objectShader, element.color, "color");
+                drawVertexBuffer(batch.vertexBuffer);
+            }
+        }
+        viewport.renderContext->batcher.clear();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

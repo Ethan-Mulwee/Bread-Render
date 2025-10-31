@@ -108,6 +108,8 @@ namespace brl {
             brl::builtin::instancedObjectFragShaderSource
         );
 
+        context.batcher = createBatcher(20);
+
         return context;
     }
 
@@ -121,10 +123,11 @@ namespace brl {
 
     /* ---------------------------------- Cube ---------------------------------- */
 
-    void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.cubeBuffer);
+    void drawCube(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        // setShaderUniformMatrix4(context.objectShader, transform, "model");
+        // setShaderUniformFloat4(context.objectShader, color, "color");
+        // drawVertexBuffer(context.cubeBuffer);
+        context.batcher.add(context.cubeBuffer, transform, color);
     }
 
     void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {

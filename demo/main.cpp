@@ -1,6 +1,7 @@
 #include "brl.hpp"
 
 #include <cstdlib>
+#include <iostream>
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
@@ -34,6 +35,10 @@ int main() {
         instanceData[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
     }
 
+    std::cout << renderContext.cubeBuffer.vao << "\n";
+    std::cout << renderContext.coneBuffer.vao << "\n";
+    std::cout << utahTeapotMesh.buffer.vao << "\n";
+
     while (!brl::windowShouldClose(window)) {
         brl::updateWindow(window);
         if (viewport1.hovered) brl::updateCamera(&camera1, window);
@@ -48,7 +53,8 @@ int main() {
             ImGui::End();
 
             brl::beginViewport(viewport1, camera1);
-                brl::drawCube(renderContext, smath::matrix4x4_from_identity(), smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
+                for (int i = 0; i < 100000; i++)
+                    brl::drawCube(renderContext, instanceData[i].transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);

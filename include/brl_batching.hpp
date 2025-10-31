@@ -8,8 +8,8 @@
 namespace brl {
 
     struct BatchElement {   
-        float transform[16];
-        float color[4];
+        smath::matrix4x4 transform;
+        smath::vector4 color;
     };
 
     struct Batch {
@@ -25,18 +25,21 @@ namespace brl {
         void add(const BatchElement &element);
     };
 
-    Batch createBatch(uint capacity);
+    Batch createBatch(uint capacity, const Vertexbuffer &vertexBuffer);
 
     struct Batcher {
-        Batch* batches;
-        uint capactiy = 0;
-        uint used = 0;
+        Batch* dynamic_batches;
+        uint dynamic_capactiy = 0;
+        uint dynamic_used = 0;
+        Batch* static_batches;
+        uint static_capactiy = 0;
+        uint static_used = 0;
 
         void clear();
 
         void resize (uint new_capacity);
 
-        void add(const BatchElement &batchElement);
+        void add(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color);
 
         void addBatch(const Batch &batch);
     };

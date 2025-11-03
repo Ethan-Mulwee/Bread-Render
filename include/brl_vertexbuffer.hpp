@@ -22,7 +22,7 @@ namespace brl {
     
     struct Vertexbuffer {
         uint32_t size;
-        uint32_t vao, vbo, ebo;
+        uint32_t vao, vbo, ebo, instanceVBO;
     };
 
     struct Mesh {

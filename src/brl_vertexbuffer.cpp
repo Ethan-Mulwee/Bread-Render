@@ -141,6 +141,8 @@ namespace brl {
         bindVertexbuffer(buffer);
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
         unbindVertexbuffer();
+
+        glDeleteBuffers(1, &instanceVBO);
     }
 
     Mesh createMesh(MeshData* meshData) {

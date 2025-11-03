@@ -124,21 +124,12 @@ namespace brl {
     /* ---------------------------------- Cube ---------------------------------- */
 
     void drawCube(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        // setShaderUniformMatrix4(context.objectShader, transform, "model");
-        // setShaderUniformFloat4(context.objectShader, color, "color");
-        // drawVertexBuffer(context.cubeBuffer);
         context.batcher.addDynamic(context.cubeBuffer, transform, color);
     }
 
     void drawCubes(RenderContext &context, BatchElement* elements, const uint32_t count) {
         context.batcher.addStatic(context.cubeBuffer, elements, count);
     }
-
-    // void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
-    //     brl::useShader(context.instanceShader);
-    //     brl::drawVertexbufferInstanced(context.cubeBuffer, data, count);
-    //     brl::useShader(context.objectShader);
-    // }
 
     /* ---------------------------------- Cone ---------------------------------- */
 

@@ -78,6 +78,9 @@ namespace brl {
     void Batcher::addStatic(const Vertexbuffer &vertexbuffer, BatchElement* elements, const uint32_t count) {
 
         uint id = vertexbuffer.vao;
+        // while(static_batches[id].elements && id < static_used) {
+        //     id++;
+        // }
 
         if (id > static_used)
             static_used = vertexbuffer.vao;

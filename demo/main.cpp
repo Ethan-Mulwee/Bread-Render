@@ -56,6 +56,9 @@ int main() {
                 // for (int i = 0; i < 500000; i++)
                     // brl::drawCube(renderContext, instanceData[i].transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f});
                 brl::drawCubes(renderContext, instanceData, 10000);
+                brl::drawCubes(renderContext, instanceData, 100);
+                brl::drawCubes(renderContext, instanceData, 10);
+                brl::drawCubes(renderContext, instanceData, 100000);
             brl::endViewport(viewport1, camera1);
 
             brl::beginViewport(viewport2, camera2);

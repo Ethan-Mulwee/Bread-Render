@@ -82,6 +82,14 @@ namespace brl {
             brl::drawVertexbufferInstanced(batch.vertexBuffer, batch.elements, batch.used);
             brl::useShader(context->objectShader);
         }
+
+        for (int i = 0; i < batcher.static_used+1; i++) {
+            Batch& batch = batcher.static_batches[i];
+            brl::useShader(context->instanceShader);
+            brl::drawVertexbufferInstanced(batch.vertexBuffer, batch.elements, batch.used);
+            brl::useShader(context->objectShader);
+        }
+        
         viewport.renderContext->batcher.clear();
 
         glEnable(GL_BLEND);

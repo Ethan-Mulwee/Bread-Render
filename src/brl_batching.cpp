@@ -22,6 +22,13 @@ namespace brl {
         used++;
     }
 
+    void Batch::set(const Vertexbuffer &new_vertexbuffer, BatchElement* new_elements, const uint32_t count) {
+        capacity = count;
+        used = count;
+        elements = new_elements;
+        vertexBuffer = new_vertexbuffer;
+    }
+
     Batch createBatch(uint capacity, const Vertexbuffer &vertexBuffer) {
         Batch batch;
         batch.elements = new BatchElement[capacity];
@@ -35,9 +42,12 @@ namespace brl {
 
     void Batcher::clear() {
         dynamic_used = 0;
+        static_used = 0;
 
         for (int i = 0; i < dynamic_capactiy; i++)
             dynamic_batches[i].clear();
+
+        
     }
 
     void Batcher::resize(uint new_capacity) {
@@ -47,7 +57,7 @@ namespace brl {
             dynamic_used = dynamic_capactiy;
     }
 
-    void Batcher::add(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+    void Batcher::addDynamic(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color) {
 
         uint id = vertexbuffer.vao;
 
@@ -63,6 +73,19 @@ namespace brl {
             dynamic_batches[id] = createBatch(50, vertexbuffer);
             dynamic_batches[id].add(BatchElement{transform, color});
         }
+    }
+
+    void Batcher::addStatic(const Vertexbuffer &vertexbuffer, BatchElement* elements, const uint32_t count) {
+
+        uint id = vertexbuffer.vao;
+
+        if (id > static_used)
+            static_used = vertexbuffer.vao;
+
+        if (static_used >= static_capactiy)
+            resize(static_capactiy * 2);
+
+        static_batches[id].set(vertexbuffer, elements, count);
     }
 
     Batcher createBatcher(uint capacity) {

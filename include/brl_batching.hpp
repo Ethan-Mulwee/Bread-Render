@@ -18,6 +18,8 @@ namespace brl {
         void resize(uint new_capacity);
 
         void add(const BatchElement &element);
+
+        void set(const Vertexbuffer &new_vertexbuffer, BatchElement* new_elements, const uint32_t count);
     };
 
     Batch createBatch(uint capacity, const Vertexbuffer &vertexBuffer);
@@ -34,7 +36,9 @@ namespace brl {
 
         void resize (uint new_capacity);
 
-        void add(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color);
+        void addDynamic(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color);
+
+        void addStatic(const Vertexbuffer &vertexbuffer, BatchElement* elements, const uint32_t count);
 
         void addBatch(const Batch &batch);
     };

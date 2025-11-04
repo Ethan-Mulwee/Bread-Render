@@ -37,7 +37,7 @@ namespace brl {
         smath::vector4 color;
     };
 
-    struct BatchElement {   
+    struct ModelData {   
         smath::matrix4x4 transform;
         smath::vector4 color;
     };
@@ -50,7 +50,7 @@ namespace brl {
 
     void drawVertexBuffer(const Vertexbuffer &buffer);
     
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const BatchElement* data, const uint32_t count);
+    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const ModelData* data, const uint32_t count);
 
 }
 

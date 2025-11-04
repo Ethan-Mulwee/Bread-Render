@@ -16,7 +16,7 @@ int main() {
     brl::Mesh utahTeapotMesh = brl::createMesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parseObj("../demo/OBJs/Primitive-Cube.obj");
 
-    brl::BatchElement* instanceData = new brl::BatchElement[500000];
+    brl::ModelData* instanceData = new brl::ModelData[500000];
     for (int i = 0; i < 500000; i++) {
         int positionIntX = rand() % 100000;
         int positionIntY = rand() % 100000;

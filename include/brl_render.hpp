@@ -36,7 +36,7 @@ namespace brl {
     void renderModeTransparent();
 
     void drawCube(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawCubes(RenderContext &context, BatchElement* elements, const uint32_t count);
+    void drawCubes(RenderContext &context, ModelData* elements, const uint32_t count);
     // void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
 
     void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});

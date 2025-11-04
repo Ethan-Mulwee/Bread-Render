@@ -8,7 +8,7 @@
 namespace brl {
 
     struct Batch {
-        BatchElement* elements = nullptr;
+        ModelData* elements = nullptr;
         Vertexbuffer vertexBuffer;
         uint capacity = 0;
         uint used = 0;
@@ -17,9 +17,9 @@ namespace brl {
 
         void resize(uint new_capacity);
 
-        void add(const BatchElement &element);
+        void add(const ModelData &element);
 
-        void set(const Vertexbuffer &new_vertexbuffer, BatchElement* new_elements, const uint32_t count);
+        void set(const Vertexbuffer &new_vertexbuffer, ModelData* new_elements, const uint32_t count);
     };
 
     Batch createBatch(uint capacity, const Vertexbuffer &vertexBuffer);
@@ -38,7 +38,7 @@ namespace brl {
 
         void addDynamic(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color);
 
-        void addStatic(const Vertexbuffer &vertexbuffer, BatchElement* elements, const uint32_t count);
+        void addStatic(const Vertexbuffer &vertexbuffer, ModelData* elements, const uint32_t count);
 
         void addBatch(const Batch &batch);
     };

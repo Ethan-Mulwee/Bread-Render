@@ -44,13 +44,13 @@ namespace brl {
         glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
         
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)offsetof(BatchElement, transform));
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)offsetof(ModelData, transform));
         glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)(offsetof(BatchElement, transform) + sizeof(smath::vector4)));
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)(offsetof(ModelData, transform) + sizeof(smath::vector4)));
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)(offsetof(BatchElement, transform) + 2 * sizeof(smath::vector4)));
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)(offsetof(ModelData, transform) + 2 * sizeof(smath::vector4)));
         glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)(offsetof(BatchElement, transform) + 3 * sizeof(smath::vector4)));
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)(offsetof(ModelData, transform) + 3 * sizeof(smath::vector4)));
 
         glVertexAttribDivisor(2, 1);
         glVertexAttribDivisor(3, 1);
@@ -58,7 +58,7 @@ namespace brl {
         glVertexAttribDivisor(5, 1);
 
         glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(BatchElement), (void*)offsetof(BatchElement, color));
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)offsetof(ModelData, color));
         glVertexAttribDivisor(6, 1);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -134,9 +134,9 @@ namespace brl {
         unbindVertexbuffer();
     }
     
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const BatchElement *data, const uint32_t count) {
+    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const ModelData *data, const uint32_t count) {
         glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
-        glBufferData(GL_ARRAY_BUFFER, count * sizeof(BatchElement), data, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, count * sizeof(ModelData), data, GL_DYNAMIC_DRAW);
 
         bindVertexbuffer(buffer);
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);

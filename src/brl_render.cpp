@@ -127,7 +127,7 @@ namespace brl {
         context.batcher.addDynamic(context.cubeBuffer, transform, color);
     }
 
-    void drawCubes(RenderContext &context, BatchElement* elements, const uint32_t count) {
+    void drawCubes(RenderContext &context, ModelData* elements, const uint32_t count) {
         context.batcher.addStatic(context.cubeBuffer, elements, count);
     }
 

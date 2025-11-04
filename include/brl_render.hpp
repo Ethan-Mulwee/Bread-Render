@@ -36,28 +36,28 @@ namespace brl {
     void renderModeTransparent();
 
     void drawCube(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawCubes(RenderContext &context, ModelData* elements, const uint32_t count);
-    // void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count);
+    void drawCubes(RenderContext &context, ModelData* data, const uint32_t count);
 
-    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    // void drawConeInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
+    void drawCone(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCones(RenderContext &context, ModelData* data, const uint32_t count);
 
-    void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    // void drawCylinderInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
+    void drawCylinder(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCylinders(RenderContext &context, ModelData* data, const uint32_t count);
 
-    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    // void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
+    void drawSphere(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSphere(RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawSpheres(RenderContext &context, ModelData* data, const uint32_t count);
 
-    void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    // void drawPlaneInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
+    void drawPlane(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawPlanes(RenderContext &context, ModelData* data, const uint32_t count);
 
-    void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawVector(RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
-    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
-    // void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData* data, const uint32_t amount);
+    void drawMesh(RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
+    void drawMeshes(RenderContext &context, const Mesh &mesh, ModelData* data, const uint32_t count);
     
-    void drawModel(const RenderContext &context, const Model &model);
+    void drawModel(RenderContext &context, const Model &model);
+    void drawModels(RenderContext &context, const Model &model, ModelData* data, const uint32_t count);
 
 
 }

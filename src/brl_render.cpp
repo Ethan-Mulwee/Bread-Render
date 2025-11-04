@@ -127,81 +127,63 @@ namespace brl {
         context.batcher.addDynamic(context.cubeBuffer, transform, color);
     }
 
-    void drawCubes(RenderContext &context, ModelData* elements, const uint32_t count) {
-        context.batcher.addStatic(context.cubeBuffer, elements, count);
+    void drawCubes(RenderContext &context, ModelData* data, const uint32_t count) {
+        context.batcher.addStatic(context.cubeBuffer, data, count);
     }
 
     /* ---------------------------------- Cone ---------------------------------- */
 
-    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.coneBuffer);
+    void drawCone(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        context.batcher.addDynamic(context.coneBuffer, transform, color);
     }
 
-    // void drawConeInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-    //     brl::useShader(context.instanceShader);
-    //     brl::drawVertexbufferInstanced(context.coneBuffer, data, count);
-    //     brl::useShader(context.objectShader);
-    // }
+    void drawCones(RenderContext &context, ModelData *data, const uint32_t count) {
+        context.batcher.addStatic(context.coneBuffer, data, count);        
+    }
 
     /* -------------------------------- Cylinder -------------------------------- */
 
-    void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.cylinderBuffer);
+    void drawCylinder(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        context.batcher.addDynamic(context.cylinderBuffer, transform, color);
     }
 
-    // void drawCylinderInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-    //     brl::useShader(context.instanceShader);
-    //     brl::drawVertexbufferInstanced(context.cylinderBuffer, data, count);
-    //     brl::useShader(context.objectShader);
-    // }
+    void drawCylinders(RenderContext &context, ModelData *data, const uint32_t count) {
+        context.batcher.addStatic(context.cylinderBuffer, data, count);
+    }
 
     /* --------------------------------- Sphere --------------------------------- */
 
 
-    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+    void drawSphere(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        context.batcher.addDynamic(context.sphereBuffer, transform, color);
     }
 
-    // void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-    //     brl::useShader(context.instanceShader);
-    //     brl::drawVertexbufferInstanced(context.sphereBuffer, data, count); 
-    //     brl::useShader(context.objectShader);
-    // }
-
-    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
+    void drawSphere(RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
         smath::vector4 i = {radius, 0.0f, 0.0f, 0.0f};
         smath::vector4 j = {0.0f, radius, 0.0f, 0.0f};
         smath::vector4 k = {0.0f, 0.0f, radius, 0.0f};
         smath::vector4 l = {position.x, position.y, position.z, 1.0f};
         smath::matrix4x4 transform = {i, j, k, l};
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+        context.batcher.addDynamic(context.sphereBuffer, transform, color);
+    }
+
+    void drawSpheres(RenderContext &context, ModelData *data, const uint32_t count) {
+        context.batcher.addStatic(context.sphereBuffer, data, count);
     }
 
     /* ---------------------------------- Plane --------------------------------- */
 
-    void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+    void drawPlane(RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        context.batcher.addDynamic(context.planeBuffer, transform, color);
     }
 
-    // void drawPlaneInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-    //     brl::useShader(context.instanceShader);
-    //     brl::drawVertexbufferInstanced(context.planeBuffer, data, count); 
-    //     brl::useShader(context.objectShader);
-    // }
+    void drawPlanes(RenderContext &context, ModelData *data, const uint32_t count) {
+        context.batcher.addStatic(context.planeBuffer, data, count);
+    }
 
     /* --------------------------------- Vector --------------------------------- */
 
-    void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color) {
+    void drawVector(RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color) {
 
         using namespace smath;
 
@@ -228,22 +210,22 @@ namespace brl {
 
     /* ---------------------------------- Mesh ---------------------------------- */
 
-    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(mesh.buffer);
+    void drawMesh(RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        context.batcher.addDynamic(mesh.buffer, transform, color);
     }
 
-    // void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {
-    //     useShader(context.instanceShader);
-    //     drawVertexbufferInstanced(mesh.buffer, data, count);
-    //     useShader(context.objectShader);
-    // }
+    void drawMeshes(RenderContext &context, const Mesh &mesh, ModelData *data, const uint32_t count) {
+        context.batcher.addStatic(mesh.buffer, data, count);
+    }
 
-    void drawModel(const RenderContext &context, const Model &model) {
-        setShaderUniformMatrix4(context.objectShader, model.transform, "model");
-        setShaderUniformFloat4(context.objectShader, model.color, "color");
-        drawVertexBuffer(model.mesh.buffer);
+    /* ---------------------------------- Model --------------------------------- */
+
+    void drawModel(RenderContext &context, const Model &model) {
+        context.batcher.addDynamic(model.mesh.buffer, model.transform, model.color);
+    }
+
+    void drawModels(RenderContext &context, const Model &model, ModelData *data, const uint32_t count) {
+        context.batcher.addStatic(model.mesh.buffer, data, count);
     }
     
 }

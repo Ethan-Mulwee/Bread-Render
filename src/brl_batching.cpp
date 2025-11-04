@@ -12,6 +12,9 @@ namespace brl {
         capacity = new_capacity;
         if (used > capacity)
             used = capacity;
+
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.instanceVBO);
+        glBufferData(GL_ARRAY_BUFFER, capacity * sizeof(ModelData), nullptr, GL_DYNAMIC_DRAW);
     }
 
     void Batch::add(const ModelData &element) {
@@ -36,6 +39,9 @@ namespace brl {
         batch.used = 0;
 
         batch.vertexBuffer = vertexBuffer;
+
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.instanceVBO);
+        glBufferData(GL_ARRAY_BUFFER, capacity * sizeof(ModelData), nullptr, GL_DYNAMIC_DRAW);
 
         return batch;
     }

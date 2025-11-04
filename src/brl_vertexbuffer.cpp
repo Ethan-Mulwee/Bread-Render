@@ -136,7 +136,7 @@ namespace brl {
     
     void drawVertexbufferInstanced(const Vertexbuffer &buffer, const ModelData *data, const uint32_t count) {
         glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
-        glBufferData(GL_ARRAY_BUFFER, count * sizeof(ModelData), data, GL_DYNAMIC_DRAW);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(ModelData), data);
 
         bindVertexbuffer(buffer);
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);

@@ -1,7 +1,6 @@
 #include "brl.hpp"
 
 #include <cstdlib>
-#include <iostream>
 
 int main() {
     brl::Window* window = brl::createWindow(1920, 1080, "test");
@@ -35,9 +34,6 @@ int main() {
         instanceData[i] = {transform, smath::vector4{1.0f, 1.0f, 1.0f, 1.0f}};
     }
 
-    std::cout << renderContext.cubeBuffer.vao << "\n";
-    std::cout << renderContext.coneBuffer.vao << "\n";
-    std::cout << utahTeapotMesh.buffer.vao << "\n";
 
     while (!brl::windowShouldClose(window)) {
         brl::updateWindow(window);

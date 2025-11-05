@@ -1,7 +1,5 @@
 #include "brl_batching.hpp"
 
-#include <iostream>
-
 namespace brl {
     void Batch::clear() {
         used = 0;

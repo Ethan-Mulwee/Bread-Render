@@ -3,8 +3,6 @@
 #include "brl_render.hpp"
 #include "imgui.h"
 
-#include <iostream>
-
 namespace brl {
     ViewportContext createViewportContext(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
         ViewportContext viewportContext;

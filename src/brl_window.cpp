@@ -92,10 +92,17 @@ namespace brl {
         std::cout << glGetString(GL_RENDERER) << std::endl;
 
         glfwSetWindowUserPointer(window->glfwWindow, window);
-        glfwSetScrollCallback(window->glfwWindow, [](GLFWwindow *window,
-                                                double xoffset, double yoffset) {
-            Window *windowA = (Window *)glfwGetWindowUserPointer(window);
-            windowA->scrollInput = yoffset;
+        glfwSetScrollCallback(window->glfwWindow, [](GLFWwindow *glfwWindow, double xoffset, double yoffset) {
+            Window *window = (Window *)glfwGetWindowUserPointer(glfwWindow);
+            window->scrollInput = yoffset;
+        });
+
+        glfwSetWindowSizeCallback(window->glfwWindow, [](GLFWwindow* glfwWindow, int width, int height) {
+
+        });
+
+        glfwSetKeyCallback(window->glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+
         });
 
         imGuiInit(window->glfwWindow);

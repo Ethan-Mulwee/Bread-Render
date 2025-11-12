@@ -1,11 +1,11 @@
-#include "brl_batching.hpp"
+#include "brl_commandbuffer.hpp"
 
 namespace brl {
-    void Batch::clear() {
+    void RenderGroup::clear() {
         used = 0;
     }
 
-    void Batch::resize(uint new_capacity) {
+    void RenderGroup::resize(uint new_capacity) {
         elements = (ModelData*)realloc(elements, new_capacity * sizeof(ModelData));
         capacity = new_capacity;
         if (used > capacity)
@@ -15,7 +15,7 @@ namespace brl {
         glBufferData(GL_ARRAY_BUFFER, capacity * sizeof(ModelData), nullptr, GL_DYNAMIC_DRAW);
     }
 
-    void Batch::add(const ModelData &element) {
+    void RenderGroup::add(const ModelData &element) {
         if (used >= capacity)
             resize(capacity * 2);
 
@@ -23,15 +23,20 @@ namespace brl {
         used++;
     }
 
-    void Batch::set(const Vertexbuffer &new_vertexbuffer, ModelData* new_elements, const uint32_t count) {
+    void RenderGroup::set(const Vertexbuffer &new_vertexbuffer, ModelData* new_elements, const uint32_t count) {
+        if (count > capacity) {
+            glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.instanceVBO);
+            glBufferData(GL_ARRAY_BUFFER, count * sizeof(ModelData), nullptr, GL_DYNAMIC_DRAW);
+        }
+
         capacity = count;
         used = count;
         elements = new_elements;
         vertexBuffer = new_vertexbuffer;
     }
 
-    Batch createBatch(uint capacity, const Vertexbuffer &vertexBuffer) {
-        Batch batch;
+    RenderGroup createBatch(uint capacity, const Vertexbuffer &vertexBuffer) {
+        RenderGroup batch;
         batch.elements = new ModelData[capacity];
         batch.capacity = capacity;
         batch.used = 0;
@@ -44,7 +49,7 @@ namespace brl {
         return batch;
     }
 
-    void Batcher::clear() {
+    void RenderGrouper::clear() {
         dynamic_used = 0;
         static_used = 0;
 
@@ -54,19 +59,19 @@ namespace brl {
         
     }
 
-    void Batcher::resize(uint new_capacity) {
-        dynamic_batches = (Batch*)realloc(dynamic_batches, new_capacity * sizeof(Batch));
+    void RenderGrouper::resize(uint new_capacity) {
+        dynamic_batches = (RenderGroup*)realloc(dynamic_batches, new_capacity * sizeof(RenderGroup));
         dynamic_capactiy = new_capacity;
         if (dynamic_used > dynamic_capactiy)
             dynamic_used = dynamic_capactiy;
     }
 
-    void Batcher::addDynamic(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+    void RenderGrouper::addDynamic(const Vertexbuffer &vertexbuffer, const smath::matrix4x4 &transform, const smath::vector4 &color) {
 
         uint id = vertexbuffer.vao;
 
         if (id > dynamic_used)
-            dynamic_used = vertexbuffer.vao;
+            dynamic_used = vertexbuffer.vao+1;
 
         if (dynamic_used >= dynamic_capactiy)
             resize(dynamic_capactiy * 2);
@@ -79,7 +84,7 @@ namespace brl {
         }
     }
 
-    void Batcher::addStatic(const Vertexbuffer &vertexbuffer, ModelData* elements, const uint32_t count) {
+    void RenderGrouper::addStatic(const Vertexbuffer &vertexbuffer, ModelData* elements, const uint32_t count) {
 
         uint id = vertexbuffer.vao;
         while(static_batches[id].elements && id <= static_used) {
@@ -87,7 +92,7 @@ namespace brl {
         }
 
         if (id > static_used)
-            static_used = id;
+            static_used = id+1;
 
         if (static_used >= static_capactiy)
             resize(static_capactiy * 2);
@@ -95,14 +100,14 @@ namespace brl {
         static_batches[id].set(vertexbuffer, elements, count);
     }
 
-    Batcher createBatcher(uint capacity) {
-        Batcher batcher;
+    RenderGrouper createBatcher(uint capacity) {
+        RenderGrouper batcher;
 
-        batcher.dynamic_batches = new Batch[capacity];
+        batcher.dynamic_batches = new RenderGroup[capacity];
         batcher.dynamic_capactiy = capacity;
         batcher.dynamic_used = 0;
 
-        batcher.static_batches = new Batch[capacity];
+        batcher.static_batches = new RenderGroup[capacity];
         batcher.static_capactiy = capacity;
         batcher.static_used = 0;
 

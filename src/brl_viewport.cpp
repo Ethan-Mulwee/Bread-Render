@@ -66,18 +66,18 @@ namespace brl {
         renderModeSolid();
 
         RenderContext* context = viewport.renderContext;
-        Batcher& batcher = viewport.renderContext->batcher;
+        RenderGrouper& batcher = viewport.renderContext->batcher;
 
         // draw the cubes in the batcher
         brl::useShader(context->instanceShader);
-        for (int i = 0; i < batcher.dynamic_used+1; i++) {
-            Batch& batch = batcher.dynamic_batches[i];
+        for (int i = 0; i < batcher.dynamic_used; i++) {
+            RenderGroup& batch = batcher.dynamic_batches[i];
             if (!batch.elements || batch.used == 0) continue;
             brl::drawVertexbufferInstanced(batch.vertexBuffer, batch.elements, batch.used);
         }
 
-        for (int i = 0; i < batcher.static_used+1; i++) {
-            Batch& batch = batcher.static_batches[i];
+        for (int i = 0; i < batcher.static_used; i++) {
+            RenderGroup& batch = batcher.static_batches[i];
             if (!batch.elements || batch.used == 0) continue;
             brl::drawVertexbufferInstanced(batch.vertexBuffer, batch.elements, batch.used);
         }

@@ -4,7 +4,7 @@
 #include "brl_window.hpp"
 #include "brl_vertexbuffer.hpp"
 #include "brl_shader.hpp"
-#include "brl_batching.hpp"
+#include "brl_commandbuffer.hpp"
 
 namespace brl {
     struct RenderContext {
@@ -21,7 +21,7 @@ namespace brl {
         Vertexbuffer cubeBuffer;
         Vertexbuffer planeBuffer;
         
-        Batcher batcher;
+        RenderGrouper batcher;
     };
 
     RenderContext createRenderContext(const Window* window);

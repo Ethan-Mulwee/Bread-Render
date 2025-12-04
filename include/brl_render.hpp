@@ -4,6 +4,8 @@
 #include "brl_window.hpp"
 #include "brl_vertexbuffer.hpp"
 #include "brl_shader.hpp"
+#include "brl_color.hpp"
+
 
 namespace brl {
     struct RenderContext {
@@ -51,7 +53,7 @@ namespace brl {
 
     void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
-    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color);
+    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const Color &color);
     void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData* data, const uint32_t amount);
     
     void drawModel(const RenderContext &context, const Model &model);

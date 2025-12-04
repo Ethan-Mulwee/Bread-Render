@@ -56,7 +56,7 @@ int main() {
                 ImGui::Text("This is text dispalyed ontop of the viewport!");
                 ImGui::Text("size: %f, %f", viewport2.size.x, viewport2.size.y);
             
-                brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), smath::vector4{1.0f, 0.1f, 0.0f, 1.0f});
+                brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), brl::ORANGE);
 
                 brl::renderModeWireframe();
                 brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});

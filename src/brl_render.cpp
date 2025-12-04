@@ -230,9 +230,9 @@ namespace brl {
 
     /* ---------------------------------- Mesh ---------------------------------- */
 
-    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const Color &color) {
         setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
+        setShaderUniformFloat4(context.objectShader, color.vector, "color");
         drawVertexBuffer(mesh.buffer);
     }
 

@@ -228,6 +228,27 @@ namespace brl {
         drawCone(context, matrix4x4_from_transform(coneTransform)*translation, color);
     }
 
+    /* ---------------------------------- Line ---------------------------------- */
+
+    void drawLine(const RenderContext &context, const smath::vector3 &position1, const smath::vector3 &position2, const float radius, const smath::vector4 &color) {
+        
+        using namespace smath;
+
+        vector3 vector = (position2 - position1);
+        vector3 direction = normalize(vector);
+        quaternion orientation = quaternion_from_matrix3x3(matrix3x3_from_jhat(direction));
+
+        matrix4x4 translation = matrix4x4_from_translation({0.0f, 1.0f, 0.0f});
+
+        transform cylinderTransform {
+            .translation = position1,
+            .rotation = orientation,
+            .scale = {radius, vector.length()*0.5f, radius}
+        };
+
+        drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
+    }
+
     /* ---------------------------------- Mesh ---------------------------------- */
 
     void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const Color &color) {

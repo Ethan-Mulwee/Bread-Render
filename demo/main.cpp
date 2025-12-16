@@ -36,6 +36,9 @@ int main() {
 
                 ImGui::Text("This is text dispalyed ontop of the viewport!");
                 ImGui::Text("size: %f, %f", viewport2.size.x, viewport2.size.y);
+
+                brl::drawCircleLines(renderContext, smath::vector3{0.0, 2.0, 3.0}, smath::vector3{0.0, 1.0, 0.0}, 1.0f, 3.0f, brl::FREYA_RED);
+                brl::drawCircleLines(renderContext, smath::vector3{0.0, 2.0, 3.0}, smath::vector3{0.0, 0.0, 1.0}, 1.0f, 3.0f, brl::FREYA_BLUE);
             
                 brl::drawMesh(renderContext, utahTeapotMesh, smath::matrix4x4_from_scale(0.4f), brl::ORANGE);
 

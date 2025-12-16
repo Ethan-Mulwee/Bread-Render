@@ -55,8 +55,9 @@ namespace brl {
         beginImGuiRender();
     }
 
-    void clearRender(smath::vector4 color) {
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    void clearRender(const Color &color) {
+        glClearColor(color.vector.x, color.vector.y, color.vector.z, color.vector.w);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void endRender() {
@@ -69,7 +70,8 @@ namespace brl {
         glDisable(GL_BLEND);
     }
 
-    void renderModeWireframe() {
+    void renderModeWireframe(float line_width) {
+        glLineWidth(line_width);
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         glDisable(GL_CULL_FACE);
         glDisable(GL_BLEND);
@@ -96,6 +98,11 @@ namespace brl {
         context.objectShader = createShader(
             brl::builtin::objectVertexShaderSource,
             brl::builtin::objectFragShaderSource
+        );
+
+        context.wireframeShader = createShader(
+            brl::builtin::objectVertexShaderSource,
+            brl::builtin::wireframeFragShaderSource
         );
 
         context.gridShader = createShader(
@@ -187,6 +194,71 @@ namespace brl {
         drawVertexBuffer(context.sphereBuffer);
     }
 
+    /* --------------------------------- Circle --------------------------------- */
+
+    void drawCircleLines(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width, const Color &color) {
+
+        using namespace smath;
+
+        matrix4x4 transformation_matrix = transform;
+
+        useShader(context.wireframeShader);
+
+        glLineWidth((GLfloat) line_width);
+        setShaderUniformFloat4(context.wireframeShader, color.vector, "color");
+        setShaderUniformMatrix4(context.wireframeShader, transformation_matrix, "model");
+
+        glBegin(GL_LINES);
+            for (int i = 0; i < 180; i++) {
+                float angle = ((float)i / 180.0f) * M_PI*2.0f;
+                float inc_angle = (1.0f / 180.0f) * M_PI * 2.0f;
+                smath::vector3 a = {(float)cos(angle) * radius, (float)sin(angle) * radius, 0.0f};
+                glVertex3f(a.x, a.y, a.z);
+
+
+                smath::vector3 b = {(float)cos(angle + inc_angle) * radius, (float)sin(angle + inc_angle) * radius, 0.0f};
+                glVertex3f(b.x, b.y, b.z);
+            }
+        glEnd();
+
+    }
+
+
+    void drawCircleLines(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &direction, const float radius, float line_width, const Color &color) {
+
+        using namespace smath;
+
+        quaternion rotation = normalize(quaternion_from_matrix3x3(matrix3x3_from_khat(normalize(direction))));
+
+        transform transform_struct = {
+            .translation = position,
+            .rotation = rotation,
+            .scale = {1, 1, 1}
+        };
+        matrix4x4 transformation_matrix = smath::matrix4x4_from_transform(transform_struct);
+        
+        useShader(context.wireframeShader);
+
+        glLineWidth((GLfloat) line_width);
+        setShaderUniformFloat4(context.wireframeShader, color.vector, "color");
+        setShaderUniformMatrix4(context.wireframeShader, transformation_matrix, "model");
+
+        glBegin(GL_LINES);
+            for (int i = 0; i < 180; i++) {
+                float angle = ((float)i / 180.0f) * M_PI*2.0f;
+                float inc_angle = (1.0f / 180.0f) * M_PI * 2.0f;
+                smath::vector3 a = {(float)cos(angle) * radius, (float)sin(angle) * radius, 0.0f};
+                glVertex3f(a.x, a.y, a.z);
+
+
+                smath::vector3 b = {(float)cos(angle + inc_angle) * radius, (float)sin(angle + inc_angle) * radius, 0.0f};
+                glVertex3f(b.x, b.y, b.z);
+            }
+        glEnd();
+
+    }
+
+
     /* ---------------------------------- Plane --------------------------------- */
 
     void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
@@ -252,6 +324,7 @@ namespace brl {
     /* ---------------------------------- Mesh ---------------------------------- */
 
     void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const Color &color) {
+        useShader(context.objectShader);
         setShaderUniformMatrix4(context.objectShader, transform, "model");
         setShaderUniformFloat4(context.objectShader, color.vector, "color");
         drawVertexBuffer(mesh.buffer);

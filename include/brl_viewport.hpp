@@ -19,12 +19,15 @@ namespace brl {
         bool hovered;
         bool focused;
         const char* name;
+        brl::Color background_color = brl::GREY;
     };
 
     ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const uint32_t MSAA = 4);
 
     void beginViewport(ViewportContext &viewport, Camera &camera);
     void endViewport(ViewportContext &viewport, Camera &camera);
+
+    void setViewportBackground(ViewportContext* viewportContext, const Color &color);
 }
 
 #endif

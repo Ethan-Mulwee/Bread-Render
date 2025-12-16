@@ -28,9 +28,13 @@ namespace brl {
         glCullFace(GL_BACK);
 
         // Set instance uniforms
-        brl::useShader(viewport.renderContext->instanceShader);
+        useShader(viewport.renderContext->instanceShader);
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
+
+        useShader(viewport.renderContext->wireframeShader);
+        setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
+        setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
 
         useShader(viewport.renderContext->objectShader);
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
@@ -57,6 +61,8 @@ namespace brl {
         ImGui::SetCursorPos(viewport.position);
 
         bindFramebuffer(viewport.framebuffer);
+
+        clearRender(viewport.background_color);
 
     }
 
@@ -92,5 +98,9 @@ namespace brl {
 
         ImGui::End();
 
+    }
+
+    void setViewportBackground(ViewportContext* viewportContext, const Color &color) {
+        viewportContext->background_color = color;
     }
 }

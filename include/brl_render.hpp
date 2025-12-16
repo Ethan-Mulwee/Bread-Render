@@ -13,6 +13,7 @@ namespace brl {
         const Window* window;
 
         Shader objectShader;
+        Shader wireframeShader;
         Shader gridShader;
         Shader instanceShader;
 
@@ -28,11 +29,11 @@ namespace brl {
     void destroyRenderContext(RenderContext* context);
 
     void beginRender(Window* window);
-    void clearRender(smath::vector4 color = {0.2f, 0.2f, 0.2f, 0.2f});
+    void clearRender(const Color &color = {0.2f, 0.2f, 0.2f, 0.2f});
     void endRender();
 
     void renderModeSolid();
-    void renderModeWireframe();
+    void renderModeWireframe(float line_width = 1.0f);
     void renderModeTransparent();
 
     void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
@@ -46,7 +47,11 @@ namespace brl {
 
     void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color  = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    // void drawSphereWire(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
+
+    void drawCircleLines(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void drawCircleLines(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &direction, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
     void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawPlaneInstances(const RenderContext &context, const InstanceData* data, uint32_t count);

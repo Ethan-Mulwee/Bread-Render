@@ -106,6 +106,16 @@ namespace brl {
     
             color = vec4(vec3(Color)*light, Color.a);
         })";
+
+        static const char* wireframeFragShaderSource = 
+        R"(#version 330 core
+    
+        in vec4 Color;
+        layout(location = 0) out vec4 color;
+    
+        void main() {
+            color = Color;
+        })";
     
         static const char* gridFragShaderSource = 
         R"(#version 330 core
@@ -140,9 +150,9 @@ namespace brl {
         void main() {
             float gridAlpha = pristineGrid(WorldPos.xz, vec2(0.01,0.01));
             vec3 gridColor = vec3(0.35,0.35,0.35);
-            if (WorldPos.x < 0.02 && WorldPos.x > -0.02) {
+            if (WorldPos.x < 0.007 && WorldPos.x > -0.007) {
             gridColor = vec3(1.000,0.200,0.322);
-            } else if (WorldPos.z < 0.02 && WorldPos.z > -0.02) {
+            } else if (WorldPos.z < 0.007 && WorldPos.z > -0.007) {
             gridColor = vec3(0.157,0.565,1.0);
             // gridColor = vec3(0.471,0.863,0.000); Green
             }

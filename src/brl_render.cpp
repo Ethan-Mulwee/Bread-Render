@@ -100,9 +100,9 @@ namespace brl {
             brl::builtin::objectFragShaderSource
         );
 
-        context.wireframeShader = createShader(
+        context.unlitShader = createShader(
             brl::builtin::objectVertexShaderSource,
-            brl::builtin::wireframeFragShaderSource
+            brl::builtin::unlitFragShaderSource
         );
 
         context.gridShader = createShader(
@@ -201,9 +201,9 @@ namespace brl {
         const float DEG2RAD = M_PI/180.0f;
 
         glDisable(GL_CULL_FACE);
-        useShader(context.objectShader);
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color.vector, "color");
+        useShader(context.unlitShader);
+        setShaderUniformMatrix4(context.unlitShader, transform, "model");
+        setShaderUniformFloat4(context.unlitShader, color.vector, "color");
 
         if (end_angle < start_angle) {
             float tmp = start_angle;
@@ -242,11 +242,11 @@ namespace brl {
 
         matrix4x4 transformation_matrix = transform;
 
-        useShader(context.wireframeShader);
+        useShader(context.unlitShader);
 
         glLineWidth((GLfloat) line_width);
-        setShaderUniformFloat4(context.wireframeShader, color.vector, "color");
-        setShaderUniformMatrix4(context.wireframeShader, transformation_matrix, "model");
+        setShaderUniformFloat4(context.unlitShader, color.vector, "color");
+        setShaderUniformMatrix4(context.unlitShader, transformation_matrix, "model");
 
         glBegin(GL_LINES);
             for (int i = 0; i < 180; i++) {
@@ -277,11 +277,11 @@ namespace brl {
         };
         matrix4x4 transformation_matrix = smath::matrix4x4_from_transform(transform_struct);
         
-        useShader(context.wireframeShader);
+        useShader(context.unlitShader);
 
         glLineWidth((GLfloat) line_width);
-        setShaderUniformFloat4(context.wireframeShader, color.vector, "color");
-        setShaderUniformMatrix4(context.wireframeShader, transformation_matrix, "model");
+        setShaderUniformFloat4(context.unlitShader, color.vector, "color");
+        setShaderUniformMatrix4(context.unlitShader, transformation_matrix, "model");
 
         glBegin(GL_LINES);
             for (int i = 0; i < 180; i++) {

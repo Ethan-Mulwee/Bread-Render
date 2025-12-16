@@ -32,7 +32,7 @@ namespace brl {
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
 
-        useShader(viewport.renderContext->wireframeShader);
+        useShader(viewport.renderContext->unlitShader);
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
         setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
 

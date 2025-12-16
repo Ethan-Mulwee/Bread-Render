@@ -107,7 +107,7 @@ namespace brl {
             color = vec4(vec3(Color)*light, Color.a);
         })";
 
-        static const char* wireframeFragShaderSource = 
+        static const char* unlitFragShaderSource = 
         R"(#version 330 core
     
         in vec4 Color;

@@ -13,7 +13,7 @@ namespace brl {
         const Window* window;
 
         Shader objectShader;
-        Shader wireframeShader;
+        Shader unlitShader;
         Shader gridShader;
         Shader instanceShader;
 

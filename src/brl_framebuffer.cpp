@@ -2,18 +2,18 @@
 #include "brl_window.hpp"
 
 namespace brl {
-    void bindFramebuffer(const Framebuffer &buffer) {
+    void bind_framebuffer(const Framebuffer &buffer) {
         glBindFramebuffer(GL_FRAMEBUFFER, buffer.fBO);
         glViewport(0,0, buffer.width, buffer.height);
         // glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void unbindFramebuffer() {
+    void unbind_framebuffer() {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    Framebuffer createFramebuffer(int32_t width, int32_t height, const uint32_t MSAA) {
+    Framebuffer create_framebuffer(int32_t width, int32_t height, const uint32_t MSAA) {
         Framebuffer buffer;
 
         buffer.width = width;
@@ -63,12 +63,12 @@ namespace brl {
         GLenum buffers[4] = { GL_COLOR_ATTACHMENT0 };
         glDrawBuffers(buffer.texId, buffers);
         
-        unbindFramebuffer();
+        unbind_framebuffer();
 
         return buffer;
     }
 
-    void resizeFramebuffer(Framebuffer *buffer, const int32_t width, const int32_t height) {
+    void resize_framebuffer(Framebuffer *buffer, const int32_t width, const int32_t height) {
         buffer->width = width;
         buffer->height = height;
 
@@ -94,7 +94,7 @@ namespace brl {
         glBindTexture(textureType, 0);
     }
 
-    void blitFramebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height) {
+    void blit_framebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height) {
         glBindFramebuffer(GL_READ_FRAMEBUFFER, source);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, destination);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);

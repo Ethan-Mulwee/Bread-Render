@@ -9,11 +9,11 @@ namespace brl {
     struct ViewportContext {
 
         Framebuffer framebuffer;
-        Framebuffer outputFramebuffer;
+        Framebuffer output_framebuffer;
         uint32_t MSAA = 0;
 
-        RenderContext* renderContext;
-        ImVec2 screenPosition;
+        RenderContext* render_context;
+        ImVec2 screen_position;
         ImVec2 position;
         ImVec2 size;
         bool hovered;
@@ -22,12 +22,12 @@ namespace brl {
         brl::Color background_color = brl::GREY;
     };
 
-    ViewportContext createViewportContext(RenderContext* renderContext, const char* name, const uint32_t MSAA = 4);
+    ViewportContext create_viewport_context(RenderContext* renderContext, const char* name, const uint32_t MSAA = 4);
 
-    void beginViewport(ViewportContext &viewport, Camera &camera);
-    void endViewport(ViewportContext &viewport, Camera &camera);
+    void begin_viewport(ViewportContext &viewport, Camera &camera);
+    void end_viewport(ViewportContext &viewport, Camera &camera);
 
-    void setViewportBackground(ViewportContext* viewportContext, const Color &color);
+    void set_viewport_background(ViewportContext* viewportContext, const Color &color);
 }
 
 #endif

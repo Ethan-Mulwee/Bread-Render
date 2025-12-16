@@ -4,12 +4,12 @@
 #include "imgui.h"
 
 namespace brl {
-    ViewportContext createViewportContext(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
+    ViewportContext create_viewport_context(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
         ViewportContext viewportContext;
-        viewportContext.renderContext = renderContext;
+        viewportContext.render_context = renderContext;
 
-        viewportContext.framebuffer = createFramebuffer(1080, 1080, MSAA);
-        if (MSAA) viewportContext.outputFramebuffer = createFramebuffer(1080, 1080, false);
+        viewportContext.framebuffer = create_framebuffer(1080, 1080, MSAA);
+        if (MSAA) viewportContext.output_framebuffer = create_framebuffer(1080, 1080, false);
         viewportContext.MSAA = MSAA;
 
         viewportContext.hovered = false;
@@ -19,7 +19,7 @@ namespace brl {
         return viewportContext;
     }
 
-    void beginViewport(ViewportContext &viewport, Camera &camera) {
+    void begin_viewport(ViewportContext &viewport, Camera &camera) {
 
         camera.aspect = viewport.size.x / viewport.size.y;
 
@@ -28,31 +28,31 @@ namespace brl {
         glCullFace(GL_BACK);
 
         // Set instance uniforms
-        useShader(viewport.renderContext->instanceShader);
-        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraView(camera), "view");
-        setShaderUniformMatrix4(viewport.renderContext->instanceShader, calculateCameraProjection(camera), "projection");
+        use_shader(viewport.render_context->instance_shader);
+        set_shader_uniform_matrix4(viewport.render_context->instance_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(viewport.render_context->instance_shader, calculate_camera_projection(camera), "projection");
 
-        useShader(viewport.renderContext->unlitShader);
-        setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
-        setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
+        use_shader(viewport.render_context->unlit_shader);
+        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_projection(camera), "projection");
 
-        useShader(viewport.renderContext->objectShader);
-        setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraView(camera), "view");
-        setShaderUniformMatrix4(viewport.renderContext->objectShader, calculateCameraProjection(camera), "projection");
+        use_shader(viewport.render_context->object_shader);
+        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_projection(camera), "projection");
 
         ImGui::Begin(viewport.name);
 
         viewport.size = ImGui::GetContentRegionAvail();
         viewport.position = ImGui::GetCursorPos();
-        viewport.screenPosition = ImGui::GetCursorScreenPos();
+        viewport.screen_position = ImGui::GetCursorScreenPos();
         viewport.hovered = ImGui::IsWindowHovered();
         viewport.focused = ImGui::IsWindowFocused();
 
         uint64_t textureID;
-        brl::resizeFramebuffer(&viewport.framebuffer, viewport.size.x, viewport.size.y);
+        brl::resize_framebuffer(&viewport.framebuffer, viewport.size.x, viewport.size.y);
         if (viewport.MSAA) {
-            brl::resizeFramebuffer(&viewport.outputFramebuffer, viewport.size.x, viewport.size.y);
-            textureID = viewport.outputFramebuffer.texId;
+            brl::resize_framebuffer(&viewport.output_framebuffer, viewport.size.x, viewport.size.y);
+            textureID = viewport.output_framebuffer.texId;
         } else {
             textureID = viewport.framebuffer.texId;
         }
@@ -60,26 +60,26 @@ namespace brl {
         ImGui::Image((ImTextureRef)(textureID), viewport.size, ImVec2{0, 1}, ImVec2{1, 0});
         ImGui::SetCursorPos(viewport.position);
 
-        bindFramebuffer(viewport.framebuffer);
+        bind_framebuffer(viewport.framebuffer);
 
-        clearRender(viewport.background_color);
+        clear_render(viewport.background_color);
 
     }
 
 
-    void endViewport(ViewportContext &viewport, Camera &camera) {
+    void end_viewport(ViewportContext &viewport, Camera &camera) {
         
-        renderModeSolid();
+        render_mode_solid();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_CULL_FACE);
 
-        useShader(viewport.renderContext->gridShader);
-        setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraView(camera), "view");
-        setShaderUniformMatrix4(viewport.renderContext->gridShader, calculateCameraProjection(camera), "projection");
+        use_shader(viewport.render_context->grid_shader);
+        set_shader_uniform_matrix4(viewport.render_context->grid_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(viewport.render_context->grid_shader, calculate_camera_projection(camera), "projection");
 
-        smath::vector3 cameraPosition = calculateCameraPosition(camera);
+        smath::vector3 cameraPosition = calculate_camera_position(camera);
         const float size = 250.0f;
         smath::matrix4x4 gridTransform = {
             size, 0.0f, 0.0f,                           0.0f,
@@ -87,12 +87,12 @@ namespace brl {
             0.0f, 0.0f, size,                           0.0f,
             -cameraPosition.x, 0.0f, -cameraPosition.z, 1.0f
         };
-        setShaderUniformMatrix4(viewport.renderContext->gridShader, gridTransform, "model");
-        drawVertexBuffer(viewport.renderContext->planeBuffer);
+        set_shader_uniform_matrix4(viewport.render_context->grid_shader, gridTransform, "model");
+        draw_vertex_buffer(viewport.render_context->plane_buffer);
 
         if (viewport.MSAA)
-            brl::blitFramebuffer(viewport.framebuffer.fBO, viewport.outputFramebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);
-        unbindFramebuffer();
+            brl::blit_framebuffer(viewport.framebuffer.fBO, viewport.output_framebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);
+        unbind_framebuffer();
 
 
 
@@ -100,7 +100,7 @@ namespace brl {
 
     }
 
-    void setViewportBackground(ViewportContext* viewportContext, const Color &color) {
+    void set_viewport_background(ViewportContext* viewportContext, const Color &color) {
         viewportContext->background_color = color;
     }
 }

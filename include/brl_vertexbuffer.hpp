@@ -34,7 +34,7 @@ namespace brl {
         Vertexbuffer buffer;
     };
 
-    Mesh createMesh(MeshData* meshData);
+    Mesh create_mesh(MeshData* mesh_data);
 
     struct Model {
         Mesh mesh;
@@ -42,15 +42,15 @@ namespace brl {
         smath::vector4 color;
     };
     
-    void bindVertexbuffer(const Vertexbuffer &buffer);
+    void bind_vertexbuffer(const Vertexbuffer &buffer);
 
-    void unbindVertexbuffer();
+    void unbind_vertexbuffer();
 
-    Vertexbuffer createVertexbuffer(const MeshData* mesh);
+    Vertexbuffer create_vertexbuffer(const MeshData* mesh);
 
-    void drawVertexBuffer(const Vertexbuffer &buffer);
+    void draw_vertex_buffer(const Vertexbuffer &buffer);
     
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const InstanceData* data, const uint32_t count);
+    void draw_vertexbuffer_instanced(const Vertexbuffer &buffer, const InstanceData* data, const uint32_t count);
 }
 
 #endif

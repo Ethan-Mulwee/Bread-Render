@@ -7,7 +7,7 @@
 namespace brl {
 
     // Code adapted from https://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading/
-    MeshData parseObj(const char* path) {
+    MeshData parse_obj(const char* path) {
         std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
         std::vector<smath::vector3> temp_vertices;
         std::vector<smath::vector2> temp_uvs;
@@ -81,8 +81,8 @@ namespace brl {
         return mesh;
     }
 
-    Mesh importObj(const char *path) {
-        MeshData data = parseObj(path);
-        return Mesh{createVertexbuffer(&data)};
+    Mesh import_obj(const char *path) {
+        MeshData data = parse_obj(path);
+        return Mesh{create_vertexbuffer(&data)};
     }
 }

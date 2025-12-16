@@ -2,7 +2,7 @@
 #include "brl_viewport.hpp"
 
 namespace brl {
-    void updateCamera(Camera *camera, const Window *window) {
+    void update_camera(Camera *camera, const Window *window) {
         bool middleMouse = 
         glfwGetMouseButton(window->glfwWindow, GLFW_MOUSE_BUTTON_MIDDLE) || 
         (glfwGetMouseButton(window->glfwWindow, GLFW_MOUSE_BUTTON_LEFT) && glfwGetKey(window->glfwWindow, GLFW_KEY_LEFT_ALT));
@@ -14,7 +14,7 @@ namespace brl {
 
         if (middleMouse && glfwGetKey(window->glfwWindow, GLFW_KEY_LEFT_SHIFT)) {
             smath::vector3 movement = smath::vector3{-window->deltaMousePos.x,window->deltaMousePos.y,0.0f};
-            smath::quaternion cameraOrientation = calculateCameraOrientation(*camera);
+            smath::quaternion cameraOrientation = calculate_camera_orientation(*camera);
 
             movement = smath::quaternion_transform_vector(cameraOrientation, movement);
             movement *= 0.00125f;
@@ -25,7 +25,7 @@ namespace brl {
         camera->distance -= window->scrollInput*camera->distance*0.075f;
     }
 
-    Camera createCamera(smath::vector3 focus, float distance, float fov, float near, float far, float pitch, float yaw) {
+    Camera create_camera(smath::vector3 focus, float distance, float fov, float near, float far, float pitch, float yaw) {
         Camera camera;
 
         camera.focus = focus;
@@ -42,12 +42,12 @@ namespace brl {
         return camera;
     }
 
-    smath::quaternion calculateCameraOrientation(const Camera &camera) {
+    smath::quaternion calculate_camera_orientation(const Camera &camera) {
         return smath::quaternion_from_euler_angles_ZYX(0.0f, camera.yaw, camera.pitch);
     }
 
-    smath::vector3 calculateCameraPosition(const Camera &camera) {
-        smath::quaternion orientation = calculateCameraOrientation(camera);
+    smath::vector3 calculate_camera_position(const Camera &camera) {
+        smath::quaternion orientation = calculate_camera_orientation(camera);
 
         smath::vector3 forwardVector = smath::quaternion_transform_vector(orientation, smath::vector3{0.0f, 0.0f, 1.0f});
         smath::vector3 position = camera.focus - (forwardVector * camera.distance);
@@ -55,11 +55,11 @@ namespace brl {
         return position;
     }
 
-    smath::matrix4x4 calculateCameraView(const Camera &camera) {
+    smath::matrix4x4 calculate_camera_view(const Camera &camera) {
         
         using namespace smath;
 
-        quaternion orientation = calculateCameraOrientation(camera);
+        quaternion orientation = calculate_camera_orientation(camera);
 
         vector3 forwardVector = quaternion_transform_vector(orientation, vector3{0.0f, 0.0f, 1.0f});
         vector3 position = camera.focus - (forwardVector * camera.distance);
@@ -76,7 +76,7 @@ namespace brl {
         return transformationMatrix;
     }
 
-    smath::matrix4x4 calculateCameraProjection(const Camera &camera) {
+    smath::matrix4x4 calculate_camera_projection(const Camera &camera) {
         return smath::matrix4x4_from_perspective(camera.fov, camera.aspect, camera.near, camera.far);
     }
 }

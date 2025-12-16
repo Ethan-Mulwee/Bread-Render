@@ -24,15 +24,15 @@ namespace brl {
         double perviousRenderTime = 0.0;
     };
     
-    Window* createWindow(int width, int height, const char* name);
+    Window* create_window(int width, int height, const char* name);
 
-    void updateWindow(Window* window);
+    void update_window(Window* window);
 
-    void destroyWindow(Window* window);
+    void destroy_window(Window* window);
 
-    bool windowShouldClose(const Window* window);
+    bool window_should_close(const Window* window);
 
-    void setVsync(bool boolean);
+    void set_vsync(bool boolean);
 }
 
 #endif

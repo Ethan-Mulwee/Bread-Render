@@ -49,68 +49,68 @@ namespace brl {
         }
     }
 
-    void beginRender(Window* window) {
+    void begin_render(Window* window) {
         glViewport(0, 0, window->width, window->height);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         beginImGuiRender();
     }
 
-    void clearRender(const Color &color) {
+    void clear_render(const Color &color) {
         glClearColor(color.vector.x, color.vector.y, color.vector.z, color.vector.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void endRender() {
+    void end_render() {
         endImGuiRender();
     }
 
-    void renderModeSolid() {
+    void render_mode_solid() {
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
         glEnable(GL_CULL_FACE);   
         glDisable(GL_BLEND);
     }
 
-    void renderModeWireframe(float line_width) {
+    void render_mode_wireframe(float line_width) {
         glLineWidth(line_width);
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         glDisable(GL_CULL_FACE);
         glDisable(GL_BLEND);
     }
 
-    void renderModeTransparent() {
+    void render_mode_transparent() {
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
         glEnable(GL_CULL_FACE);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    RenderContext createRenderContext(const Window *window) {
+    RenderContext create_render_context(const Window *window) {
         RenderContext context;
 
         context.window = window;
 
-        context.cubeBuffer = createVertexbuffer(&brl::builtin::cubeMesh);
-        context.coneBuffer = createVertexbuffer(&brl::builtin::coneMesh);
-        context.cylinderBuffer = createVertexbuffer(&brl::builtin::cylinderMesh);
-        context.sphereBuffer = createVertexbuffer(&brl::builtin::sphereMesh);
-        context.planeBuffer = createVertexbuffer(&brl::builtin::planeMesh);
+        context.cube_buffer = create_vertexbuffer(&brl::builtin::CUBE_MESH);
+        context.cone_buffer = create_vertexbuffer(&brl::builtin::CONE_MESH);
+        context.cylinder_buffer = create_vertexbuffer(&brl::builtin::CYLINDER_MESH);
+        context.sphere_buffer = create_vertexbuffer(&brl::builtin::SPHERE_MESH);
+        context.plane_buffer = create_vertexbuffer(&brl::builtin::PLANE_MESH);
 
-        context.objectShader = createShader(
+        context.object_shader = create_shader(
             brl::builtin::objectVertexShaderSource,
             brl::builtin::objectFragShaderSource
         );
 
-        context.unlitShader = createShader(
+        context.unlit_shader = create_shader(
             brl::builtin::objectVertexShaderSource,
             brl::builtin::unlitFragShaderSource
         );
 
-        context.gridShader = createShader(
+        context.grid_shader = create_shader(
             brl::builtin::objectVertexShaderSource, 
             brl::builtin::gridFragShaderSource
         );
 
-        context.instanceShader = createShader(
+        context.instance_shader = create_shader(
             brl::builtin::instancedObjectVertexShaderSource,
             brl::builtin::instancedObjectFragShaderSource
         );
@@ -118,80 +118,80 @@ namespace brl {
         return context;
     }
 
-    void destroyRenderContext(RenderContext* context) {
+    void destroy_render_context(RenderContext* context) {
 
     }
 
-    void useShader(const Shader &shader) {
-        glUseProgram(shader.programId);
+    void use_shader(const Shader &shader) {
+        glUseProgram(shader.program_id);
     }
 
     /* ---------------------------------- Cube ---------------------------------- */
 
-    void drawCube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.cubeBuffer);
+    void draw_cube(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color, "color");
+        draw_vertex_buffer(context.cube_buffer);
     }
 
-    void drawCubeInstances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.cubeBuffer, data, count);
-        brl::useShader(context.objectShader);
+    void draw_cube_instances(const RenderContext &context, const InstanceData* data, const uint32_t count) {
+        brl::use_shader(context.instance_shader);
+        brl::draw_vertexbuffer_instanced(context.cube_buffer, data, count);
+        brl::use_shader(context.object_shader);
     }
 
     /* ---------------------------------- Cone ---------------------------------- */
 
-    void drawCone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.coneBuffer);
+    void draw_cone(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color, "color");
+        draw_vertex_buffer(context.cone_buffer);
     }
 
-    void drawConeInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.coneBuffer, data, count);
-        brl::useShader(context.objectShader);
+    void draw_cone_instances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::use_shader(context.instance_shader);
+        brl::draw_vertexbuffer_instanced(context.cone_buffer, data, count);
+        brl::use_shader(context.object_shader);
     }
 
     /* -------------------------------- Cylinder -------------------------------- */
 
-    void drawCylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.cylinderBuffer);
+    void draw_cylinder(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color, "color");
+        draw_vertex_buffer(context.cylinder_buffer);
     }
 
-    void drawCylinderInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.cylinderBuffer, data, count);
-        brl::useShader(context.objectShader);
+    void draw_cylinder_instances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::use_shader(context.instance_shader);
+        brl::draw_vertexbuffer_instanced(context.cylinder_buffer, data, count);
+        brl::use_shader(context.object_shader);
     }
 
     /* --------------------------------- Sphere --------------------------------- */
 
 
-    void drawSphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+    void draw_sphere(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color, "color");
+        draw_vertex_buffer(context.sphere_buffer);
     }
 
-    void drawSphereInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.sphereBuffer, data, count); 
-        brl::useShader(context.objectShader);
+    void draw_sphere_instances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::use_shader(context.instance_shader);
+        brl::draw_vertexbuffer_instanced(context.sphere_buffer, data, count); 
+        brl::use_shader(context.object_shader);
     }
 
-    void drawSphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
+    void draw_sphere(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color) {
         smath::vector4 i = {radius, 0.0f, 0.0f, 0.0f};
         smath::vector4 j = {0.0f, radius, 0.0f, 0.0f};
         smath::vector4 k = {0.0f, 0.0f, radius, 0.0f};
         smath::vector4 l = {position.x, position.y, position.z, 1.0f};
         smath::matrix4x4 transform = {i, j, k, l};
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color, "color");
+        draw_vertex_buffer(context.sphere_buffer);
     }
 
     /* --------------------------------- Circle --------------------------------- */
@@ -201,9 +201,9 @@ namespace brl {
         const float DEG2RAD = M_PI/180.0f;
 
         glDisable(GL_CULL_FACE);
-        useShader(context.unlitShader);
-        setShaderUniformMatrix4(context.unlitShader, transform, "model");
-        setShaderUniformFloat4(context.unlitShader, color.vector, "color");
+        use_shader(context.unlit_shader);
+        set_shader_uniform_matrix4(context.unlit_shader, transform, "model");
+        set_shader_uniform_float4(context.unlit_shader, color.vector, "color");
 
         if (end_angle < start_angle) {
             float tmp = start_angle;
@@ -242,11 +242,11 @@ namespace brl {
 
         matrix4x4 transformation_matrix = transform;
 
-        useShader(context.unlitShader);
+        use_shader(context.unlit_shader);
 
         glLineWidth((GLfloat) line_width);
-        setShaderUniformFloat4(context.unlitShader, color.vector, "color");
-        setShaderUniformMatrix4(context.unlitShader, transformation_matrix, "model");
+        set_shader_uniform_float4(context.unlit_shader, color.vector, "color");
+        set_shader_uniform_matrix4(context.unlit_shader, transformation_matrix, "model");
 
         glBegin(GL_LINES);
             for (int i = 0; i < 180; i++) {
@@ -277,11 +277,11 @@ namespace brl {
         };
         matrix4x4 transformation_matrix = smath::matrix4x4_from_transform(transform_struct);
         
-        useShader(context.unlitShader);
+        use_shader(context.unlit_shader);
 
         glLineWidth((GLfloat) line_width);
-        setShaderUniformFloat4(context.unlitShader, color.vector, "color");
-        setShaderUniformMatrix4(context.unlitShader, transformation_matrix, "model");
+        set_shader_uniform_float4(context.unlit_shader, color.vector, "color");
+        set_shader_uniform_matrix4(context.unlit_shader, transformation_matrix, "model");
 
         glBegin(GL_LINES);
             for (int i = 0; i < 180; i++) {
@@ -301,21 +301,21 @@ namespace brl {
 
     /* ---------------------------------- Plane --------------------------------- */
 
-    void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color, "color");
-        drawVertexBuffer(context.sphereBuffer);
+    void draw_plane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color) {
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color, "color");
+        draw_vertex_buffer(context.sphere_buffer);
     }
 
-    void drawPlaneInstances(const RenderContext &context, const InstanceData *data, uint32_t count) {
-        brl::useShader(context.instanceShader);
-        brl::drawVertexbufferInstanced(context.planeBuffer, data, count); 
-        brl::useShader(context.objectShader);
+    void draw_plane_instances(const RenderContext &context, const InstanceData *data, uint32_t count) {
+        brl::use_shader(context.instance_shader);
+        brl::draw_vertexbuffer_instanced(context.plane_buffer, data, count); 
+        brl::use_shader(context.object_shader);
     }
 
     /* --------------------------------- Vector --------------------------------- */
 
-    void drawVector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color) {
+    void draw_vector(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &vector, const float radius, const smath::vector4 &color) {
 
         using namespace smath;
 
@@ -336,13 +336,13 @@ namespace brl {
             .scale = {radius * 2.0f, radius * 2.0f, radius * 2.0f}
         };
         
-        drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
-        drawCone(context, matrix4x4_from_transform(coneTransform)*translation, color);
+        draw_cylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
+        draw_cone(context, matrix4x4_from_transform(coneTransform)*translation, color);
     }
 
     /* ---------------------------------- Line ---------------------------------- */
 
-    void drawLine(const RenderContext &context, const smath::vector3 &position1, const smath::vector3 &position2, const float radius, const smath::vector4 &color) {
+    void draw_line(const RenderContext &context, const smath::vector3 &position1, const smath::vector3 &position2, const float radius, const smath::vector4 &color) {
         
         using namespace smath;
 
@@ -358,29 +358,29 @@ namespace brl {
             .scale = {radius, vector.length()*0.5f, radius}
         };
 
-        drawCylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
+        draw_cylinder(context, matrix4x4_from_transform(cylinderTransform)*translation, color);
     }
 
     /* ---------------------------------- Mesh ---------------------------------- */
 
-    void drawMesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const Color &color) {
-        useShader(context.objectShader);
-        setShaderUniformMatrix4(context.objectShader, transform, "model");
-        setShaderUniformFloat4(context.objectShader, color.vector, "color");
-        drawVertexBuffer(mesh.buffer);
+    void draw_mesh(const RenderContext &context, const Mesh &mesh, const smath::matrix4x4 &transform, const Color &color) {
+        use_shader(context.object_shader);
+        set_shader_uniform_matrix4(context.object_shader, transform, "model");
+        set_shader_uniform_float4(context.object_shader, color.vector, "color");
+        draw_vertex_buffer(mesh.buffer);
     }
 
-    void drawMeshInstances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {
-        useShader(context.instanceShader);
-        drawVertexbufferInstanced(mesh.buffer, data, count);
-        useShader(context.objectShader);
+    void draw_mesh_instances(const RenderContext &context, const Mesh &mesh, const InstanceData *data, const uint32_t count) {
+        use_shader(context.instance_shader);
+        draw_vertexbuffer_instanced(mesh.buffer, data, count);
+        use_shader(context.object_shader);
 
     }
 
-    void drawModel(const RenderContext &context, const Model &model) {
-        setShaderUniformMatrix4(context.objectShader, model.transform, "model");
-        setShaderUniformFloat4(context.objectShader, model.color, "color");
-        drawVertexBuffer(model.mesh.buffer);
+    void draw_model(const RenderContext &context, const Model &model) {
+        set_shader_uniform_matrix4(context.object_shader, model.transform, "model");
+        set_shader_uniform_float4(context.object_shader, model.color, "color");
+        draw_vertex_buffer(model.mesh.buffer);
     }
     
 }

@@ -8,7 +8,7 @@ namespace brl {
 
         using namespace smath;
 
-        inline const MeshData cubeMesh = {
+        inline const MeshData CUBE_MESH = {
             .vertices = {
                 Vertex{{-1.000000f,  1.000000f,  1.000000f}, {-1.000000f, -0.000000f, -0.000000f}},
                 Vertex{{-1.000000f, -1.000000f, -1.000000f}, {-1.000000f, -0.000000f, -0.000000f}},
@@ -52,7 +52,7 @@ namespace brl {
             }
         };
 
-        inline const MeshData coneMesh = {
+        inline const MeshData CONE_MESH = {
             .vertices = {
                 Vertex{{ 0.000000f,  0.915692f, -0.042154f}, {-0.000000f,  0.447200f, -0.894400f}},
                 Vertex{{ 0.003356f,  0.965592f, -0.016873f}, { 0.174500f,  0.447200f, -0.877200f}},
@@ -1464,7 +1464,7 @@ namespace brl {
             }
         };
 
-        inline const MeshData cylinderMesh = {
+        inline const MeshData CYLINDER_MESH = {
             .vertices = {
                 Vertex{{ 0.000000f,  1.000000f, -1.000000f}, {-0.000000f, -0.000000f, -1.000000f}},
                 Vertex{{ 0.195090f, -1.000000f, -0.980785f}, { 0.195100f, -0.000000f, -0.980800f}},
@@ -1860,7 +1860,7 @@ namespace brl {
             }
         };
 
-        inline const MeshData sphereMesh = {
+        inline const MeshData SPHERE_MESH = {
             .vertices {
                 Vertex{{ 0.000000f, -1.000000f,  0.000000f}, {-0.000000f, -1.000000f, -0.000000f}},
                 Vertex{{ 0.203181f, -0.967950f,  0.147618f}, { 0.211000f, -0.965400f,  0.153300f}},
@@ -2872,7 +2872,7 @@ namespace brl {
             }
         };
 
-        inline const MeshData planeMesh = {
+        inline const MeshData PLANE_MESH = {
             .vertices {
                 {{-1.0f, 0.0f,-1.0f}, {0.0f,1.0f,0.0f}},
                 {{-1.0f, 0.0f, 1.0f}, {0.0f,1.0f,0.0f}},

@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace brl {
-    unsigned int getCompiledShader(unsigned int shaderType, const char* shaderSource) {
+    unsigned int get_compiled_shader(unsigned int shaderType, const char* shaderSource) {
         unsigned int shader_id = glCreateShader(shaderType);
 
         glShaderSource(shader_id, 1, &shaderSource, nullptr);
@@ -27,35 +27,20 @@ namespace brl {
         return shader_id;
     }
 
-    Shader createShader(const char *vertShaderSource, const char *fragShaderSource) {
+    Shader create_shader(const char *vertShaderSource, const char *fragShaderSource) {
         Shader shader;
 
-        shader.programId = glCreateProgram();
+        shader.program_id = glCreateProgram();
 
-        unsigned int vertShader = getCompiledShader(GL_VERTEX_SHADER, vertShaderSource);
-        unsigned int fragShader = getCompiledShader(GL_FRAGMENT_SHADER, fragShaderSource);
+        unsigned int vertShader = get_compiled_shader(GL_VERTEX_SHADER, vertShaderSource);
+        unsigned int fragShader = get_compiled_shader(GL_FRAGMENT_SHADER, fragShaderSource);
 
-        glAttachShader(shader.programId, vertShader);
-        glAttachShader(shader.programId, fragShader);
+        glAttachShader(shader.program_id, vertShader);
+        glAttachShader(shader.program_id, fragShader);
 
-        glLinkProgram(shader.programId);
+        glLinkProgram(shader.program_id);
 
-        // GLint linkResult;
-        // glGetProgramiv(shader.programId, GL_LINK_STATUS, &linkResult);
-        // if (linkResult == GL_FALSE) {
-        //     std::cout << "shader linking failed \n";
-
-        //     int length;
-        //     glGetProgramiv(shader.programId, GL_INFO_LOG_LENGTH, &length);
-
-        //     GLchar* strInfoLog = new GLchar[length + 1];
-        //     glGetShaderInfoLog(shader.programId, length, &length, strInfoLog);
-
-        //     fprintf(stderr, "Shader linking error: %s\n", strInfoLog);
-        //     delete[] strInfoLog;
-        // }
-
-        glValidateProgram(shader.programId);
+        glValidateProgram(shader.program_id);
 
         glDeleteShader(vertShader);
         glDeleteShader(fragShader);
@@ -63,23 +48,23 @@ namespace brl {
         return shader;
     }
 
-    void setShaderUniformMatrix4(const Shader &shader, const smath::matrix4x4 &mat4, const std::string &name) {
-        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
+    void set_shader_uniform_matrix4(const Shader &shader, const smath::matrix4x4 &mat4, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.program_id, name.c_str());
         glUniformMatrix4fv(myLoc, 1, GL_FALSE, &mat4.data[0][0]);
     }
 
-    void setShaderUniformInt(const Shader &shader, const int v, const std::string &name) {
-        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
+    void set_shader_uniform_int(const Shader &shader, const int v, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.program_id, name.c_str());
         glUniform1i(myLoc, v);
     }
 
-    void setShaderUniformFloat3(const Shader &shader, const smath::vector3 &v, const std::string &name) {
-        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
-        glProgramUniform3fv(shader.programId, myLoc, 1, (float*)&v);
+    void set_shader_uniform_float3(const Shader &shader, const smath::vector3 &v, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.program_id, name.c_str());
+        glProgramUniform3fv(shader.program_id, myLoc, 1, (float*)&v);
     }
 
-    void setShaderUniformFloat4(const Shader &shader, const smath::vector4 &v, const std::string &name) {
-        GLint myLoc = glGetUniformLocation(shader.programId, name.c_str());
-        glProgramUniform4fv(shader.programId, myLoc, 1, (float*)&v);
+    void set_shader_uniform_float4(const Shader &shader, const smath::vector4 &v, const std::string &name) {
+        GLint myLoc = glGetUniformLocation(shader.program_id, name.c_str());
+        glProgramUniform4fv(shader.program_id, myLoc, 1, (float*)&v);
     }
 }

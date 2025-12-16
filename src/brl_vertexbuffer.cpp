@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace brl {
-    void bindVertexbuffer(const Vertexbuffer &buffer) {
+    void bind_vertexbuffer(const Vertexbuffer &buffer) {
         glBindVertexArray(buffer.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
     }
@@ -13,11 +13,11 @@ namespace brl {
     //     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
     // }
 
-    void unbindVertexbuffer() {
+    void unbind_vertexbuffer() {
         glBindVertexArray(0);
     }
 
-    Vertexbuffer createVertexbuffer(const MeshData *mesh) {
+    Vertexbuffer create_vertexbuffer(const MeshData *mesh) {
         Vertexbuffer buffer;
 
         buffer.size = mesh->indices.size();
@@ -106,13 +106,13 @@ namespace brl {
     //     glBindBuffer(GL_ARRAY_BUFFER, 0);
     // }
 
-    void drawVertexBuffer(const Vertexbuffer &buffer) {
-        bindVertexbuffer(buffer);
+    void draw_vertex_buffer(const Vertexbuffer &buffer) {
+        bind_vertexbuffer(buffer);
         glDrawElements(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, nullptr);
-        unbindVertexbuffer();
+        unbind_vertexbuffer();
     }
 
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
+    void draw_vertexbuffer_instanced(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
         uint32_t instanceVBO;
         glGenBuffers(1, &instanceVBO);
         glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
@@ -138,12 +138,12 @@ namespace brl {
         glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
         glVertexAttribDivisor(6, 1);
 
-        bindVertexbuffer(buffer);
+        bind_vertexbuffer(buffer);
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
-        unbindVertexbuffer();
+        unbind_vertexbuffer();
     }
 
-    Mesh createMesh(MeshData* meshData) {
-        return Mesh{createVertexbuffer(meshData)};
+    Mesh create_mesh(MeshData* meshData) {
+        return Mesh{create_vertexbuffer(meshData)};
     }
 }

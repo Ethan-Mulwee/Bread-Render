@@ -10,22 +10,22 @@
 
 namespace brl {
     struct Shader {
-        unsigned int programId;
+        unsigned int program_id;
     };
 
-    Shader createShaderFromFile(const std::string &vertShaderPath, const std::string &fragShaderPath);
+    Shader create_shader_from_file(const std::string &vertShaderPath, const std::string &fragShaderPath);
 
-    Shader createShader(const char* vertShaderSource, const char* fragShaderSource);
+    Shader create_shader(const char* vertShaderSource, const char* fragShaderSource);
 
-    void useShader(const Shader &shader);
+    void use_shader(const Shader &shader);
 
-    void setShaderUniformMatrix4(const Shader &shader, const smath::matrix4x4 &mat4, const std::string &name);
+    void set_shader_uniform_matrix4(const Shader &shader, const smath::matrix4x4 &mat4, const std::string &name);
 
-    void setShaderUniformInt(const Shader &shader, const int v, const std::string &name);
+    void set_shader_uniform_int(const Shader &shader, const int v, const std::string &name);
 
-    void setShaderUniformFloat3(const Shader &shader, const smath::vector3 &v, const std::string &name);
+    void set_shader_uniform_float3(const Shader &shader, const smath::vector3 &v, const std::string &name);
 
-    void setShaderUniformFloat4(const Shader &shader, const smath::vector4 &v, const std::string &name);
+    void set_shader_uniform_float4(const Shader &shader, const smath::vector4 &v, const std::string &name);
 }
 
 #endif

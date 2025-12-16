@@ -16,15 +16,15 @@ namespace brl {
         uint32_t MSAA = 0;
     };
 
-    void bindFramebuffer(const Framebuffer &buffer);
+    void bind_framebuffer(const Framebuffer &buffer);
 
-    void unbindFramebuffer();
+    void unbind_framebuffer();
 
-    Framebuffer createFramebuffer(int32_t width, int32_t height, const uint32_t MSAA);
+    Framebuffer create_framebuffer(int32_t width, int32_t height, const uint32_t MSAA);
 
-    void resizeFramebuffer(Framebuffer* buffer, const int32_t width, const int32_t height);
+    void resize_framebuffer(Framebuffer* buffer, const int32_t width, const int32_t height);
 
-    void blitFramebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height);
+    void blit_framebuffer(const uint32_t source, const uint32_t destination, const uint32_t width, const uint32_t height);
 }
 
 #endif

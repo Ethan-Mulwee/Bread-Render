@@ -57,7 +57,7 @@ namespace brl {
     }
 
 
-    Window* createWindow(int width, int height, const char *name) {
+    Window* create_window(int width, int height, const char *name) {
         Window *window = new Window();
 
         window->width = width;
@@ -104,7 +104,7 @@ namespace brl {
         return window; 
     }
 
-    void updateWindow(Window *window) {
+    void update_window(Window *window) {
         window->scrollInput = 0.0f;
 
         glfwSwapBuffers(window->glfwWindow);
@@ -121,7 +121,7 @@ namespace brl {
         window->time = currentTime;
     }
 
-    void destroyWindow(Window *window) {
+    void destroy_window(Window *window) {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -131,11 +131,11 @@ namespace brl {
         glfwTerminate();
     }
 
-    void setVsync(bool boolean) {
+    void set_vsync(bool boolean) {
         glfwSwapInterval(boolean); // Enable vsync
     }
 
-    bool windowShouldClose(const Window *window) {
+    bool window_should_close(const Window *window) {
         return glfwWindowShouldClose(window->glfwWindow);
     }
 }

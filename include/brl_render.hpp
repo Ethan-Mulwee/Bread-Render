@@ -50,8 +50,13 @@ namespace brl {
     // void drawSphereWire(const RenderContext &context, const smath::vector3 position, const float radius, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawSphereInstances(const RenderContext &context, const InstanceData* data, uint32_t count);
 
-    void drawCircleLines(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
-    void drawCircleLines(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &direction, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    // void drawPolygon();
+
+    void draw_arc(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float start_angle, float end_angle, uint segments = 180, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void draw_circle(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
+
+    void draw_circle_lines(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
+    void draw_circle_lines(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &direction, const float radius, float line_width = 1.0f, const Color &color = {1.0f, 1.0f, 1.0f, 1.0f});
 
     void drawPlane(const RenderContext &context, const smath::matrix4x4 &transform, const smath::vector4 &color = {1.0f, 1.0f, 1.0f, 1.0f});
     void drawPlaneInstances(const RenderContext &context, const InstanceData* data, uint32_t count);

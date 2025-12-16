@@ -196,7 +196,47 @@ namespace brl {
 
     /* --------------------------------- Circle --------------------------------- */
 
-    void drawCircleLines(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width, const Color &color) {
+    // Code adapted from raylib
+    void draw_arc(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float start_angle, float end_angle, uint segments, const Color &color) {
+        const float DEG2RAD = M_PI/180.0f;
+
+        glDisable(GL_CULL_FACE);
+        useShader(context.objectShader);
+        setShaderUniformMatrix4(context.objectShader, transform, "model");
+        setShaderUniformFloat4(context.objectShader, color.vector, "color");
+
+        if (end_angle < start_angle) {
+            float tmp = start_angle;
+            start_angle = end_angle;
+            end_angle = tmp;
+        }
+
+        int min_segments = (int)ceilf((end_angle - start_angle)/90.0f);
+
+        if (segments < min_segments) {
+            // Calculate the maximum angle between segments based on the error rate (usually 0.5f)
+            float th = acosf(2*powf(1 - 0.5f/radius, 2) - 1);
+            segments = (int)((end_angle - start_angle)*ceilf(2*M_PI/th)/360);
+    
+            if (segments <= 0) segments = min_segments;
+        }
+
+        float stepLength = (end_angle - start_angle)/(float)segments;
+        float angle = start_angle;
+
+        glBegin(GL_TRIANGLES);
+            for (int i = 0; i < segments; i++)
+            {
+                glVertex3f(0, 0, 0);
+                glVertex3f(cosf(DEG2RAD*(angle + stepLength))*radius, sinf(DEG2RAD*(angle + stepLength))*radius, 0);
+                glVertex3f(cosf(DEG2RAD*angle)*radius, sinf(DEG2RAD*angle)*radius, 0);
+
+                angle += stepLength;
+            }
+        glEnd();
+    }
+
+    void draw_circle_lines(const RenderContext &context, const smath::matrix4x4 &transform, const float radius, float line_width, const Color &color) {
 
         using namespace smath;
 
@@ -224,7 +264,7 @@ namespace brl {
     }
 
 
-    void drawCircleLines(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &direction, const float radius, float line_width, const Color &color) {
+    void draw_circle_lines(const RenderContext &context, const smath::vector3 &position, const smath::vector3 &direction, const float radius, float line_width, const Color &color) {
 
         using namespace smath;
 

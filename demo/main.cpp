@@ -37,8 +37,11 @@ int main() {
                 ImGui::Text("This is text dispalyed ontop of the viewport!");
                 ImGui::Text("size: %f, %f", viewport2.size.x, viewport2.size.y);
 
-                brl::draw_arc(renderContext, smath::matrix4x4_from_identity(), 2.0f, 0.0f, 120.0f, 180, brl::FREYA_BLUE);
-
+                brl::Color arc_color = brl::FREYA_BLUE;
+                arc_color.vector.w = 0.8f;
+                
+                brl::renderModeTransparent();
+                
                 brl::draw_circle_lines(renderContext, smath::vector3{0.0, 2.0, 3.0}, smath::vector3{0.0, 1.0, 0.0}, 1.0f, 3.0f, brl::FREYA_RED);
                 brl::draw_circle_lines(renderContext, smath::vector3{0.0, 2.0, 3.0}, smath::vector3{0.0, 0.0, 1.0}, 1.0f, 3.0f, brl::FREYA_BLUE);
             
@@ -47,12 +50,14 @@ int main() {
                 brl::renderModeWireframe();
                 brl::drawSphere(renderContext, smath::vector3{2.2f, 0.0f, 0.0f}, 1.0f, smath::vector4{0.0f, 0.9f, 0.1f});
                 brl::drawCylinder(renderContext, smath::matrix4x4_from_translation(smath::vector3{-2.2f, 0.0f, 0.0f}));
-
+                
                 brl::renderModeSolid();
                 brl::drawVector(renderContext, {0.0f, 0.0f, 2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f);
-
+                
                 brl::renderModeTransparent();
                 brl::drawVector(renderContext, {0.0f, 0.0f, -2.2f}, {1.0f, 1.0f, 1.0f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
+                // rendering order is an issue for transparent drawing, this needs to be fixed later with the render grouping system
+                brl::draw_arc(renderContext, smath::matrix4x4_from_identity(), 2.0f, 0.0f, 120.0f, 180, arc_color);
                 brl::drawLine(renderContext, {0.0f, 0.0f, -2.7f}, {0.0f, 1.0f, -3.9f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
                 
 

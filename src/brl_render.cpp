@@ -212,7 +212,7 @@ namespace brl {
         }
 
         int min_segments = (int)ceilf((end_angle - start_angle)/90.0f);
-
+        
         if (segments < min_segments) {
             // Calculate the maximum angle between segments based on the error rate (usually 0.5f)
             float th = acosf(2*powf(1 - 0.5f/radius, 2) - 1);

@@ -12,7 +12,6 @@ namespace brl {
         Framebuffer output_framebuffer;
         uint32_t MSAA = 0;
 
-        RenderContext* render_context;
         ImVec2 screen_position;
         ImVec2 position;
         ImVec2 size;
@@ -22,7 +21,7 @@ namespace brl {
         brl::Color background_color = brl::GREY;
     };
 
-    ViewportContext create_viewport_context(RenderContext* renderContext, const char* name, const uint32_t MSAA = 4);
+    ViewportContext create_viewport_context(const char* name, const uint32_t MSAA = 4);
 
     void begin_viewport(ViewportContext &viewport, Camera &camera);
     void end_viewport(ViewportContext &viewport, Camera &camera);

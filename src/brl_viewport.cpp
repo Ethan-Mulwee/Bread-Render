@@ -4,9 +4,8 @@
 #include "imgui.h"
 
 namespace brl {
-    ViewportContext create_viewport_context(RenderContext *renderContext, const char* name, const uint32_t MSAA) {
+    ViewportContext create_viewport_context(const char* name, const uint32_t MSAA) {
         ViewportContext viewportContext;
-        viewportContext.render_context = renderContext;
 
         viewportContext.framebuffer = create_framebuffer(1080, 1080, MSAA);
         if (MSAA) viewportContext.output_framebuffer = create_framebuffer(1080, 1080, false);
@@ -28,17 +27,17 @@ namespace brl {
         glCullFace(GL_BACK);
 
         // Set instance uniforms
-        use_shader(viewport.render_context->instance_shader);
-        set_shader_uniform_matrix4(viewport.render_context->instance_shader, calculate_camera_view(camera), "view");
-        set_shader_uniform_matrix4(viewport.render_context->instance_shader, calculate_camera_projection(camera), "projection");
+        use_shader(global_render_context.instance_shader);
+        set_shader_uniform_matrix4(global_render_context.instance_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(global_render_context.instance_shader, calculate_camera_projection(camera), "projection");
 
-        use_shader(viewport.render_context->unlit_shader);
-        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_view(camera), "view");
-        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_projection(camera), "projection");
+        use_shader(global_render_context.unlit_shader);
+        set_shader_uniform_matrix4(global_render_context.unlit_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(global_render_context.unlit_shader, calculate_camera_projection(camera), "projection");
 
-        use_shader(viewport.render_context->object_shader);
-        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_view(camera), "view");
-        set_shader_uniform_matrix4(viewport.render_context->object_shader, calculate_camera_projection(camera), "projection");
+        use_shader(global_render_context.object_shader);
+        set_shader_uniform_matrix4(global_render_context.object_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(global_render_context.object_shader, calculate_camera_projection(camera), "projection");
 
         ImGui::Begin(viewport.name);
 
@@ -75,9 +74,9 @@ namespace brl {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_CULL_FACE);
 
-        use_shader(viewport.render_context->grid_shader);
-        set_shader_uniform_matrix4(viewport.render_context->grid_shader, calculate_camera_view(camera), "view");
-        set_shader_uniform_matrix4(viewport.render_context->grid_shader, calculate_camera_projection(camera), "projection");
+        use_shader(global_render_context.grid_shader);
+        set_shader_uniform_matrix4(global_render_context.grid_shader, calculate_camera_view(camera), "view");
+        set_shader_uniform_matrix4(global_render_context.grid_shader, calculate_camera_projection(camera), "projection");
 
         smath::vector3 cameraPosition = calculate_camera_position(camera);
         const float size = 250.0f;
@@ -87,8 +86,8 @@ namespace brl {
             0.0f, 0.0f, size,                           0.0f,
             -cameraPosition.x, 0.0f, -cameraPosition.z, 1.0f
         };
-        set_shader_uniform_matrix4(viewport.render_context->grid_shader, gridTransform, "model");
-        draw_vertex_buffer(viewport.render_context->plane_buffer);
+        set_shader_uniform_matrix4(global_render_context.grid_shader, gridTransform, "model");
+        draw_vertex_buffer(global_render_context.plane_buffer);
 
         if (viewport.MSAA)
             brl::blit_framebuffer(viewport.framebuffer.fBO, viewport.output_framebuffer.fBO, viewport.framebuffer.width, viewport.framebuffer.height);

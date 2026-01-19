@@ -55,7 +55,9 @@ namespace brl {
         const GLchar* message,
         const void* userParam
     ) {
-        printf("OpenGL Error: %s\n", message);
+        if (severity == GL_DEBUG_TYPE_ERROR) {
+            printf("OpenGL Error: %s\n", message);
+        }
         // glFlush();
     }
 

@@ -1,6 +1,8 @@
 #include "brl.hpp"
 
 #include <cstdlib>
+#include <renderdoc_app.h>
+#include <dlfcn.h>
 
 int main() {
     brl::Window* window = brl::create_window(1920, 1080, "test");
@@ -13,6 +15,17 @@ int main() {
     brl::MeshData utahTeapotMeshData = brl::parse_obj("../demo/OBJs/Utah-Teapot.obj");
     brl::Mesh utahTeapotMesh = brl::create_mesh(&utahTeapotMeshData);
     brl::MeshData cubeMeshData = brl::parse_obj("../demo/OBJs/Primitive-Cube.obj");
+
+    RENDERDOC_API_1_1_2 *rdoc_api = NULL;
+
+    // At init, on linux/android.
+    // For android replace librenderdoc.so with libVkLayer_GLES_RenderDoc.so
+    if(void *mod = dlopen("librenderdoc.so", RTLD_NOW | RTLD_NOLOAD))
+    {
+        pRENDERDOC_GetAPI RENDERDOC_GetAPI = (pRENDERDOC_GetAPI)dlsym(mod, "RENDERDOC_GetAPI");
+        int ret = RENDERDOC_GetAPI(eRENDERDOC_API_Version_1_1_2, (void **)&rdoc_api);
+        assert(ret == 1);
+    }
 
     while (!brl::window_should_close(window)) {
         brl::update_window(window);

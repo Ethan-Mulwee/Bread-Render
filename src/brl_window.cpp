@@ -46,6 +46,19 @@ namespace brl {
         ImGui_ImplOpenGL3_Init(glsl_version);
     }
 
+    void GLAPIENTRY DebugMessageCallback(
+        GLenum source,
+        GLenum type,
+        GLuint id,
+        GLenum severity,
+        GLsizei length,
+        const GLchar* message,
+        const void* userParam
+    ) {
+        printf("OpenGL Error: %s\n", message);
+        // glFlush();
+    }
+
     void openGLInit() {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
@@ -54,6 +67,9 @@ namespace brl {
         glCullFace(GL_BACK);
 
         glEnable(GL_MULTISAMPLE); 
+
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(DebugMessageCallback, 0);
     }
 
 

@@ -75,7 +75,7 @@ namespace brl {
     }
 
 
-    Window* create_window(int width, int height, const char *name) {
+    Window* create_window(int width, int height, const char *name, bool debug) {
         Window *window = new Window();
 
         window->width = width;

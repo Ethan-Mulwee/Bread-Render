@@ -24,7 +24,7 @@ namespace brl {
         double perviousRenderTime = 0.0;
     };
     
-    Window* create_window(int width, int height, const char* name);
+    Window* create_window(int width, int height, const char* name, bool debug = false);
 
     void update_window(Window* window);
 

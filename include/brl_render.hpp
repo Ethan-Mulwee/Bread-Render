@@ -5,6 +5,7 @@
 #include "brl_vertexbuffer.hpp"
 #include "brl_shader.hpp"
 #include "brl_color.hpp"
+#include "brl_render_data.hpp"
 
 
 namespace brl {

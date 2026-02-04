@@ -23,6 +23,8 @@ namespace brl {
         Vertexbuffer cone_buffer;
         Vertexbuffer cube_buffer;
         Vertexbuffer plane_buffer;
+
+        DynamicRenderDataTree dynamic_render_data_tree;
         
     };
 

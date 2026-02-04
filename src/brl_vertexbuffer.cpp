@@ -217,6 +217,13 @@ namespace brl {
         unbind_vertexbuffer();
     }
 
+    // Call sync on GLSyncBuffer before using this to prepare instance data
+    void draw_vertexbuffer_instanced2(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
+        bind_vertexbuffer(buffer);
+        glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
+        unbind_vertexbuffer();
+    }
+
     Mesh create_mesh(MeshData* meshData) {
         return Mesh{create_vertexbuffer(meshData)};
     }

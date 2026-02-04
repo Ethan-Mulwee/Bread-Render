@@ -91,18 +91,19 @@ namespace brl {
             databuffer[used] = InstanceData{transform, color.vector};
         }
 
+        void clear() {
+            used = 0;
+        }
 
-    };
+        // void shrink() {
+            
+        // }
 
-    struct ObjectRenderDataArray {
-        Vertexbuffer vertexbuffer;
-        ScratchBuffer<matrix4x4> transforms;
-        ScratchBuffer<Color> colors;
     };
 
     struct ConfigurationRenderDataNode {
         RenderConfiguration config;
-        ScratchBuffer<ObjectRenderDataArray> object_arrays;
+        ScratchBuffer<GLSyncBuffer> object_arrays;
     };
 
 

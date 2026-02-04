@@ -3,6 +3,7 @@
 #include "brl_builtin_shaders.hpp"
 #include "brl_shader.hpp"
 #include "brl_vertexbuffer.hpp"
+#include "brl_render_data.hpp"
 
 namespace brl {
 

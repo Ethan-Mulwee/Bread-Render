@@ -59,28 +59,36 @@ namespace brl {
     This ensures the OpenGL buffer is only resized when needed rather than on every frame; 
     glBufferSubData() can be used instead */
     struct GLSyncBuffer {
-        Vertexbuffer vertexbuffer;
-        matrix4x4* transformbuffer;
-        Color* colorbuffer;
+        DynamicVertexbuffer vertexbuffer;
+        InstanceData* databuffer;
 
+        // set to true after resizing so we know that this buffer needs to resized at render time
+        bool GLresize = false;
         uint32_t used;
         uint32_t size;
 
         void resize(uint32_t new_size) {
-            transformbuffer = (matrix4x4*)realloc(transformbuffer, new_size * sizeof(matrix4x4));
-            colorbuffer = (Color*)realloc(transformbuffer, new_size * sizeof(Color));
+            databuffer = (InstanceData*)realloc(databuffer, new_size * sizeof(InstanceData));
 
             size = new_size;
             if (used > size)
                 used = size;
         }
 
+        void sync() {
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer.instanceVBO);
+            if (GLresize)
+                glBufferData(vertexbuffer.instanceVBO, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
+            else {
+                glBufferSubData(GL_ARRAY_BUFFER, 0, used * sizeof(InstanceData), databuffer);
+            }
+        }
+
         void add(const matrix4x4 &transform, const Color &color) {
             if (used >= size)
                 resize(size * 2);
 
-            transformbuffer[used] = transform;
-            colorbuffer[used] = color;
+            databuffer[used] = InstanceData{transform, color.vector};
         }
 
 

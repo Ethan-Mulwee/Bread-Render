@@ -24,22 +24,43 @@ namespace brl {
 
         glGenBuffers(1, &buffer.vbo);
         glGenBuffers(1, &buffer.ebo);
+        glGenBuffers(1, &buffer.instanceVBO);
         glGenVertexArrays(1, &buffer.vao);
-        
+
         glBindVertexArray(buffer.vao);
-
+        
         glBindBuffer(GL_ARRAY_BUFFER, buffer.vbo);
-        glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
-
+        glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), mesh->vertices.data(), GL_DYNAMIC_DRAW);
+        
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t), mesh->indices.data(), GL_STATIC_DRAW);
-
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t), mesh->indices.data(), GL_DYNAMIC_DRAW);
+        
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
         glEnableVertexAttribArray(0);
         
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
         glEnableVertexAttribArray(1);
+
+        glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
         
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
+
+        glVertexAttribDivisor(2, 1);
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+        glVertexAttribDivisor(6, 1);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
@@ -54,87 +75,49 @@ namespace brl {
 
         glGenBuffers(1, &buffer.vbo);
         glGenBuffers(1, &buffer.ebo);
+        glGenBuffers(1, &buffer.instanceVBO);
         glGenVertexArrays(1, &buffer.vao);
-        
-        glBindVertexArray(buffer.vao);
 
+        glBindVertexArray(buffer.vao);
+        
         glBindBuffer(GL_ARRAY_BUFFER, buffer.vbo);
         glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), mesh->vertices.data(), GL_DYNAMIC_DRAW);
-
+        
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t), mesh->indices.data(), GL_DYNAMIC_DRAW);
-
+        
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
         glEnableVertexAttribArray(0);
         
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
         glEnableVertexAttribArray(1);
+
+        glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
         
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
+
+        glVertexAttribDivisor(2, 1);
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+        glVertexAttribDivisor(6, 1);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
         return buffer;
     }
-
-    // InstancedVertexBuffer createInstancedVertexBuffer(const MeshData *mesh) {
-    //     InstancedVertexBuffer buffer;
-
-    //     buffer.size = mesh->indices.size();
-
-    //     glGenBuffers(1, &buffer.vbo);
-    //     glGenBuffers(1, &buffer.ebo);
-    //     glGenBuffers(1, &buffer.instancebo);
-    //     glGenVertexArrays(1, &buffer.vao);
-        
-    //     glBindVertexArray(buffer.vao);
-
-    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.vbo);
-    //     glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
-
-    //     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
-    //     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t), mesh->indices.data(), GL_STATIC_DRAW);
-
-    //     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
-    //     glEnableVertexAttribArray(0);
-        
-    //     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    //     glEnableVertexAttribArray(1);
-
-    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-
-    //     // Adapted from https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/4.advanced_opengl/10.3.asteroids_instanced/asteroids_instanced.cpp
-    //     glEnableVertexAttribArray(2);
-    //     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
-    //     glEnableVertexAttribArray(3);
-    //     glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
-    //     glEnableVertexAttribArray(4);
-    //     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
-    //     glEnableVertexAttribArray(5);
-    //     glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
-
-    //     glVertexAttribDivisor(2, 1);
-    //     glVertexAttribDivisor(3, 1);
-    //     glVertexAttribDivisor(4, 1);
-    //     glVertexAttribDivisor(5, 1);
-
-    //     glEnableVertexAttribArray(6);
-    //     glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
-    //     glVertexAttribDivisor(6, 1);
-
-        
-    //     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    //     glBindVertexArray(0);
-
-    //     return buffer;
-    // }
-
-    // void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const InstanceData *instanceData, const uint32_t amount) {
-    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-    //     glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), &instanceData[0], GL_DYNAMIC_DRAW);
-    //     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    // }
 
     void draw_vertex_buffer(const Vertexbuffer &buffer) {
         bind_vertexbuffer(buffer);
@@ -169,13 +152,13 @@ namespace brl {
         glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
         
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)offsetof(ModelData, transform));
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
         glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)(offsetof(ModelData, transform) + sizeof(smath::vector4)));
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)(offsetof(ModelData, transform) + 2 * sizeof(smath::vector4)));
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
         glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)(offsetof(ModelData, transform) + 3 * sizeof(smath::vector4)));
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
 
         glVertexAttribDivisor(2, 1);
         glVertexAttribDivisor(3, 1);
@@ -183,7 +166,7 @@ namespace brl {
         glVertexAttribDivisor(5, 1);
 
         glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(ModelData), (void*)offsetof(ModelData, color));
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
         glVertexAttribDivisor(6, 1);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -193,104 +176,46 @@ namespace brl {
         return buffer;
     }
 
-    // InstancedVertexBuffer createInstancedVertexBuffer(const MeshData *mesh) {
-    //     InstancedVertexBuffer buffer;
-
-    //     buffer.size = mesh->indices.size();
-
-    //     glGenBuffers(1, &buffer.vbo);
-    //     glGenBuffers(1, &buffer.ebo);
-    //     glGenBuffers(1, &buffer.instancebo);
-    //     glGenVertexArrays(1, &buffer.vao);
-        
-    //     glBindVertexArray(buffer.vao);
-
-    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.vbo);
-    //     glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
-
-    //     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
-    //     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t), mesh->indices.data(), GL_STATIC_DRAW);
-
-    //     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
-    //     glEnableVertexAttribArray(0);
-        
-    //     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    //     glEnableVertexAttribArray(1);
-
-    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-
-    //     // Adapted from https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/4.advanced_opengl/10.3.asteroids_instanced/asteroids_instanced.cpp
-    //     glEnableVertexAttribArray(2);
-    //     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
-    //     glEnableVertexAttribArray(3);
-    //     glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
-    //     glEnableVertexAttribArray(4);
-    //     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
-    //     glEnableVertexAttribArray(5);
-    //     glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
-
-    //     glVertexAttribDivisor(2, 1);
-    //     glVertexAttribDivisor(3, 1);
-    //     glVertexAttribDivisor(4, 1);
-    //     glVertexAttribDivisor(5, 1);
-
-    //     glEnableVertexAttribArray(6);
-    //     glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
-    //     glVertexAttribDivisor(6, 1);
-
-        
-    //     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    //     glBindVertexArray(0);
-
-    //     return buffer;
-    // }
-
-    // void setInstancedVertexBufferData(const InstancedVertexBuffer &buffer, const InstanceData *instanceData, const uint32_t amount) {
-    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.instancebo);
-    //     glBufferData(GL_ARRAY_BUFFER, amount * sizeof(InstanceData), &instanceData[0], GL_DYNAMIC_DRAW);
-    //     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    // }
     
-    void drawVertexbufferInstanced(const Vertexbuffer &buffer, const ModelData *data, const uint32_t count) {
-        glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(ModelData), data);
-
-        bind_vertexbuffer(buffer);
-        glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
-        unbind_vertexbuffer();
-    }
-
-    // void draw_vertexbuffer_instanced(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
-    //     uint32_t instanceVBO;
-    //     glGenBuffers(1, &instanceVBO);
-    //     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    //     glBufferData(GL_ARRAY_BUFFER, count * sizeof(InstanceData), data, GL_DYNAMIC_DRAW);
-
-    //     glBindVertexArray(buffer.vao);
-
-    //     glEnableVertexAttribArray(2);
-    //     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
-    //     glEnableVertexAttribArray(3);
-    //     glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
-    //     glEnableVertexAttribArray(4);
-    //     glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
-    //     glEnableVertexAttribArray(5);
-    //     glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
-
-    //     glVertexAttribDivisor(2, 1);
-    //     glVertexAttribDivisor(3, 1);
-    //     glVertexAttribDivisor(4, 1);
-    //     glVertexAttribDivisor(5, 1);
-
-    //     glEnableVertexAttribArray(6);
-    //     glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
-    //     glVertexAttribDivisor(6, 1);
+    // void drawVertexbufferInstanced(const Vertexbuffer &buffer, const ModelData *data, const uint32_t count) {
+    //     glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
+    //     glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(ModelData), data);
 
     //     bind_vertexbuffer(buffer);
     //     glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
     //     unbind_vertexbuffer();
     // }
+
+    void draw_vertexbuffer_instanced(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
+        uint32_t instanceVBO;
+        glGenBuffers(1, &instanceVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+        glBufferData(GL_ARRAY_BUFFER, count * sizeof(InstanceData), data, GL_DYNAMIC_DRAW);
+
+        glBindVertexArray(buffer.vao);
+
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, transform));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + sizeof(smath::vector4)));
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 2 * sizeof(smath::vector4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(offsetof(InstanceData, transform) + 3 * sizeof(smath::vector4)));
+
+        glVertexAttribDivisor(2, 1);
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)offsetof(InstanceData, color));
+        glVertexAttribDivisor(6, 1);
+
+        bind_vertexbuffer(buffer);
+        glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
+        unbind_vertexbuffer();
+    }
 
     Mesh create_mesh(MeshData* meshData) {
         return Mesh{create_vertexbuffer(meshData)};

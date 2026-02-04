@@ -74,6 +74,8 @@ int main() {
                 brl::draw_line({0.0f, 0.0f, -2.7f}, {0.0f, 1.0f, -3.9f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
                 
 
+                for (int i = 0; i < 100000; i++)
+                    brl::draw_sphere(smath::vector3{0.0f, 0.0f, 0.0f}, 1.0f);
             brl::end_viewport(viewport2, camera2);
             
         brl::end_render();

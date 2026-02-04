@@ -27,12 +27,12 @@ namespace brl {
 
     struct StaticVertexbuffer {
         uint32_t size;
-        uint32_t vao, vbo, ebo;
+        uint32_t vao, vbo, ebo, instanceVBO;
     };
 
     struct DynamicVertexbuffer {
         uint32_t size;
-        uint32_t vao, vbo, ebo;
+        uint32_t vao, vbo, ebo, instanceVBO;
     };
 
     struct InstanceData {

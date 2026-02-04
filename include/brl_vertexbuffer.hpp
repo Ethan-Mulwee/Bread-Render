@@ -25,6 +25,16 @@ namespace brl {
         uint32_t vao, vbo, ebo;
     };
 
+    struct StaticVertexbuffer {
+        uint32_t size;
+        uint32_t vao, vbo, ebo;
+    };
+
+    struct DynamicVertexbuffer {
+        uint32_t size;
+        uint32_t vao, vbo, ebo;
+    };
+
     struct InstanceData {
         smath::matrix4x4 transform;
         smath::vector4 color;

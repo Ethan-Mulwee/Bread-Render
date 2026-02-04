@@ -25,29 +25,76 @@ namespace brl {
     Unlike std::vector calling clear() does not call the destructor on the elements inside
     therefore saving any allocated memory buffers inside for the next frame just invalidating their data */
     template<typename T>
-    struct ScratchVector {
-        T* elements;
-        u_int32_t used;
-        u_int32_t size;
+    struct ScratchBuffer {
+        T* buffer;
+        uint32_t used;
+        uint32_t size;
 
-        void add(T element);
+        void resize(uint32_t new_size) {
+            buffer = (T*)realloc(buffer, new_size * sizeof(T));
+            size = new_size;
+            if (used > size)
+                used = size;
+        }
+
+        void add(T element) {
+            if (used >= size)
+                resize(size * 2);
+
+                buffer[used] = element;
+                used++;
+        }
+
+        void clear() {
+            used = 0;
+        }
         
-        void reize();
-
         // shrink size to fit used
         void shrink();
 
     };
 
+    /* Structure that also dynamically takes care of object data buffers on the OpenGL side. 
+    The buffer sizes between OpenGL and here are in sync. When resizing glBufferData() is called to resize it. 
+    This ensures the OpenGL buffer is only resized when needed rather than on every frame; 
+    glBufferSubData() can be used instead */
+    struct GLSyncBuffer {
+        Vertexbuffer vertexbuffer;
+        matrix4x4* transformbuffer;
+        Color* colorbuffer;
+
+        uint32_t used;
+        uint32_t size;
+
+        void resize(uint32_t new_size) {
+            transformbuffer = (matrix4x4*)realloc(transformbuffer, new_size * sizeof(matrix4x4));
+            colorbuffer = (Color*)realloc(transformbuffer, new_size * sizeof(Color));
+
+            size = new_size;
+            if (used > size)
+                used = size;
+        }
+
+        void add(const matrix4x4 &transform, const Color &color) {
+            if (used >= size)
+                resize(size * 2);
+
+            transformbuffer[used] = transform;
+            colorbuffer[used] = color;
+        }
+
+
+    };
+
     struct ObjectRenderDataArray {
         Vertexbuffer vertexbuffer;
-        ScratchVector<matrix4x4> transforms;
-        ScratchVector<Color> colors;
+        ScratchBuffer<matrix4x4> transforms;
+        ScratchBuffer<Color> colors;
     };
 
     struct ConfigurationRenderDataNode {
         RenderConfiguration config;
-        ScratchVector<ObjectRenderDataArray> object_arrays;
+        ScratchBuffer<ObjectRenderDataArray> object_arrays;
     };
 
 

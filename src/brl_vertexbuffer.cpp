@@ -11,6 +11,7 @@ namespace brl {
     void bind_vertexbuffer(const DynamicVertexbuffer &buffer) {
         glBindVertexArray(buffer.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
+        // glBindBuffer(GL_ARRAY_BUFFER, buffer.instanceVBO);
     }
 
     // void bindInstancedVertexBuffer(const InstancedVertexBuffer &buffer) {

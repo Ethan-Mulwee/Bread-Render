@@ -67,11 +67,11 @@ namespace brl {
         uint32_t used;
         uint32_t size;
 
-        void init(DynamicVertexbuffer init_vertexbuffer, uint32_t size) {
+        void init(DynamicVertexbuffer init_vertexbuffer, uint32_t init_size) {
             vertexbuffer = init_vertexbuffer;
-            databuffer = new InstanceData[size];
+            databuffer = new InstanceData[init_size];
 
-            size = size;
+            size = init_size;
             used = 0;
 
         }
@@ -79,8 +79,8 @@ namespace brl {
         void resize(uint32_t new_size) {
             databuffer = (InstanceData*)realloc(databuffer, new_size * sizeof(InstanceData));
             GLresize = true;
-
             size = new_size;
+
             if (used > size)
                 used = size;
         }

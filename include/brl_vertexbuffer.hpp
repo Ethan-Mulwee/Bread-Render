@@ -58,9 +58,13 @@ namespace brl {
 
     Vertexbuffer create_vertexbuffer(const MeshData* mesh);
 
+    DynamicVertexbuffer create_dynamic_vertexbuffer(const MeshData *mesh);
+
     void draw_vertex_buffer(const Vertexbuffer &buffer);
     
     void draw_vertexbuffer_instanced(const Vertexbuffer &buffer, const InstanceData* data, const uint32_t count);
+
+    void draw_vertexbuffer_instanced2(const DynamicVertexbuffer &buffer, const uint32_t count);
 }
 
 #endif

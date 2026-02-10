@@ -41,8 +41,8 @@ namespace brl {
             if (used >= size)
                 resize(size * 2);
 
-                buffer[used] = element;
-                used++;
+            buffer[used] = element;
+            used++;
         }
 
         void clear() {
@@ -67,8 +67,18 @@ namespace brl {
         uint32_t used;
         uint32_t size;
 
+        void init(DynamicVertexbuffer init_vertexbuffer, uint32_t size) {
+            vertexbuffer = init_vertexbuffer;
+            databuffer = new InstanceData[size];
+
+            size = size;
+            used = 0;
+
+        }
+
         void resize(uint32_t new_size) {
             databuffer = (InstanceData*)realloc(databuffer, new_size * sizeof(InstanceData));
+            GLresize = true;
 
             size = new_size;
             if (used > size)
@@ -77,11 +87,14 @@ namespace brl {
 
         void sync() {
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer.instanceVBO);
-            if (GLresize)
+            if (GLresize) {
                 glBufferData(vertexbuffer.instanceVBO, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
+                GLresize = false;
+            }
             else {
                 glBufferSubData(GL_ARRAY_BUFFER, 0, used * sizeof(InstanceData), databuffer);
             }
+
         }
 
         void add(const matrix4x4 &transform, const Color &color) {
@@ -89,6 +102,7 @@ namespace brl {
                 resize(size * 2);
 
             databuffer[used] = InstanceData{transform, color.vector};
+            used++;
         }
 
         void clear() {

@@ -8,6 +8,11 @@ namespace brl {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
     }
 
+    void bind_vertexbuffer(const DynamicVertexbuffer &buffer) {
+        glBindVertexArray(buffer.vao);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
+    }
+
     // void bindInstancedVertexBuffer(const InstancedVertexBuffer &buffer) {
     //     glBindVertexArray(buffer.vao);
     //     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer.ebo);
@@ -218,7 +223,7 @@ namespace brl {
     }
 
     // Call sync on GLSyncBuffer before using this to prepare instance data
-    void draw_vertexbuffer_instanced2(const Vertexbuffer &buffer, const InstanceData *data, const uint32_t count) {
+    void draw_vertexbuffer_instanced2(const DynamicVertexbuffer &buffer, const uint32_t count) {
         bind_vertexbuffer(buffer);
         glDrawElementsInstanced(GL_TRIANGLES, buffer.size, GL_UNSIGNED_INT, 0, count);
         unbind_vertexbuffer();

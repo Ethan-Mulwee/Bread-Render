@@ -90,6 +90,9 @@ int main() {
                 // brl::draw_arc(smath::matrix4x4_from_identity(), 2.0f, 0.0f, 120.0f, 180, arc_color);
                 // brl::draw_line({0.0f, 0.0f, -2.7f}, {0.0f, 1.0f, -3.9f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
                 // test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 1 * 0.1f, rand() % 1 * 0.1f, rand() % 1 * 0.1f}), brl::WHITE);
+                test_sync_buffer.clear();
+                test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::PURE_GREEN);
+
                 brl::use_shader(render_context.instance_shader);
                 test_sync_buffer.shrink_to_fit();
                 test_sync_buffer.sync();

@@ -34,11 +34,11 @@ int main() {
     brl::DynamicVertexbuffer test = brl::create_dynamic_vertexbuffer(&utahTeapotMeshData);
     brl::GLSyncBuffer test_sync_buffer;
     test_sync_buffer.init(test, 2);
-    test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::WHITE);
+    // test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::WHITE);
     test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::PURE_GREEN);
     test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::WHITE);
     test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::WHITE);
-    test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::WHITE);
+    // test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 10 * 0.1f, rand() % 10 * 0.1f, rand() % 10 * 0.1f}), brl::WHITE);
     
     
     

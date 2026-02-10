@@ -74,8 +74,9 @@ namespace brl {
             size = init_size;
             used = 0;
 
-
-            // glBufferData(GL_ARRAY_BUFFER, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
+            // Create OpenGL buffer to sync to
+            glBindBuffer(GL_ARRAY_BUFFER, init_vertexbuffer.instanceVBO);
+            glBufferData(GL_ARRAY_BUFFER, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
         }
 
         void resize(uint32_t new_size) {

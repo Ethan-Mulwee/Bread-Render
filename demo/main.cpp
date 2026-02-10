@@ -87,10 +87,10 @@ int main() {
                 // brl::draw_line({0.0f, 0.0f, -2.7f}, {0.0f, 1.0f, -3.9f}, 0.2f, {1.0f, 0.5f, 1.0f, 0.3f});
                 // test_sync_buffer.add(smath::matrix4x4_from_translation(smath::vector3{rand() % 1 * 0.1f, rand() % 1 * 0.1f, rand() % 1 * 0.1f}), brl::WHITE);
                 brl::use_shader(render_context.instance_shader);
-                // test_sync_buffer.sync();
-                // brl::draw_vertexbuffer_instanced2(test_sync_buffer.vertexbuffer, test_sync_buffer.used);
+                test_sync_buffer.sync();
+                brl::draw_vertexbuffer_instanced2(test_sync_buffer.vertexbuffer, test_sync_buffer.used);
                 brl::use_shader(render_context.object_shader);
-                brl::draw_sphere_instances(test_sync_buffer.databuffer, test_sync_buffer.used);
+                // brl::draw_sphere_instances(test_sync_buffer.databuffer, test_sync_buffer.used);
 
 
                 // for (int i = 0; i < 100000; i++)

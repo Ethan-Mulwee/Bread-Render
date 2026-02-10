@@ -74,6 +74,8 @@ namespace brl {
             size = init_size;
             used = 0;
 
+
+            // glBufferData(GL_ARRAY_BUFFER, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
         }
 
         void resize(uint32_t new_size) {
@@ -88,7 +90,7 @@ namespace brl {
         void sync() {
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer.instanceVBO);
             if (GLresize) {
-                glBufferData(vertexbuffer.instanceVBO, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, size * sizeof(InstanceData), nullptr, GL_DYNAMIC_DRAW);
                 GLresize = false;
             }
             else {

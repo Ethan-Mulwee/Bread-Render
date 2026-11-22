@@ -284,14 +284,16 @@ namespace brl {
 
         matrix4x4 translation = matrix4x4_from_translation({0.0f, 1.0f, 0.0f});
 
+        float cylinderLength = vector.length() - radius*4.0f;
         transform cylinderTransform {
             .translation = position,
             .rotation = orientation,
-            .scale = {radius, vector.length()*0.55f, radius}
+            .scale = {radius, cylinderLength*0.5f, radius}
         };
 
+        float scaleFactor = cylinderLength / vector.length();
         transform coneTransform {
-            .translation = position + vector,
+            .translation = position + (vector * scaleFactor),
             .rotation = orientation,
             .scale = {radius * 2.0f, radius * 2.0f, radius * 2.0f}
         };
